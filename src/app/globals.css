@@ -581,6 +581,10 @@ html:has(.shell) body {
   height: 3px;
   background: #ff8a4c;
 }
+.tile-value.tile-value-sm {
+  font-size: 22px;
+  white-space: normal;
+}
 .tile-value.tone-good { color: #197d19; }
 .tile-value.tone-bad { color: #be0a0a; }
 .tile-value.tone-mute { color: #4d4d4d; }

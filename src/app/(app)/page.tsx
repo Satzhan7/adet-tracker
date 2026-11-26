@@ -72,13 +72,13 @@ function MonthView({ today, days }: { today: string; days: DayRow[] }) {
   const fardMade = q.filter((x) => x.f !== "utir").reduce((s, x) => s + x.madeUp, 0);
   const byPrayer = q.filter((x) => x.missed).sort((a, b) => b.missed - a.missed);
 
-  // Jumu'ah: Fridays so far this month, and how many have Бесін marked «мешітте».
+  // Jumu'ah: Fridays so far this month (today only once Бесін is marked), and how many have Бесін «мешітте».
+  const idx = new Map(month.map((r) => [r.date, r]));
   const fridays: string[] = [];
   for (let d = `${today.slice(0, 7)}-01`; d <= today; d = addDays(d, 1))
-    if (new Date(`${d}T12:00:00Z`).getUTCDay() === 5) fridays.push(d);
-  const idx = new Map(month.map((r) => [r.date, r]));
+    if (new Date(`${d}T12:00:00Z`).getUTCDay() === 5 && (d < today || idx.get(d)?.besin)) fridays.push(d);
   const jumuah = fridays.filter((d) => idx.get(d)?.besin === "мешітте");
-  let nextFriday = addDays(today, 1);
+  let nextFriday = idx.get(today)?.besin ? addDays(today, 1) : today;
   while (new Date(`${nextFriday}T12:00:00Z`).getUTCDay() !== 5) nextFriday = addDays(nextFriday, 1);
 
   const zm = share(month, "dhikr_morning", "орындалды");
@@ -98,6 +98,7 @@ function MonthView({ today, days }: { today: string; days: DayRow[] }) {
     {
       title: "Қаза намаз",
       value: `${fardMissed} · ${fardMade} өтелді`,
+      compact: true,
       sub: byPrayer.length ? byPrayer.map((x) => `${FIELDS[x.f].name} ${x.missed}`).join(", ") : "Қаза жоқ",
       tone: fardMissed ? "bad" : "good",
     },
@@ -110,10 +111,11 @@ function MonthView({ today, days }: { today: string; days: DayRow[] }) {
     {
       title: "Зікір · таң / кеш",
       value: `${fmtPct(zm)} / ${fmtPct(ze)}`,
+      compact: true,
       sub: `${zm.n} / ${zm.d} және ${ze.n} / ${ze.d} күн`,
       tone: tone(zm.pct, 80, 50),
     },
-    { title: "Түнгі / духа", value: `${tungi.n} / ${duha.n}`, sub: `${tungi.d} және ${duha.d} белгіленген күннен`, tone: tungi.d ? "plain" : "mute" },
+    { title: "Түнгі / духа", value: `${tungi.n} / ${duha.n}`, compact: true, sub: `${tungi.d} және ${duha.d} белгіленген күннен`, tone: tungi.d ? "plain" : "mute" },
     {
       title: "Креатин",
       value: fmtPct(cr),
