@@ -1,26 +1,26 @@
 /** Shapes `days` rows into what the section pages render. Pure, so it is unit-tested with stats. */
-import { dayLabel, lastDays, MONTHS_SHORT, monthKey, monthName, parts } from "./dates";
-import { FIELDS, optionFor, type DayField, type DayRow } from "./fields";
+import { MONTHS_SHORT, monthKey, monthName, parts } from "./dates";
+import type { DayField, DayRow } from "./fields";
 import { byMonth, type Ratio } from "./stats";
 
 export function indexByDate(days: DayRow[]) {
   return new Map(days.map((d) => [d.date, d]));
 }
 
-/** Last 30 days ending today, one row per field. */
-export function gridFor(days: DayRow[], today: string, fields: DayField[]) {
-  const dates = lastDays(today, 30);
-  const idx = indexByDate(days);
-  return {
-    dayNumbers: dates.map((d) => String(parts(d).d)),
-    rows: fields.map((f) => ({
-      name: FIELDS[f].name,
-      cells: dates.map((date) => {
-        const o = optionFor(f, idx.get(date)?.[f]);
-        return { tone: o?.tone ?? null, tip: `${dayLabel(date)}: ${o ? o.label.toLowerCase() : "белгіленбеген"}` };
-      }),
-    })),
-  };
+/** Compact {date: {field: value}} map of the given fields, for the client-side day editor. */
+export function marksFor(days: DayRow[], fields: DayField[]) {
+  const out: Record<string, Partial<Record<DayField, string | null>>> = {};
+  for (const d of days) {
+    const v: Partial<Record<DayField, string | null>> = {};
+    let any = false;
+    for (const f of fields)
+      if (d[f]) {
+        v[f] = d[f];
+        any = true;
+      }
+    if (any) out[d.date] = v;
+  }
+  return out;
 }
 
 /** Rows of the current calendar year, grouped by month Jan..current. */

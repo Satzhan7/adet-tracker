@@ -4,7 +4,8 @@ import { useState, useTransition } from "react";
 import { addHifz, addKhatm, deleteLogEntry } from "@/app/(app)/track-actions";
 
 /** Adds today's khatm pages; "from page" is optional and fills from/to in the log. */
-export function KhatmForm({ date, nextPage }: { date: string; nextPage: number | null }) {
+export function KhatmForm({ today, nextPage }: { today: string; nextPage: number | null }) {
+  const [date, setDate] = useState(today);
   const [pages, setPages] = useState("");
   const [from, setFrom] = useState(nextPage ? String(nextPage) : "");
   const [msg, setMsg] = useState<{ ok: boolean; text: string }>();
@@ -25,6 +26,7 @@ export function KhatmForm({ date, nextPage }: { date: string; nextPage: number |
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-3">
+      <DateField today={today} value={date} onChange={setDate} />
       <div className="quick-chips" role="group" aria-label="Жылдам таңдау">
         {[1, 2, 4, 5, 10].map((n) => (
           <button key={n} type="button" className="btn-seg" aria-pressed={pages === String(n)} onClick={() => setPages(String(n))}>
@@ -34,7 +36,7 @@ export function KhatmForm({ date, nextPage }: { date: string; nextPage: number |
       </div>
       <div className="grid grid-cols-2 gap-3">
         <label className="field-light">
-          Бүгін оқылған бет
+          Оқылған бет
           <input type="number" inputMode="numeric" min={1} max={604} required value={pages} onChange={(e) => setPages(e.target.value)} />
         </label>
         <label className="field-light">
@@ -55,7 +57,8 @@ export function KhatmForm({ date, nextPage }: { date: string; nextPage: number |
 }
 
 /** Adds a hifz entry: surah (defaults to the current one) and repetitions (defaults to 5). */
-export function HifzForm({ date, currentSurah }: { date: string; currentSurah: string | null }) {
+export function HifzForm({ today, currentSurah }: { today: string; currentSurah: string | null }) {
+  const [date, setDate] = useState(today);
   const [surah, setSurah] = useState(currentSurah ?? "");
   const [reps, setReps] = useState("5");
   const [msg, setMsg] = useState<{ ok: boolean; text: string }>();
@@ -71,6 +74,7 @@ export function HifzForm({ date, currentSurah }: { date: string; currentSurah: s
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-3">
+      <DateField today={today} value={date} onChange={setDate} />
       <div className="grid grid-cols-[1fr_auto] gap-3">
         <label className="field-light">
           Сүре
@@ -110,5 +114,21 @@ export function DeleteEntry({ table, id, label }: { table: "khatm_log" | "hifz_l
         <path d="M6 6l12 12M18 6L6 18" />
       </svg>
     </button>
+  );
+}
+
+/** Day for a log entry: today by default, any past day allowed, never the future. */
+function DateField({ today, value, onChange }: { today: string; value: string; onChange: (v: string) => void }) {
+  return (
+    <label className="field-light">
+      Күн{value === today ? " (бүгін)" : ""}
+      <input
+        type="date"
+        required
+        max={today}
+        value={value}
+        onChange={(e) => e.target.value && onChange(e.target.value > today ? today : e.target.value)}
+      />
+    </label>
   );
 }

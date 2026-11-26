@@ -2,14 +2,14 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/ui/page";
 import { Panel } from "@/components/track/panel";
-import { TodayPicker } from "@/components/track/today-picker";
+import { DayEditor, DayPicker } from "@/components/track/day-editor";
 import { DayGrid } from "@/components/track/day-grid";
 import { BestWorst, KpiGrid, TrendChart, type BestWorstItem, type Kpi } from "@/components/track/blocks";
 import { loadDays } from "@/lib/data";
 import { dayLabel } from "@/lib/dates";
 import { FIELDS, type DayField } from "@/lib/fields";
 import { bestWorstMonth, fmtPct, lastDateWith, longestStreak, share } from "@/lib/stats";
-import { gridFor, indexByDate, monthHeading, monthLabel, monthlyPct, rowsInMonth } from "@/lib/views";
+import { marksFor, monthHeading, monthLabel, monthlyPct, rowsInMonth } from "@/lib/views";
 
 export const metadata: Metadata = { title: "Зікір · Әдет трекер" };
 
@@ -17,6 +17,7 @@ const ZIKIR: { field: DayField; short: string; color: string }[] = [
   { field: "dhikr_morning", short: "таң", color: "#ff6a00" },
   { field: "dhikr_evening", short: "кеш", color: "#2563eb" },
 ];
+const FIELDS_ZIKIR = ZIKIR.map((z) => z.field);
 const DONE = "орындалды";
 
 export default function ZikirPage() {
@@ -32,7 +33,6 @@ export default function ZikirPage() {
 
 async function ZikirBody() {
   const { today, days } = await loadDays();
-  const todayRow = indexByDate(days).get(today) ?? {};
   const month = rowsInMonth(days, today);
   const year = today.slice(0, 4);
 
@@ -65,11 +65,6 @@ async function ZikirBody() {
     });
   }
 
-  const grid = gridFor(
-    days,
-    today,
-    ZIKIR.map((z) => z.field),
-  );
   const series = ZIKIR.map((z) => {
     const t = monthlyPct(days, today, (r) => share(r, z.field, DONE));
     return { name: FIELDS[z.field].name, unit: "%", color: z.color, values: t.values, labels: t.labels };
@@ -88,35 +83,36 @@ async function ZikirBody() {
   });
 
   return (
-    <div className="g12">
-      <Panel title={`Бүгін · ${dayLabel(today)}`} span="s5">
-        <TodayPicker date={today} fields={ZIKIR.map((z) => z.field)} values={todayRow} />
-      </Panel>
+    <DayEditor today={today} marks={marksFor(days, FIELDS_ZIKIR)}>
+      <div className="g12">
+        <Panel title="Белгілеу" span="s5">
+          <DayPicker fields={FIELDS_ZIKIR} />
+        </Panel>
 
-      <Panel title={monthHeading(today)} span="s7">
-        <KpiGrid items={kpis} />
-      </Panel>
+        <Panel title={monthHeading(today)} span="s7">
+          <KpiGrid items={kpis} />
+        </Panel>
 
-      <Panel title="Соңғы күндер" span="s12" phoneShut>
-        <DayGrid
-          dayNumbers={grid.dayNumbers}
-          rows={grid.rows}
-          legend={[
-            { label: "Орындалды", tone: "good" },
-            { label: "Ішінара", tone: "partial" },
-            { label: "Орындалмады", tone: "bad" },
-            { label: "Белгіленбеген", tone: "none" },
-          ]}
-        />
-      </Panel>
+        <Panel title="Соңғы күндер" span="s12" phoneShut>
+          <DayGrid
+            fields={FIELDS_ZIKIR}
+            legend={[
+              { label: "Орындалды", tone: "good" },
+              { label: "Ішінара", tone: "partial" },
+              { label: "Орындалмады", tone: "bad" },
+              { label: "Белгіленбеген", tone: "none" },
+            ]}
+          />
+        </Panel>
 
-      <Panel title={`Зікір, ${year} · орындалған күндер %`} span="s8" phoneShut>
-        <TrendChart labels={series[0].labels} max={100} series={series} />
-      </Panel>
+        <Panel title={`Зікір, ${year} · орындалған күндер %`} span="s8" phoneShut>
+          <TrendChart labels={series[0].labels} max={100} series={series} />
+        </Panel>
 
-      <Panel title="Ең жақсы және ең нашар ай" span="s4" phoneShut>
-        <BestWorst items={bw} note={`${year} жыл. Ішінара орындалды деп саналмайды.`} />
-      </Panel>
-    </div>
+        <Panel title="Ең жақсы және ең нашар ай" span="s4" phoneShut>
+          <BestWorst items={bw} note={`${year} жыл. Ішінара орындалды деп саналмайды.`} />
+        </Panel>
+      </div>
+    </DayEditor>
   );
 }

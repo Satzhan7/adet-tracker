@@ -1,7 +1,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { connection } from "next/server";
 
 export async function createClient() {
+  // The auth client reads the clock (session expiry) in background tasks; make sure
+  // that only ever happens in a request-time render, never during a prerender.
+  await connection();
   const cookieStore = await cookies();
 
   return createServerClient(

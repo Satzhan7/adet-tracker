@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { TONE_STYLE, type Tone } from "@/lib/fields";
+import { dayLabel, lastDays, parts } from "@/lib/dates";
+import { FIELDS, TONE_STYLE, optionFor, type DayField, type Tone } from "@/lib/fields";
+import { useMarks } from "./day-editor";
 
-export type GridCell = { tone: Tone | null; tip: string };
-export type GridRow = { name: string; cells: GridCell[] };
 export type LegendItem = { label: string; tone: Tone | "none" };
 
 const PERIODS = [
@@ -15,23 +15,14 @@ const PERIODS = [
 ] as const;
 
 /**
- * Last-N-days grid with 7/10/14/30 chips. Server passes the last 30 days;
- * the chips only slice them, so switching needs no request.
+ * Last-N-days grid with 7/10/14/30 chips. Every cell is a button that opens the
+ * day editor for that day and field, so past days can be marked or corrected here.
  */
-export function DayGrid({
-  dayNumbers,
-  rows,
-  legend,
-  initial = 14,
-}: {
-  dayNumbers: string[];
-  rows: GridRow[];
-  legend: LegendItem[];
-  initial?: 7 | 10 | 14 | 30;
-}) {
+export function DayGrid({ fields, legend, initial = 14 }: { fields: DayField[]; legend: LegendItem[]; initial?: 7 | 10 | 14 | 30 }) {
+  const { today, marks, edit } = useMarks();
   const [per, setPer] = useState<number>(initial);
-  const start = Math.max(0, dayNumbers.length - per);
-  const cols = `minmax(96px, max-content) repeat(${per}, minmax(${per > 14 ? 22 : 30}px, 1fr))`;
+  const dates = lastDays(today, per);
+  const cols = `minmax(96px, max-content) repeat(${per}, minmax(${per > 14 ? 24 : 30}px, 1fr))`;
   const gap = per > 14 ? 3 : 4;
 
   return (
@@ -47,26 +38,31 @@ export function DayGrid({
         <div className="grid-table" style={{ minWidth: per > 14 ? 900 : 560 }}>
           <div className="grid-head" style={{ gridTemplateColumns: cols, gap }}>
             <span />
-            {dayNumbers.slice(start).map((d, i) => (
-              <span key={i}>{d}</span>
+            {dates.map((d) => (
+              <span key={d} className={d === today ? "font-extrabold" : undefined}>
+                {parts(d).d}
+              </span>
             ))}
           </div>
-          {rows.map((row) => (
-            <div key={row.name} className="grid-row" style={{ gridTemplateColumns: cols, gap }}>
-              <span className="grid-name">{row.name}</span>
-              {row.cells.slice(start).map((c, i) => {
-                const s = TONE_STYLE[c.tone ?? "none"];
+          {fields.map((f) => (
+            <div key={f} className="grid-row" style={{ gridTemplateColumns: cols, gap }}>
+              <span className="grid-name">{FIELDS[f].name}</span>
+              {dates.map((date) => {
+                const o = optionFor(f, marks[date]?.[f]);
+                const s = TONE_STYLE[o?.tone ?? "none"];
                 return (
-                  <span
-                    key={i}
-                    role="img"
-                    aria-label={c.tip}
-                    title={c.tip}
+                  <button
+                    key={date}
+                    type="button"
                     className="grid-cell"
-                    style={{ background: s.bg, color: s.ink, border: c.tone ? undefined : "1px solid #c4c8cf" }}
+                    aria-haspopup="dialog"
+                    aria-label={`${FIELDS[f].name}, ${dayLabel(date)}: ${o ? o.label.toLowerCase() : "белгіленбеген"}. Өзгерту үшін бас`}
+                    title={`${dayLabel(date)}: ${o ? o.label.toLowerCase() : "белгіленбеген"}`}
+                    style={{ background: s.bg, color: s.ink, border: o ? undefined : "1px solid #c4c8cf" }}
+                    onClick={() => edit(date, f)}
                   >
                     {s.mark}
-                  </span>
+                  </button>
                 );
               })}
             </div>

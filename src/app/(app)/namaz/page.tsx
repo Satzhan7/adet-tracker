@@ -3,14 +3,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/ui/page";
 import { Panel } from "@/components/track/panel";
-import { TodayPicker } from "@/components/track/today-picker";
+import { DayEditor, DayPicker } from "@/components/track/day-editor";
 import { DayGrid } from "@/components/track/day-grid";
 import { BestWorst, ExtraList, KpiGrid, TrendChart, type Kpi } from "@/components/track/blocks";
 import { loadDays } from "@/lib/data";
-import { dayLabel, MONTHS, parts } from "@/lib/dates";
+import { MONTHS, parts } from "@/lib/dates";
 import { FARD_FIELDS, FIELDS, type DayField } from "@/lib/fields";
 import { bestWorstMonth, fardOnTime, fmtPct, qaza, remainingQaza, share } from "@/lib/stats";
-import { gridFor, indexByDate, monthHeading, monthLabel, monthlyPct, rowsInMonth } from "@/lib/views";
+import { marksFor, monthHeading, monthLabel, monthlyPct, rowsInMonth } from "@/lib/views";
 
 export const metadata: Metadata = { title: "Намаз · Әдет трекер" };
 
@@ -38,7 +38,6 @@ function MonthLink() {
 
 async function NamazBody() {
   const { today, days } = await loadDays();
-  const todayRow = indexByDate(days).get(today) ?? {};
   const month = rowsInMonth(days, today);
 
   const onTime = fardOnTime(month);
@@ -79,58 +78,58 @@ async function NamazBody() {
     .sort((a, b) => b.missed - a.missed)
     .map((q) => ({ a: FIELDS[q.f].name, b: `${q.missed} қаза · ${q.madeUp} өтелді` }));
 
-  const grid = gridFor(days, today, GRID_FIELDS);
   const trend = monthlyPct(days, today, (r) => fardOnTime(r));
   const year = today.slice(0, 4);
   const bw = bestWorstMonth(days.filter((d) => d.date.startsWith(year)), (r) => fardOnTime(r), (r) => FARD_FIELDS.some((f) => r[f]));
   const owed = remainingQaza(days);
 
   return (
-    <div className="g12">
-      <Panel title={`Бүгін · ${dayLabel(today)}`} span="s5">
-        <TodayPicker date={today} fields={TODAY_FIELDS} values={todayRow} />
-      </Panel>
+    <DayEditor today={today} marks={marksFor(days, TODAY_FIELDS)}>
+      <div className="g12">
+        <Panel title="Белгілеу" span="s5">
+          <DayPicker fields={TODAY_FIELDS} />
+        </Panel>
 
-      <Panel title={monthHeading(today)} span="s7">
-        <div className="flex flex-col gap-3">
-          <KpiGrid items={kpis} />
-          <ExtraList title={`${monthLabel(today.slice(0, 7))} қаза есебі`} items={qazaList} />
-          <ExtraList title="Барлық уақыт" items={[{ a: "Өтелмеген қаза (парыз + үтір)", b: String(owed) }]} />
-        </div>
-      </Panel>
+        <Panel title={monthHeading(today)} span="s7">
+          <div className="flex flex-col gap-3">
+            <KpiGrid items={kpis} />
+            <ExtraList title={`${monthLabel(today.slice(0, 7))} қаза есебі`} items={qazaList} />
+            <ExtraList title="Барлық уақыт" items={[{ a: "Өтелмеген қаза (парыз + үтір)", b: String(owed) }]} />
+          </div>
+        </Panel>
 
-      <Panel title="Соңғы күндер" span="s12" phoneShut>
-        <DayGrid
-          dayNumbers={grid.dayNumbers}
-          rows={grid.rows}
-          legend={[
-            { label: "Уақытында / оқылды", tone: "good" },
-            { label: "Мешітте / жұма", tone: "mosque" },
-            { label: "Қаза өтелді", tone: "made_up" },
-            { label: "Қаза / оқылмады", tone: "bad" },
-            { label: "Белгіленбеген", tone: "none" },
-          ]}
-        />
-      </Panel>
+        <Panel title="Соңғы күндер" span="s12" phoneShut>
+          <DayGrid
+            fields={GRID_FIELDS}
+            legend={[
+              { label: "Уақытында / оқылды", tone: "good" },
+              { label: "Мешітте / жұма", tone: "mosque" },
+              { label: "Қаза өтелді", tone: "made_up" },
+              { label: "Қаза / оқылмады", tone: "bad" },
+              { label: "Белгіленбеген", tone: "none" },
+            ]}
+          />
+        </Panel>
 
-      <Panel title={`Парыз намаз уақытында, ${year} · %`} span="s8" phoneShut>
-        <TrendChart labels={trend.labels} max={100} series={[{ name: "Парыз уақытында", unit: "%", color: "#2563eb", values: trend.values }]} />
-      </Panel>
+        <Panel title={`Парыз намаз уақытында, ${year} · %`} span="s8" phoneShut>
+          <TrendChart labels={trend.labels} max={100} series={[{ name: "Парыз уақытында", unit: "%", color: "#2563eb", values: trend.values }]} />
+        </Panel>
 
-      <Panel title="Ең жақсы және ең нашар ай" span="s4" phoneShut>
-        <BestWorst
-          items={[
-            bw
-              ? {
-                  name: "Парыз уақытында",
-                  best: `${monthLabel(bw.best.key)} · ${fmtPct(bw.best.r)}`,
-                  worst: `${monthLabel(bw.worst.key)} · ${fmtPct(bw.worst.r)}`,
-                }
-              : { name: "Парыз уақытында", empty: "Кемі 10 белгіленген күні бар ай әлі жоқ." },
-          ]}
-          note={`${year} жыл. Тек кемі 10 күні белгіленген айлар салыстырылады.`}
-        />
-      </Panel>
-    </div>
+        <Panel title="Ең жақсы және ең нашар ай" span="s4" phoneShut>
+          <BestWorst
+            items={[
+              bw
+                ? {
+                    name: "Парыз уақытында",
+                    best: `${monthLabel(bw.best.key)} · ${fmtPct(bw.best.r)}`,
+                    worst: `${monthLabel(bw.worst.key)} · ${fmtPct(bw.worst.r)}`,
+                  }
+                : { name: "Парыз уақытында", empty: "Кемі 10 белгіленген күні бар ай әлі жоқ." },
+            ]}
+            note={`${year} жыл. Тек кемі 10 күні белгіленген айлар салыстырылады.`}
+          />
+        </Panel>
+      </div>
+    </DayEditor>
   );
 }
