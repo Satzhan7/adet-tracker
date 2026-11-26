@@ -81,3 +81,12 @@ Audit at 1440 / 768 / 390 with real data: no edge, column, cell-size, tile, trun
 | --- | --- | --- | --- |
 | 1 | Month popover on phones anchored to the picker, started at x = −57 (off-screen) | Centred on screen at ≤ 720 px | x 25–365 on a 390 px screen |
 | 2 | Switching month dropped the «Талдау» view | Picker and ‹ › links carry `analysis=1` | 12 / 12 links keep it |
+
+## Results — 2026-11-27 (phase C, reports)
+
+Audit at 1440 / 768 / 390: no edge, row-height, alignment or contrast issues.
+
+| # | Found | Fix | After |
+| --- | --- | --- | --- |
+| 1 | «шаблон (.xlsx)» link inside the steps 19 px tall | 44 px secondary button «Шаблонды жүктеу (.xlsx)» | 44 px |
+| 2 | Month links in the year-summary table 19 px tall | Link fills its cell | 44 px row target |
