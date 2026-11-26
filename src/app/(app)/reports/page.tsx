@@ -10,7 +10,7 @@ import { MONTHS } from "@/lib/dates";
 import { COLUMNS } from "@/lib/sheet-format";
 import { FIELDS, type DayField } from "@/lib/fields";
 
-export const metadata: Metadata = { title: "Есептер · Әдет трекер" };
+export const metadata: Metadata = { title: "Есептер — Әдет трекер" };
 
 const FORMAT_HINTS: Record<string, string> = {
   date: "ЖЖЖЖ-АА-КК немесе КК.АА.ЖЖЖЖ",
@@ -46,14 +46,14 @@ async function ReportsBody({ searchParams }: Pick<PageProps<"/reports">, "search
 
   return (
     <div className="g12">
-      <Panel title="Деректерді жүктеу · импорт" span="s7">
+      <Panel title="Деректерді жүктеу — импорт" span="s7">
         <ImportPanel today={today} />
       </Panel>
-      <Panel title="Деректерді алу · экспорт" span="s5">
+      <Panel title="Деректерді алу — экспорт" span="s5">
         <ExportPanel years={years} counts={counts} today={today} />
       </Panel>
 
-      <Panel title={`Жылдық қорытынды · ${year}`} span="s12" phoneShut>
+      <Panel title={`Жылдық қорытынды — ${year}`} span="s12" phoneShut>
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap gap-2" role="group" aria-label="Жыл">
             {years.map((y) => (
@@ -68,7 +68,7 @@ async function ReportsBody({ searchParams }: Pick<PageProps<"/reports">, "search
                 <tr>
                   <th scope="col">Ай</th>
                   <th scope="col">Парыз уақытында</th>
-                  <th scope="col">Қаза · өтелді</th>
+                  <th scope="col">Қаза — өтелді</th>
                   <th scope="col">Таңғы зікір</th>
                   <th scope="col">Кешкі зікір</th>
                   <th scope="col">Креатин</th>
@@ -82,7 +82,7 @@ async function ReportsBody({ searchParams }: Pick<PageProps<"/reports">, "search
                       <Link href={`/month?y=${s.month.slice(0, 4)}&m=${Number(s.month.slice(5))}`}>{MONTHS[Number(s.month.slice(5)) - 1]}</Link>
                     </th>
                     <td>{pct(s.fard_on_time_pct)}</td>
-                    <td>{s.fard_missed} · {s.fard_made_up}</td>
+                    <td>{s.fard_missed} — {s.fard_made_up}</td>
                     <td>{pct(s.dhikr_morning_pct)}</td>
                     <td>{pct(s.dhikr_evening_pct)}</td>
                     <td>{pct(s.creatine_pct)}</td>
@@ -95,7 +95,7 @@ async function ReportsBody({ searchParams }: Pick<PageProps<"/reports">, "search
         </div>
       </Panel>
 
-      <Panel title="Файл форматы · «Күнделік» парағы" span="s7" phoneShut>
+      <Panel title="Файл форматы — «Күнделік» парағы" span="s7" phoneShut>
         <div className="overflow-x-auto">
           <table className="data-table">
             <thead>
@@ -110,7 +110,7 @@ async function ReportsBody({ searchParams }: Pick<PageProps<"/reports">, "search
                   <th scope="row">{c.header}</th>
                   <td>
                     {c.key in FIELDS
-                      ? FIELDS[c.key as DayField].options.map((o) => o.value).join(" · ")
+                      ? FIELDS[c.key as DayField].options.map((o) => o.value).join(" — ")
                       : FORMAT_HINTS[c.key]}
                   </td>
                 </tr>
@@ -130,8 +130,8 @@ async function ReportsBody({ searchParams }: Pick<PageProps<"/reports">, "search
                 <span className="flex min-w-0 flex-col py-2">
                   <strong className="truncate">{i.file_name}</strong>
                   <small>
-                    {new Date(i.created_at).toLocaleString("kk-KZ", { timeZone: "Asia/Almaty", dateStyle: "medium", timeStyle: "short" })} · {i.rows_ok} жол
-                    {i.rows_err ? ` · ${i.rows_err} қате` : ""}
+                    {new Date(i.created_at).toLocaleString("kk-KZ", { timeZone: "Asia/Almaty", dateStyle: "medium", timeStyle: "short" })} — {i.rows_ok} жол
+                    {i.rows_err ? ` — ${i.rows_err} қате` : ""}
                   </small>
                 </span>
               </li>

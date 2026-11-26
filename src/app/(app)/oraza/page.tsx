@@ -12,7 +12,7 @@ import { dayLabel } from "@/lib/dates";
 import { lastDateWith } from "@/lib/stats";
 import { latestYearWith, marksFor, yearMonths } from "@/lib/views";
 
-export const metadata: Metadata = { title: "Ораза · Әдет трекер" };
+export const metadata: Metadata = { title: "Ораза — Әдет трекер" };
 
 export default function OrazaPage({ searchParams }: PageProps<"/oraza">) {
   return (
@@ -39,12 +39,12 @@ async function OrazaBody({ searchParams }: Pick<PageProps<"/oraza">, "searchPara
   const allMade = days.filter((r) => r.oraza === "қаза өтедім").length;
 
   const kpis: Kpi[] = [
-    { title: `${year} · ұсталған күн`, value: String(fasted), sub: "Рамазан және нәпіл ораза", tone: fasted ? "good" : "mute" },
+    { title: `${year} — ұсталған күн`, value: String(fasted), sub: "Рамазан және нәпіл ораза", tone: fasted ? "good" : "mute" },
     { title: "Рамазан қазасы", value: String(qaza), sub: `${madeUp} күн өтелді`, tone: qaza > madeUp ? "bad" : qaza ? "good" : "mute" },
     {
       title: "Өтелмеген ораза (барлығы)",
       value: String(Math.max(0, allQaza - allMade)),
-      sub: `${allQaza} қаза · ${allMade} өтелді`,
+      sub: `${allQaza} қаза — ${allMade} өтелді`,
       tone: allQaza > allMade ? "bad" : "good",
     },
     { title: "Соңғы ұсталған күн", value: last ? dayLabel(last, today) : "—", sub: "Ораза", tone: last ? "plain" : "mute" },
@@ -71,7 +71,7 @@ async function OrazaBody({ searchParams }: Pick<PageProps<"/oraza">, "searchPara
           <Panel title={`Ораза, ${year}`} span="s7">
             <KpiGrid items={kpis} />
           </Panel>
-          <Panel title={`Жылдық күнтізбе · ${year}`} span="s12">
+          <Panel title={`Жылдық күнтізбе — ${year}`} span="s12">
             <div className="flex flex-col gap-3">
               <YearCalendar year={year} field="oraza" />
               <Legend
@@ -85,7 +85,7 @@ async function OrazaBody({ searchParams }: Pick<PageProps<"/oraza">, "searchPara
               />
             </div>
           </Panel>
-          <Panel title={`Айына ұсталған күн · ${year}`} span="s12" phoneShut>
+          <Panel title={`Айына ұсталған күн — ${year}`} span="s12" phoneShut>
             <TrendChart
               labels={months.map((m) => m.label)}
               max={Math.max(10, ...months.map((m) => m.rows.filter((r) => r.oraza === "ұстадым").length))}

@@ -42,7 +42,7 @@ export function ExportPanel({ years, counts, today }: { years: string[]; counts:
         Жүктеп алу
       </a>
       <span className="text-[13px] text-[var(--panel-ink)]">
-        {name} · {counts[year] ?? 0} күн
+        {name} — {counts[year] ?? 0} күн
       </span>
     </div>
   );

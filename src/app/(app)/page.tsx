@@ -13,7 +13,7 @@ import { currentPage, hifzPath } from "@/lib/quran";
 import { bestWorstMonth, CREATINE_DONE, fardOnTime, fmtPct, khatmProgress, MUSHAF_PAGES, qaza, share } from "@/lib/stats";
 import { marksFor, monthHeading, monthLabel, rowsInMonth, yearMonths } from "@/lib/views";
 
-export const metadata: Metadata = { title: "Басты бет · Әдет трекер" };
+export const metadata: Metadata = { title: "Басты бет — Әдет трекер" };
 
 const GRID_FIELDS: DayField[] = ["tungi", "tan", "duha", "besin", "asr", "sham", "quptan", "dhikr_morning", "dhikr_evening", "creatine"];
 const tone = (p: number | null, good: number, bad: number): Kpi["tone"] =>
@@ -92,12 +92,12 @@ function MonthView({ today, days }: { today: string; days: DayRow[] }) {
     {
       title: "Парыз намаз уақытында",
       value: fmtPct(onTime),
-      sub: `${onTime.n} / ${onTime.d} намаз${prev.pct !== null ? ` · ${monthLabel(prevKey).toLowerCase()} ${fmtPct(prev)}` : ""}`,
+      sub: `${onTime.n} / ${onTime.d} намаз${prev.pct !== null ? ` — ${monthLabel(prevKey).toLowerCase()} ${fmtPct(prev)}` : ""}`,
       tone: tone(onTime.pct, 90, 80),
     },
     {
       title: "Қаза намаз",
-      value: `${fardMissed} · ${fardMade} өтелді`,
+      value: `${fardMissed} — ${fardMade} өтелді`,
       compact: true,
       sub: byPrayer.length ? byPrayer.map((x) => `${FIELDS[x.f].name} ${x.missed}`).join(", ") : "Қаза жоқ",
       tone: fardMissed ? "bad" : "good",
@@ -105,11 +105,11 @@ function MonthView({ today, days }: { today: string; days: DayRow[] }) {
     {
       title: "Жұма намазы",
       value: `${jumuah.length} / ${fridays.length}`,
-      sub: `${jumuah.length ? jumuah.map((d) => parts(d).d).join(", ") + " · " : ""}келесісі ${dayLabel(nextFriday)}`,
+      sub: `${jumuah.length ? jumuah.map((d) => parts(d).d).join(", ") + " — " : ""}келесісі ${dayLabel(nextFriday)}`,
       tone: fridays.length && jumuah.length === fridays.length ? "good" : "plain",
     },
     {
-      title: "Зікір · таң / кеш",
+      title: "Зікір — таң / кеш",
       value: `${fmtPct(zm)} / ${fmtPct(ze)}`,
       compact: true,
       sub: `${zm.n} / ${zm.d} және ${ze.n} / ${ze.d} күн`,
@@ -170,7 +170,7 @@ function YearView({ today, days }: { today: string; days: DayRow[] }) {
 
   return (
     <>
-      <Panel title={`${year} жыл · ай сайынғы орындалу, %`} span="s8">
+      <Panel title={`${year} жыл — ай сайынғы орындалу, %`} span="s8">
         <TrendChart labels={months.map((m) => m.label)} max={100} series={series} />
       </Panel>
       <Panel title="Жыл қорытындысы" span="s4">
@@ -180,8 +180,8 @@ function YearView({ today, days }: { today: string; days: DayRow[] }) {
               bw
                 ? {
                     name: "Парыз уақытында",
-                    best: `${monthLabel(bw.best.key)} · ${fmtPct(bw.best.r)}`,
-                    worst: `${monthLabel(bw.worst.key)} · ${fmtPct(bw.worst.r)}`,
+                    best: `${monthLabel(bw.best.key)} — ${fmtPct(bw.best.r)}`,
+                    worst: `${monthLabel(bw.worst.key)} — ${fmtPct(bw.worst.r)}`,
                   }
                 : { name: "Парыз уақытында", empty: "Кемі 10 белгіленген күні бар ай әлі жоқ." },
             ]}
@@ -190,7 +190,7 @@ function YearView({ today, days }: { today: string; days: DayRow[] }) {
             title="Ораза"
             items={[
               { a: "Ұсталған күн", b: String(fasted) },
-              { a: "Рамазан қазасы", b: fastQaza ? `${fastQaza} · ${fastMade} өтелді` : "жоқ" },
+              { a: "Рамазан қазасы", b: fastQaza ? `${fastQaza} — ${fastMade} өтелді` : "жоқ" },
             ]}
           />
         </div>
@@ -205,9 +205,9 @@ function PrayerBreakdown({ today, days }: { today: string; days: DayRow[] }) {
     ...FARD_FIELDS.map((f) => ({ a: FIELDS[f].name, r: fardOnTime(month, [f]) })),
     { a: FIELDS.tungi.name, r: share(month, "tungi", "оқылды") },
     { a: FIELDS.duha.name, r: share(month, "duha", "оқылды") },
-  ].map((x) => ({ a: x.a, b: x.r.d ? `${fmtPct(x.r)} · ${x.r.n} / ${x.r.d}` : "—" }));
+  ].map((x) => ({ a: x.a, b: x.r.d ? `${fmtPct(x.r)} — ${x.r.n} / ${x.r.d}` : "—" }));
   return (
-    <Panel title={`Намаз бойынша · ${monthLabel(monthKey(today)).toLowerCase()}`} span="s7" phoneShut>
+    <Panel title={`Намаз бойынша — ${monthLabel(monthKey(today)).toLowerCase()}`} span="s7" phoneShut>
       <ExtraList title="Уақытында оқылған күн / белгіленген күн" items={items} />
     </Panel>
   );
@@ -219,7 +219,7 @@ function QuranSummary({ khatm, hifz }: { khatm: KhatmEntry[]; hifz: HifzEntry[] 
   const path = hifzPath(hifz);
   const current = path.at(-1);
   const kpis: Kpi[] = [
-    { title: "Жеке хатм", value: `${progress.n} / ${MUSHAF_PAGES}`, sub: `${fmtPct(progress)} · ${MUSHAF_PAGES - progress.n} бет қалды`, tone: pos ? "good" : "mute" },
+    { title: "Жеке хатм", value: `${progress.n} / ${MUSHAF_PAGES}`, sub: `${fmtPct(progress)} — ${MUSHAF_PAGES - progress.n} бет қалды`, tone: pos ? "good" : "mute" },
     { title: "Хифз: қазіргі сүре", value: current?.surah ?? "—", sub: current ? `${current.days} күн` : "Әлі жазба жоқ", tone: current ? "plain" : "mute" },
   ];
   return (

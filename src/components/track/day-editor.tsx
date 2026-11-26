@@ -190,7 +190,7 @@ export function DayPicker({ fields }: { fields: DayField[] }) {
         })}
       </div>
       <span className="text-[13px] text-[var(--panel-ink)]">
-        {markedCount} / {fields.length} белгіленді · өзгерту үшін шеңберді немесе кестедегі ұяшықты бас
+        {markedCount} / {fields.length} белгіленді — өзгерту үшін шеңберді немесе кестедегі ұяшықты бас
       </span>
     </div>
   );

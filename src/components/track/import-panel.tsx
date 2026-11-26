@@ -102,8 +102,8 @@ export function ImportPanel({ today }: { today: string }) {
         )}
         {p && !pending && (
           <div className="extra">
-            <span className="tile-label">Алдын ала көру · {p.fileName}</span>
-            <div className="extra-row"><span>Файлдағы жол</span><strong>{p.rows}{p.range ? ` · ${dayLabel(p.range[0], today)} – ${dayLabel(p.range[1], today)}` : ""}</strong></div>
+            <span className="tile-label">Алдын ала көру — {p.fileName}</span>
+            <div className="extra-row"><span>Файлдағы жол</span><strong>{p.rows}{p.range ? ` — ${dayLabel(p.range[0], today)} – ${dayLabel(p.range[1], today)}` : ""}</strong></div>
             <div className="extra-row"><span>Жаңа күн</span><strong>{p.plan.newDays}</strong></div>
             <div className="extra-row"><span>Өзгеретін күн</span><strong>{p.plan.changedDays}</strong></div>
             <div className="extra-row"><span>Өзгермейтін күн</span><strong>{p.plan.unchangedDays}</strong></div>
@@ -143,13 +143,13 @@ export function ImportPanel({ today }: { today: string }) {
               })
             }
           >
-            {writes === 0 ? "Өзгеретін ештеңе жоқ" : `Импорттау · ${p.plan.newDays + p.plan.changedDays} күн`}
+            {writes === 0 ? "Өзгеретін ештеңе жоқ" : `Импорттау — ${p.plan.newDays + p.plan.changedDays} күн`}
           </button>
         )}
         {state.kind === "done" && (
           <p role="status" className="m-0 text-[15px] font-semibold text-[#197d19]">
             ✓ Жазылды: {state.data.days} күн, {state.data.notes} жазба, {state.data.khatm} хатм, {state.data.hifz} хифз
-            {state.data.skippedRows ? ` · ${state.data.skippedRows} қате жол өткізілді` : ""}
+            {state.data.skippedRows ? ` — ${state.data.skippedRows} қате жол өткізілді` : ""}
           </p>
         )}
       </div>
