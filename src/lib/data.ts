@@ -46,3 +46,55 @@ export const loadQuranLogs = cache(async function loadQuranLogs(): Promise<{ kha
   ]);
   return { khatm, hifz };
 });
+
+export type Note = { date: string; text: string };
+
+/** All day notes (one per day, short text), oldest first. */
+export const loadNotes = cache(async function loadNotes(): Promise<Note[]> {
+  const supabase = await createClient();
+  return readAll<Note>((from, to) => supabase.from("notes").select("date, text").order("date").range(from, to), "notes");
+});
+
+export type MonthStat = {
+  month: string;
+  fard_on_time: number;
+  fard_marked: number;
+  fard_on_time_pct: number | null;
+  fard_missed: number;
+  fard_made_up: number;
+  witr_missed: number;
+  witr_made_up: number;
+  dhikr_morning_done: number;
+  dhikr_morning_marked: number;
+  dhikr_morning_pct: number | null;
+  dhikr_evening_done: number;
+  dhikr_evening_marked: number;
+  dhikr_evening_pct: number | null;
+  creatine_done: number;
+  creatine_marked: number;
+  creatine_pct: number | null;
+  protein_done: number;
+  protein_marked: number;
+  fard_days_marked: number;
+  fasted: number;
+  fast_qaza: number;
+  fast_made_up: number;
+};
+
+/** SPEC `month_stats` view: one row per month, computed in the database (RLS applies). */
+export const loadMonthStats = cache(async function loadMonthStats(): Promise<MonthStat[]> {
+  const supabase = await createClient();
+  const rows = await readAll<Record<string, unknown>>(
+    (from, to) => supabase.from("month_stats").select("*").order("month").range(from, to),
+    "month_stats",
+  );
+  // numeric columns arrive as strings; month as 'YYYY-MM-DD'
+  return rows.map((r) => {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(r)) {
+      if (k === "user_id") continue;
+      out[k] = k === "month" ? String(v).slice(0, 7) : v === null ? null : Number(v);
+    }
+    return out as MonthStat;
+  });
+});

@@ -799,6 +799,14 @@ html:has(.shell) body {
   font-weight: 800;
 }
 
+.grid-cell-future,
+.grid-cell-future:hover {
+  background: transparent;
+  border: 1px dashed #d3d7de;
+  box-shadow: none;
+  filter: none;
+  cursor: default;
+}
 .grid-cell:hover {
   filter: brightness(0.92);
   box-shadow: 0 0 0 2px #7843e9;
@@ -980,6 +988,173 @@ html:has(.shell) body {
   border-color: #6a3be0;
   background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%);
   color: #fff;
+}
+
+/* Month page */
+.month-picker {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.month-step {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+span.month-step {
+  visibility: hidden;
+}
+.month-current {
+  min-width: 150px;
+  font-weight: 700;
+}
+.month-pop {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 30;
+  width: 340px;
+  max-width: calc(100vw - 32px);
+  padding: 14px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.month-pop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.month-pop-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8px;
+  text-decoration: none;
+}
+.month-pop-btn[aria-disabled="true"] {
+  opacity: 0.45;
+  cursor: default;
+}
+.day-head {
+  position: relative;
+  width: 100%;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--tile-label);
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.day-head:hover {
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+.day-head[aria-pressed="true"] {
+  background: var(--primary);
+  color: #fff;
+}
+.day-head:focus-visible {
+  outline: 3px solid rgba(120, 67, 233, 0.6);
+  outline-offset: 1px;
+}
+.day-head.is-future {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.45;
+  cursor: default;
+}
+.note-dot {
+  position: absolute;
+  left: 50%;
+  bottom: 2px;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: #ff6a00;
+}
+.day-head[aria-pressed="true"] .note-dot {
+  background: #fff;
+}
+.note-input {
+  min-height: 120px;
+  padding: 10px 12px;
+  border: 1px solid #8a9ab3;
+  border-radius: 8px;
+  background: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #1e293b;
+  resize: vertical;
+}
+.note-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(120, 67, 233, 0.25);
+}
+.note-row {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  color: var(--tile-value);
+  text-align: left;
+  cursor: pointer;
+}
+.note-row strong {
+  min-width: 24px;
+}
+.note-row span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pct-bar {
+  display: grid;
+  grid-template-columns: 64px 1fr 64px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--tile-value);
+}
+.pct-bar-name {
+  font-weight: 600;
+}
+.pct-bar-track {
+  height: 10px;
+  border-radius: 5px;
+  background: var(--tile-border);
+  overflow: hidden;
+}
+.pct-bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 5px;
+  background: #2563eb;
+}
+.pct-bar-value {
+  text-align: right;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
 }
 
 /* Year calendar (Ораза) */
