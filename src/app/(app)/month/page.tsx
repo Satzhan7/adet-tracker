@@ -13,7 +13,7 @@ import { FARD_FIELDS, FIELDS, type DayField, type DayRow } from "@/lib/fields";
 import { fardOnTime, fmtPct } from "@/lib/stats";
 import { marksFor } from "@/lib/views";
 
-export const metadata: Metadata = { title: "Ай кестесі · Әдет трекер" };
+export const metadata: Metadata = { title: "Ай кестесі — Әдет трекер" };
 
 const MONTH_FIELDS: DayField[] = [
   "tungi", "tan", "duha", "besin", "asr", "sham", "quptan", "utir",
@@ -50,7 +50,7 @@ async function MonthBody({ searchParams }: Pick<PageProps<"/month">, "searchPara
   const rows = days.filter((d) => monthKey(d.date) === key);
   const markedDays = rows.filter((r) => MONTH_FIELDS.some((f) => r[f])).map((r) => Number(r.date.slice(8)));
   const subtitle = markedDays.length
-    ? `Деректер: ${Math.min(...markedDays)}–${Math.max(...markedDays)} ${MONTHS[m - 1].toLowerCase()} · ${markedDays.length} күн белгіленген`
+    ? `Деректер: ${Math.min(...markedDays)}–${Math.max(...markedDays)} ${MONTHS[m - 1].toLowerCase()} — ${markedDays.length} күн белгіленген`
     : "Бұл айда әлі белгі жоқ";
   const monthNotes = Object.fromEntries(notes.filter((n) => n.date.startsWith(key)).map((n) => [n.date, n.text]));
   const base = `/month?y=${y}&m=${m}`;
@@ -58,7 +58,7 @@ async function MonthBody({ searchParams }: Pick<PageProps<"/month">, "searchPara
   return (
     <>
       <PageHeader
-        title={`Ай кестесі · ${MONTHS[m - 1]} ${y}`}
+        title={`Ай кестесі — ${MONTHS[m - 1]} ${y}`}
         subtitle={subtitle}
         actions={
           <>
@@ -72,7 +72,7 @@ async function MonthBody({ searchParams }: Pick<PageProps<"/month">, "searchPara
       <DayEditor today={today} marks={marksFor(days, MONTH_FIELDS)}>
         <div className="g12">
           {analysis && <Analysis monthKeyValue={key} stats={stats} rows={rows} />}
-          <MonthBoard key={key} dates={dates} fields={MONTH_FIELDS} notes={monthNotes} title={`${MONTHS[m - 1]} · барлық күндер`} />
+          <MonthBoard key={key} dates={dates} fields={MONTH_FIELDS} notes={monthNotes} title={`${MONTHS[m - 1]} — барлық күндер`} />
           <BestWorstPanel year={String(y)} stats={stats} />
         </div>
       </DayEditor>
@@ -97,13 +97,13 @@ function Analysis({ monthKeyValue, stats, rows }: { monthKeyValue: string; stats
     {
       title: "Парыз уақытында",
       value: pct(s.fard_on_time_pct),
-      sub: `${s.fard_on_time} / ${s.fard_marked}${diff !== null ? ` · алдыңғы айдан ${diff >= 0 ? "+" : "−"}${Math.abs(diff).toFixed(2)} п.` : ""}`,
+      sub: `${s.fard_on_time} / ${s.fard_marked}${diff !== null ? ` — алдыңғы айдан ${diff >= 0 ? "+" : "−"}${Math.abs(diff).toFixed(2)} п.` : ""}`,
       tone: s.fard_on_time_pct === null ? "mute" : s.fard_on_time_pct >= 90 ? "good" : s.fard_on_time_pct < 80 ? "bad" : "plain",
     },
-    { title: "Қаза намаз", value: `${s.fard_missed} · ${s.fard_made_up} өтелді`, sub: `Үтір: ${s.witr_missed} · ${s.witr_made_up} өтелді`, tone: s.fard_missed ? "bad" : "good", compact: true },
-    { title: "Зікір · таң / кеш", value: `${pct(s.dhikr_morning_pct)} / ${pct(s.dhikr_evening_pct)}`, sub: `${s.dhikr_morning_done} / ${s.dhikr_morning_marked} және ${s.dhikr_evening_done} / ${s.dhikr_evening_marked} күн`, compact: true },
+    { title: "Қаза намаз", value: `${s.fard_missed} — ${s.fard_made_up} өтелді`, sub: `Үтір: ${s.witr_missed} — ${s.witr_made_up} өтелді`, tone: s.fard_missed ? "bad" : "good", compact: true },
+    { title: "Зікір — таң / кеш", value: `${pct(s.dhikr_morning_pct)} / ${pct(s.dhikr_evening_pct)}`, sub: `${s.dhikr_morning_done} / ${s.dhikr_morning_marked} және ${s.dhikr_evening_done} / ${s.dhikr_evening_marked} күн`, compact: true },
     { title: "Креатин", value: pct(s.creatine_pct), sub: `${s.creatine_done} / ${s.creatine_marked} күн`, tone: s.creatine_marked ? "plain" : "mute" },
-    { title: "Ораза", value: `${s.fasted} күн`, sub: s.fast_qaza ? `Қаза ${s.fast_qaza} · ${s.fast_made_up} өтелді` : "Қаза жоқ", tone: s.fasted ? "good" : "mute" },
+    { title: "Ораза", value: `${s.fasted} күн`, sub: s.fast_qaza ? `Қаза ${s.fast_qaza} — ${s.fast_made_up} өтелді` : "Қаза жоқ", tone: s.fasted ? "good" : "mute" },
   ];
   const bars = FARD_FIELDS.map((f) => ({ name: FIELDS[f].name, r: fardOnTime(rows, [f]) }));
   return (
@@ -139,16 +139,16 @@ function BestWorstPanel({ year, stats }: { year: string; stats: MonthStat[] }) {
     const ok = inYear.filter((s) => ms.days(s) >= MIN_DAYS && ms.pct(s) !== null);
     if (!ok.length) return { name: ms.name, empty: `Кемі ${MIN_DAYS} белгіленген күні бар ай әлі жоқ.` };
     const sorted = [...ok].sort((a, b) => ms.pct(a)! - ms.pct(b)! || a.month.localeCompare(b.month));
-    const label = (s: MonthStat) => `${MONTHS[Number(s.month.slice(5)) - 1]} · ${fmtPct(ms.pct(s))}`;
+    const label = (s: MonthStat) => `${MONTHS[Number(s.month.slice(5)) - 1]} — ${fmtPct(ms.pct(s))}`;
     return { name: ms.name, best: label(sorted.at(-1)!), worst: label(sorted[0]) };
   });
   const year12 = inYear.map((s) => ({ a: MONTHS[Number(s.month.slice(5)) - 1], b: s.fard_on_time_pct === null ? "—" : `${s.fard_on_time_pct.toFixed(2)}%` }));
   return (
     <>
-      <Panel title={`Ең жақсы және ең нашар ай · ${year}`} span="s7" phoneShut>
+      <Panel title={`Ең жақсы және ең нашар ай — ${year}`} span="s7" phoneShut>
         <BestWorst items={items} note={`${year} жыл. Тек кемі ${MIN_DAYS} күні белгіленген айлар салыстырылады.`} />
       </Panel>
-      <Panel title={`Парыз уақытында · ${year}`} span="s5" phoneShut>
+      <Panel title={`Парыз уақытында — ${year}`} span="s5" phoneShut>
         <ExtraList title="Ай бойынша" items={year12} />
       </Panel>
     </>

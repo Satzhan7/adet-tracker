@@ -12,7 +12,7 @@ import { FARD_FIELDS, FIELDS, type DayField } from "@/lib/fields";
 import { bestWorstMonth, fardOnTime, fmtPct, qaza, remainingQaza, share } from "@/lib/stats";
 import { marksFor, monthHeading, monthLabel, monthlyPct, rowsInMonth } from "@/lib/views";
 
-export const metadata: Metadata = { title: "Намаз · Әдет трекер" };
+export const metadata: Metadata = { title: "Намаз — Әдет трекер" };
 
 const TODAY_FIELDS: DayField[] = [...FARD_FIELDS, "utir", "tungi", "duha"];
 const GRID_FIELDS: DayField[] = ["tungi", "tan", "duha", "besin", "asr", "sham", "quptan", "utir"];
@@ -76,7 +76,7 @@ async function NamazBody() {
   const qazaList = [...fardQaza, { f: "utir" as const, ...qaza(month, "utir") }]
     .filter((q) => q.missed > 0)
     .sort((a, b) => b.missed - a.missed)
-    .map((q) => ({ a: FIELDS[q.f].name, b: `${q.missed} қаза · ${q.madeUp} өтелді` }));
+    .map((q) => ({ a: FIELDS[q.f].name, b: `${q.missed} қаза — ${q.madeUp} өтелді` }));
 
   const trend = monthlyPct(days, today, (r) => fardOnTime(r));
   const year = today.slice(0, 4);
@@ -111,7 +111,7 @@ async function NamazBody() {
           />
         </Panel>
 
-        <Panel title={`Парыз намаз уақытында, ${year} · %`} span="s8" phoneShut>
+        <Panel title={`Парыз намаз уақытында, ${year} — %`} span="s8" phoneShut>
           <TrendChart labels={trend.labels} max={100} series={[{ name: "Парыз уақытында", unit: "%", color: "#2563eb", values: trend.values }]} />
         </Panel>
 
@@ -121,8 +121,8 @@ async function NamazBody() {
               bw
                 ? {
                     name: "Парыз уақытында",
-                    best: `${monthLabel(bw.best.key)} · ${fmtPct(bw.best.r)}`,
-                    worst: `${monthLabel(bw.worst.key)} · ${fmtPct(bw.worst.r)}`,
+                    best: `${monthLabel(bw.best.key)} — ${fmtPct(bw.best.r)}`,
+                    worst: `${monthLabel(bw.worst.key)} — ${fmtPct(bw.worst.r)}`,
                   }
                 : { name: "Парыз уақытында", empty: "Кемі 10 белгіленген күні бар ай әлі жоқ." },
             ]}

@@ -59,7 +59,7 @@ export function TrendChart({ labels, series, max }: { labels: string[]; series: 
                   return (
                     <div
                       key={s.name}
-                      title={`${label} · ${s.name}: ${fmtValue(s, v)}`}
+                      title={`${label} — ${s.name}: ${fmtValue(s, v)}`}
                       className="trend-bar"
                       style={{ height: h, background: s.color, width: single ? "60%" : "40%" }}
                     />

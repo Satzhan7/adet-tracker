@@ -11,7 +11,7 @@ import { FIELDS, type DayField } from "@/lib/fields";
 import { bestWorstMonth, fmtPct, lastDateWith, longestStreak, share } from "@/lib/stats";
 import { marksFor, monthHeading, monthLabel, monthlyPct, rowsInMonth } from "@/lib/views";
 
-export const metadata: Metadata = { title: "Зікір · Әдет трекер" };
+export const metadata: Metadata = { title: "Зікір — Әдет трекер" };
 
 const ZIKIR: { field: DayField; short: string; color: string }[] = [
   { field: "dhikr_morning", short: "таң", color: "#ff6a00" },
@@ -49,7 +49,7 @@ async function ZikirBody() {
   for (const z of ZIKIR) {
     const last = lastDateWith(days, z.field, DONE);
     kpis.push({
-      title: `Соңғы · ${z.short}`,
+      title: `Соңғы — ${z.short}`,
       value: last ? dayLabel(last, today) : "—",
       sub: "Соңғы орындалған күн",
       tone: !last ? "mute" : last === today ? "good" : "plain",
@@ -58,7 +58,7 @@ async function ZikirBody() {
   for (const z of ZIKIR) {
     const s = longestStreak(days, z.field, DONE);
     kpis.push({
-      title: `Ең ұзақ серия · ${z.short}`,
+      title: `Ең ұзақ серия — ${z.short}`,
       value: `${s.length} күн`,
       sub: s.end ? `${dayLabel(s.end, today)} аяқталды` : "Әлі серия жоқ",
       tone: s.length ? "good" : "mute",
@@ -76,8 +76,8 @@ async function ZikirBody() {
     return r
       ? {
           name: FIELDS[z.field].name,
-          best: `${monthLabel(r.best.key)} · ${fmtPct(r.best.r)}`,
-          worst: `${monthLabel(r.worst.key)} · ${fmtPct(r.worst.r)}`,
+          best: `${monthLabel(r.best.key)} — ${fmtPct(r.best.r)}`,
+          worst: `${monthLabel(r.worst.key)} — ${fmtPct(r.worst.r)}`,
         }
       : { name: FIELDS[z.field].name, empty: "Кемі 10 белгіленген күні бар ай әлі жоқ." };
   });
@@ -105,7 +105,7 @@ async function ZikirBody() {
           />
         </Panel>
 
-        <Panel title={`Зікір, ${year} · орындалған күндер %`} span="s8" phoneShut>
+        <Panel title={`Зікір, ${year} — орындалған күндер %`} span="s8" phoneShut>
           <TrendChart labels={series[0].labels} max={100} series={series} />
         </Panel>
 

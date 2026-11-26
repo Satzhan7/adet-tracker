@@ -96,7 +96,7 @@ export function MonthBoard({
         </div>
       </Panel>
 
-      <Panel title={`Күн жазбасы · ${dayLabel(selected, today)}`} span="s7">
+      <Panel title={`Күн жазбасы — ${dayLabel(selected, today)}`} span="s7">
         <form
           className="flex flex-col gap-3"
           onSubmit={(e) => {
@@ -133,7 +133,7 @@ export function MonthBoard({
         </form>
       </Panel>
 
-      <Panel title={`Айдың жазбалары · ${monthNotes.length}`} span="s5">
+      <Panel title={`Айдың жазбалары — ${monthNotes.length}`} span="s5">
         {monthNotes.length === 0 ? (
           <p className="m-0 text-[15px]">Бұл айда әлі жазба жоқ.</p>
         ) : (

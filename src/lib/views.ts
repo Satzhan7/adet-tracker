@@ -45,9 +45,9 @@ export function rowsInMonth(days: DayRow[], today: string) {
   return days.filter((d) => monthKey(d.date) === key);
 }
 
-/** "Қараша · 1–24 күн" for the current month (up to today). */
+/** "Қараша — 1–24 күн" for the current month (up to today). */
 export function monthHeading(today: string) {
-  return `${monthName(monthKey(today))} · 1–${parts(today).d} күн`;
+  return `${monthName(monthKey(today))} — 1–${parts(today).d} күн`;
 }
 
 export function monthLabel(key: string) {

@@ -14,7 +14,7 @@ import { currentPage, hifzPath, isWirdMarked, pagesBetween, wirdDays } from "@/l
 import { bestWorstMonth, fmtPct, khatmProgress, MUSHAF_PAGES, ratio } from "@/lib/stats";
 import { marksFor, monthLabel, rowsInMonth, yearMonths } from "@/lib/views";
 
-export const metadata: Metadata = { title: "Құран · Әдет трекер" };
+export const metadata: Metadata = { title: "Құран — Әдет трекер" };
 
 const TABS = [
   { key: "hatm", label: "Хатм" },
@@ -77,7 +77,7 @@ function Hatm({ today, log }: { today: string; log: KhatmEntry[] }) {
     {
       title: "Жеке хатм",
       value: `${progress.n} / ${MUSHAF_PAGES}`,
-      sub: `${fmtPct(progress)} · ${MUSHAF_PAGES - progress.n} бет қалды`,
+      sub: `${fmtPct(progress)} — ${MUSHAF_PAGES - progress.n} бет қалды`,
       tone: pos ? "good" : "mute",
     },
     { title: `${today.slice(0, 4)} жылы оқылды`, value: `${yearPages} бет`, sub: `${yearDays} күн оқылған`, tone: yearPages ? "plain" : "mute" },
@@ -111,7 +111,7 @@ function Hatm({ today, log }: { today: string; log: KhatmEntry[] }) {
               {recent.map((e) => (
                 <li key={e.id}>
                   <span>
-                    {dayLabel(e.date, today)} · {e.pages} бет{e.from_page ? ` (${e.from_page}–${e.to_page})` : ""}
+                    {dayLabel(e.date, today)} — {e.pages} бет{e.from_page ? ` (${e.from_page}–${e.to_page})` : ""}
                   </span>
                   <DeleteEntry table="khatm_log" id={e.id} label={`${e.pages} бет`} />
                 </li>
@@ -126,7 +126,7 @@ function Hatm({ today, log }: { today: string; log: KhatmEntry[] }) {
           <ExtraList title="Хатм жолы" items={pos ? [{ a: "Қазір", b: `${pos}-бет` }, { a: "Хатмға дейін", b: `${MUSHAF_PAGES - pos} бет` }] : []} />
         </div>
       </Panel>
-      <Panel title={`Хатм, ${today.slice(0, 4)} · айына оқылған бет`} span="s8" phoneShut>
+      <Panel title={`Хатм, ${today.slice(0, 4)} — айына оқылған бет`} span="s8" phoneShut>
         <TrendChart
           labels={months.map((m) => m.label)}
           max={max}
@@ -137,7 +137,7 @@ function Hatm({ today, log }: { today: string; log: KhatmEntry[] }) {
         <BestWorst
           items={[
             bw
-              ? { name: "Хатм: айына бет", best: `${monthLabel(bw.at(-1)!.key)} · ${bw.at(-1)!.pages} бет`, worst: `${monthLabel(bw[0].key)} · ${bw[0].pages} бет` }
+              ? { name: "Хатм: айына бет", best: `${monthLabel(bw.at(-1)!.key)} — ${bw.at(-1)!.pages} бет`, worst: `${monthLabel(bw[0].key)} — ${bw[0].pages} бет` }
               : { name: "Хатм: айына бет", empty: "Бұл жылы әлі жазба жоқ." },
           ]}
           note={`${today.slice(0, 4)} жыл, ${monthLabel(months[0].key).toLowerCase()}–${monthLabel(monthKey(today)).toLowerCase()}.`}
@@ -177,7 +177,7 @@ function Hifz({ today, log }: { today: string; log: HifzEntry[] }) {
               {recent.map((e) => (
                 <li key={e.id}>
                   <span>
-                    {e.date ? dayLabel(e.date, today) : "күні жоқ"} · {e.surah}, {e.repetitions} рет
+                    {e.date ? dayLabel(e.date, today) : "күні жоқ"} — {e.surah}, {e.repetitions} рет
                   </span>
                   <DeleteEntry table="hifz_log" id={e.id} label={`${e.surah}, ${e.repetitions} рет`} />
                 </li>
@@ -191,11 +191,11 @@ function Hifz({ today, log }: { today: string; log: HifzEntry[] }) {
           <KpiGrid items={kpis} />
           <ExtraList
             title="Хифз жолы"
-            items={path.map((p, i) => ({ a: p.surah, b: `${p.days} күн${i === path.length - 1 ? " · қазір" : ""}` }))}
+            items={path.map((p, i) => ({ a: p.surah, b: `${p.days} күн${i === path.length - 1 ? " — қазір" : ""}` }))}
           />
         </div>
       </Panel>
-      <Panel title="Хифз · әр сүреге кеткен күн" span="s8" phoneShut>
+      <Panel title="Хифз — әр сүреге кеткен күн" span="s8" phoneShut>
         {path.length ? (
           <TrendChart
             labels={path.map((p) => p.surah)}
@@ -210,7 +210,7 @@ function Hifz({ today, log }: { today: string; log: HifzEntry[] }) {
         <BestWorst
           items={[
             fastest.length
-              ? { name: "Сүреге кеткен күн", best: `${fastest[0].surah} · ${fastest[0].days} күн`, worst: `${fastest.at(-1)!.surah} · ${fastest.at(-1)!.days} күн` }
+              ? { name: "Сүреге кеткен күн", best: `${fastest[0].surah} — ${fastest[0].days} күн`, worst: `${fastest.at(-1)!.surah} — ${fastest.at(-1)!.days} күн` }
               : { name: "Сүреге кеткен күн", empty: "Жатталып біткен сүре әлі жоқ." },
           ]}
           note="Қазіргі сүре әлі аяқталмағандықтан саналмайды."
@@ -236,7 +236,7 @@ function Wird({ today, days }: { today: string; days: DayRow[] }) {
   const tone = (p: number | null): Kpi["tone"] => (p === null ? "mute" : p >= 90 ? "good" : p < 60 ? "bad" : "plain");
 
   const kpis: Kpi[] = [
-    { title: `${monthLabel(monthKey(today))}`, value: fmtPct(month), sub: `${month.n} / ${month.d} күн · ${month.partial} күн ішінара`, tone: tone(month.pct) },
+    { title: `${monthLabel(monthKey(today))}`, value: fmtPct(month), sub: `${month.n} / ${month.d} күн — ${month.partial} күн ішінара`, tone: tone(month.pct) },
     { title: `${monthLabel(prevKey)}`, value: fmtPct(prev), sub: `${prev.n} / ${prev.d} күн`, tone: tone(prev.pct) },
     { title: "Барлығы", value: fmtPct(all), sub: `${all.n} / ${all.d} белгіленген күн`, tone: tone(all.pct) },
   ];
@@ -264,7 +264,7 @@ function Wird({ today, days }: { today: string; days: DayRow[] }) {
             ]}
           />
         </Panel>
-        <Panel title={`Уирд, ${year} · орындалған күндер %`} span="s8" phoneShut>
+        <Panel title={`Уирд, ${year} — орындалған күндер %`} span="s8" phoneShut>
           <TrendChart
             labels={months.map((m) => m.label)}
             max={100}
@@ -275,7 +275,7 @@ function Wird({ today, days }: { today: string; days: DayRow[] }) {
           <BestWorst
             items={[
               bw
-                ? { name: "Уирд", best: `${monthLabel(bw.best.key)} · ${fmtPct(bw.best.r)}`, worst: `${monthLabel(bw.worst.key)} · ${fmtPct(bw.worst.r)}` }
+                ? { name: "Уирд", best: `${monthLabel(bw.best.key)} — ${fmtPct(bw.best.r)}`, worst: `${monthLabel(bw.worst.key)} — ${fmtPct(bw.worst.r)}` }
                 : { name: "Уирд", empty: "Кемі 10 белгіленген күні бар ай әлі жоқ." },
             ]}
             note="Күн орындалды деп саналады, егер белгіленген екі уирд те «оқыдым» болса."

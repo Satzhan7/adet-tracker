@@ -98,3 +98,16 @@ export const loadMonthStats = cache(async function loadMonthStats(): Promise<Mon
     return out as MonthStat;
   });
 });
+
+export type ImportLog = { id: number; file_name: string; rows_ok: number; rows_err: number; created_at: string };
+
+export const loadImports = cache(async function loadImports(): Promise<ImportLog[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("imports")
+    .select("id, file_name, rows_ok, rows_err, created_at")
+    .order("created_at", { ascending: false })
+    .limit(20);
+  if (error) throw new Error(`imports: ${error.message}`);
+  return data ?? [];
+});

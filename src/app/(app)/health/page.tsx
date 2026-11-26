@@ -11,7 +11,7 @@ import type { DayField } from "@/lib/fields";
 import { bestWorstMonth, CREATINE_DONE, fmtPct, lastDateWith, longestStreak, share } from "@/lib/stats";
 import { latestYearWith, marksFor, monthHeading, monthLabel, rowsInMonth, yearMonths } from "@/lib/views";
 
-export const metadata: Metadata = { title: "Денсаулық · Әдет трекер" };
+export const metadata: Metadata = { title: "Денсаулық — Әдет трекер" };
 
 const FIELDS_HEALTH: DayField[] = ["creatine", "protein"];
 const MEASURES = [
@@ -39,7 +39,7 @@ async function HealthBody() {
   for (const m of MEASURES) {
     const r = share(month, m.field, m.done);
     kpis.push({
-      title: `${m.name} · осы ай`,
+      title: `${m.name} — осы ай`,
       value: fmtPct(r),
       sub: `${r.n} / ${r.d} күн`,
       tone: r.pct === null ? "mute" : r.pct >= 80 ? "good" : r.pct < 50 ? "bad" : "plain",
@@ -49,7 +49,7 @@ async function HealthBody() {
   const skipped = lastDateWith(days, "creatine", "өткізілді");
   kpis.push(
     {
-      title: "Креатин · ең ұзақ серия",
+      title: "Креатин — ең ұзақ серия",
       value: `${streak.length} күн`,
       sub: streak.end ? `${dayLabel(streak.end, today)} аяқталды` : "Әлі серия жоқ",
       tone: streak.length ? "good" : "mute",
@@ -63,7 +63,7 @@ async function HealthBody() {
   const bw: BestWorstItem[] = MEASURES.map((m) => {
     const r = bestWorstMonth(yearRows, (rows) => share(rows, m.field, m.done), (row) => !!row[m.field]);
     return r
-      ? { name: m.name, best: `${monthLabel(r.best.key)} · ${fmtPct(r.best.r)}`, worst: `${monthLabel(r.worst.key)} · ${fmtPct(r.worst.r)}` }
+      ? { name: m.name, best: `${monthLabel(r.best.key)} — ${fmtPct(r.best.r)}`, worst: `${monthLabel(r.worst.key)} — ${fmtPct(r.worst.r)}` }
       : { name: m.name, empty: "Кемі 10 белгіленген күні бар ай әлі жоқ." };
   });
 
@@ -76,7 +76,7 @@ async function HealthBody() {
         <Panel title={monthHeading(today)} span="s7">
           <div className="flex flex-col gap-3">
             <KpiGrid items={kpis} />
-            <ExtraList title="Креатин дозасы · осы ай" items={doses} />
+            <ExtraList title="Креатин дозасы — осы ай" items={doses} />
           </div>
         </Panel>
         <Panel title="Соңғы күндер" span="s12" phoneShut>
@@ -90,7 +90,7 @@ async function HealthBody() {
             ]}
           />
         </Panel>
-        <Panel title={`Денсаулық, ${year} · орындалған күндер %`} span="s8" phoneShut>
+        <Panel title={`Денсаулық, ${year} — орындалған күндер %`} span="s8" phoneShut>
           <TrendChart
             labels={months.map((m) => m.label)}
             max={100}

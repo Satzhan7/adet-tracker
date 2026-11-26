@@ -8,7 +8,7 @@ import { FIELDS, TONE_DOT, type DayField } from "@/lib/fields";
 const GROUPS: { title: string; fields: DayField[] }[] = [
   { title: "Намаз", fields: ["tan", "besin", "asr", "sham", "quptan", "utir", "tungi", "duha"] },
   { title: "Зікір", fields: ["dhikr_morning", "dhikr_evening"] },
-  { title: "Құран · уирд", fields: ["wird_taha", "wird_amana"] },
+  { title: "Құран — уирд", fields: ["wird_taha", "wird_amana"] },
   { title: "Денсаулық", fields: ["creatine", "protein"] },
   { title: "Ораза", fields: ["oraza"] },
 ];
@@ -133,7 +133,7 @@ export function QuickEntry({ variant }: { variant: "head" | "fab" }) {
                 <span className="text-lg font-extrabold text-[#1b253b]">Күнді белгілеу</span>
                 <span className="text-[13px] text-[#4d4d4d]">
                   {date === today ? "Бүгін, " : ""}
-                  {date && dayLabel(date, today)} · {marked} / {ALL.length} белгіленді
+                  {date && dayLabel(date, today)} — {marked} / {ALL.length} белгіленді
                 </span>
               </div>
               <button type="button" className="pick-close" onClick={() => setOpen(false)} aria-label="Жабу">
@@ -177,14 +177,14 @@ export function QuickEntry({ variant }: { variant: "head" | "fab" }) {
                     {g.fields.map((f) => (
                       <QuickRow key={f} field={f} value={snap.values[f] ?? null} onPick={(v) => set(f, v)} />
                     ))}
-                    {g.title === "Құран · уирд" && (
+                    {g.title === "Құран — уирд" && (
                       <>
                         <div className="quick-row">
                           <span className="quick-name">
                             Хатм
                             <small>
                               {snap.khatmPages ? `${snap.khatmPages} бет қосылды` : "бет қосу"}
-                              {snap.nextPage ? ` · келесі ${snap.nextPage}-бет` : ""}
+                              {snap.nextPage ? ` — келесі ${snap.nextPage}-бет` : ""}
                             </small>
                           </span>
                           <div className="quick-chips" role="group" aria-label="Хатм беті қосу">
@@ -198,7 +198,7 @@ export function QuickEntry({ variant }: { variant: "head" | "fab" }) {
                         {snap.currentSurah && (
                           <div className="quick-row">
                             <span className="quick-name">
-                              Хифз · {snap.currentSurah}
+                              Хифз — {snap.currentSurah}
                               <small>
                                 {snap.hifzToday.length
                                   ? snap.hifzToday.map((h) => `${h.repetitions} рет`).join(", ") + " жазылды"

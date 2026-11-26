@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { AuthShell } from "@/components/auth/auth-shell";
 import { AuthForm } from "@/components/auth/auth-form";
 
-export const metadata: Metadata = { title: "Кіру · Әдет трекер" };
+export const metadata: Metadata = { title: "Кіру — Әдет трекер" };
 
 const ERRORS: Record<string, string> = {
   not_allowed: "Бұл email рұқсат етілген тізімде жоқ.",
