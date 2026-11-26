@@ -24,5 +24,6 @@
   - кіру `shouldCreateUser: false` (тіркелмеген email → «Тіркелу» сілтемесі); тіркелу аты → `full_name` → profiles.name
   - allowlist өзгеріссіз; proxy `/register`-ді ашық етеді, кірген қолданушыны `/`-ге жібереді
   - Тексеру: build + lint таза; браузерде 1440/375, allowlist қатесі, тіркелмеген email қатесі, `?error=` хабарлары
+- [x] Репо қайта PUBLIC етілді (Vercel Hobby: команда мүшесі емес автордың коммиттері блокталады); тарихта құпия кілттер жоқ, тексерілді
 - [ ] Google OAuth client (Сатжан Google Cloud-та) → Supabase provider
 - [ ] Тексеру: preview-де нақты кіру (magic link + Google)
