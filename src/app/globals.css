@@ -1157,6 +1157,146 @@ span.month-step {
   font-variant-numeric: tabular-nums;
 }
 
+/* Reports */
+.import-steps {
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--tile-value);
+}
+.import-steps a {
+  color: #5b2fd1;
+  font-weight: 600;
+}
+.file-drop {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 12px 14px;
+  border: 2px dashed #8a9ab3;
+  border-radius: 10px;
+  background: #fff;
+  color: #1e293b;
+  cursor: pointer;
+}
+.file-drop:hover,
+.file-drop:focus-within {
+  border-color: var(--primary);
+}
+.file-drop:focus-within {
+  box-shadow: 0 0 0 3px rgba(120, 67, 233, 0.25);
+}
+.file-drop.has-file {
+  border-style: solid;
+}
+.file-drop span span {
+  font-size: 13px;
+  color: #4d4d4d;
+}
+.import-mode {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.import-mode legend {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tile-label);
+}
+.radio-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--tile-border);
+  border-radius: 8px;
+  background: var(--tile-bg);
+  color: var(--tile-value);
+  cursor: pointer;
+}
+.radio-row:has(input:checked) {
+  border-color: var(--primary);
+}
+.radio-row input {
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  accent-color: var(--primary);
+}
+.radio-row span {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.radio-row small {
+  font-size: 12px;
+  color: var(--tile-label);
+}
+.import-errors {
+  font-size: 13px;
+  color: #8a0707;
+}
+.import-errors summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+.import-errors ul {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  color: var(--tile-value);
+}
+.data-table th,
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #c4c8cf;
+  text-align: left;
+  vertical-align: top;
+}
+.data-table thead th {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tile-label);
+  white-space: nowrap;
+}
+.data-table tbody th {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.data-table td {
+  font-variant-numeric: tabular-nums;
+}
+.data-table a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* Year calendar (Ораза) */
 .year-cal {
   border-collapse: separate;
