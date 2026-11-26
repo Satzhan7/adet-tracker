@@ -3,6 +3,9 @@
 /* Design tokens from canvas v2 (SPEC → Дизайн жүйесі; canvas wins on conflict).
    :root holds the fixed dark palette the auth pages use; [data-theme] switches the app shell. */
 :root {
+  /* Light text: Manrope; its missing Kazakh letters come from Onest, not a system font. Bold: Onest. */
+  --font-text: var(--font-manrope), var(--font-onest), system-ui, sans-serif;
+  --font-strong: var(--font-onest), system-ui, sans-serif;
   --bg: #1b253b;
   --bg-2: #272d45;
   --panel: #272d45;
@@ -72,13 +75,13 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-manrope);
+  --font-sans: var(--font-text);
 }
 
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-manrope), system-ui, sans-serif;
+  font-family: var(--font-text);
 }
 
 .btn {
@@ -87,7 +90,7 @@ body {
   justify-content: center;
   gap: 10px;
   min-height: 44px;
-  font-family: inherit;
+  font-family: var(--font-strong);
   font-size: 15px;
   transition: filter 0.15s, box-shadow 0.15s;
   border-radius: 12px;
@@ -159,6 +162,7 @@ body {
   gap: 8px;
   font-size: 19px;
   font-weight: 700;
+  font-family: var(--font-strong);
   color: #fff;
 }
 .auth-card {
@@ -255,6 +259,7 @@ body {
 }
 .auth-note > span[aria-hidden] {
   font-weight: 800;
+  font-family: var(--font-strong);
 }
 .auth-note-good {
   background: rgba(34, 197, 94, 0.12);
@@ -269,6 +274,7 @@ body {
 .auth-link {
   color: #a98bf5;
   font-weight: 600;
+  font-family: var(--font-strong);
 }
 .auth-link:hover {
   color: #c4b0fa;
@@ -405,6 +411,7 @@ html:has(.shell) body {
   justify-content: center;
   font-size: 15px;
   font-weight: 600;
+  font-family: var(--font-strong);
 }
 .main {
   flex: 999 1 720px;
@@ -431,6 +438,7 @@ html:has(.shell) body {
   margin: 0;
   font-size: 24px;
   font-weight: 700;
+  font-family: var(--font-strong);
   color: var(--t-title);
 }
 
@@ -474,6 +482,7 @@ html:has(.shell) body {
   color: var(--sec-ink);
   font-size: 16px;
   font-weight: 700;
+  font-family: var(--font-strong);
 }
 .panel-body {
   margin: 0;
@@ -501,6 +510,7 @@ html:has(.shell) body {
 .tile-label {
   font-size: 12px;
   font-weight: 700;
+  font-family: var(--font-strong);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--tile-label);
@@ -508,6 +518,7 @@ html:has(.shell) body {
 .tile-value {
   font-size: 30px;
   font-weight: 800;
+  font-family: var(--font-strong);
   line-height: 1;
   white-space: nowrap;
   color: var(--tile-value);
@@ -661,6 +672,7 @@ html:has(.shell) body {
 .today-name {
   font-size: 13px;
   font-weight: 700;
+  font-family: var(--font-strong);
   line-height: 1.25;
   color: var(--tile-value);
   text-align: center;
@@ -707,7 +719,7 @@ html:has(.shell) body {
   border-radius: 8px;
   border: 1px solid #d3d7de;
   background: #fff;
-  font-family: inherit;
+  font-family: var(--font-strong);
   font-size: 15px;
   font-weight: 600;
   color: #1b253b;
@@ -729,7 +741,7 @@ html:has(.shell) body {
   border: 0;
   background: transparent;
   color: #be0a0a;
-  font-family: inherit;
+  font-family: var(--font-strong);
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -769,13 +781,14 @@ html:has(.shell) body {
   border-right: 1px solid #c4c8cf;
   font-size: 13px;
   font-weight: 600;
+  font-family: var(--font-strong);
   white-space: nowrap;
   color: var(--tile-value);
 }
 .grid-cell {
   padding: 0;
   border: 0;
-  font-family: inherit;
+  font-family: var(--font-strong);
   cursor: pointer;
   height: 26px;
   border-radius: 4px;
@@ -797,6 +810,7 @@ html:has(.shell) body {
   justify-content: center;
   font-size: 9px;
   font-weight: 800;
+  font-family: var(--font-strong);
 }
 
 .grid-cell-future,
@@ -863,6 +877,7 @@ html:has(.shell) body {
   color: #8a0707;
   font-size: 14px;
   font-weight: 600;
+  font-family: var(--font-strong);
 }
 
 /* Monthly trend bars */
@@ -901,6 +916,7 @@ html:has(.shell) body {
 .trend-val {
   font-size: 11px;
   font-weight: 700;
+  font-family: var(--font-strong);
   white-space: nowrap;
   color: var(--tile-value);
 }
@@ -920,6 +936,7 @@ html:has(.shell) body {
   gap: 6px;
   font-size: 13px;
   font-weight: 600;
+  font-family: var(--font-strong);
   color: var(--tile-value);
 }
 .field-light input {
@@ -982,6 +999,7 @@ html:has(.shell) body {
   align-items: center;
   font-size: 15px;
   font-weight: 700;
+  font-family: var(--font-strong);
   text-decoration: none;
 }
 .tab-link[aria-current="page"] {
@@ -1009,6 +1027,7 @@ span.month-step {
 .month-current {
   min-width: 150px;
   font-weight: 700;
+  font-family: var(--font-strong);
 }
 .month-pop {
   position: absolute;
@@ -1051,6 +1070,7 @@ span.month-step {
   background: transparent;
   color: var(--tile-label);
   font: inherit;
+  font-family: var(--font-strong);
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
@@ -1138,6 +1158,7 @@ span.month-step {
 }
 .pct-bar-name {
   font-weight: 600;
+  font-family: var(--font-strong);
 }
 .pct-bar-track {
   height: 10px;
@@ -1154,6 +1175,7 @@ span.month-step {
 .pct-bar-value {
   text-align: right;
   font-weight: 700;
+  font-family: var(--font-strong);
   font-variant-numeric: tabular-nums;
 }
 
@@ -1170,6 +1192,7 @@ span.month-step {
 .import-steps a {
   color: #5b2fd1;
   font-weight: 600;
+  font-family: var(--font-strong);
 }
 .file-drop {
   display: flex;
@@ -1209,6 +1232,7 @@ span.month-step {
   margin-bottom: 8px;
   font-size: 12px;
   font-weight: 700;
+  font-family: var(--font-strong);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--tile-label);
@@ -1252,6 +1276,7 @@ span.month-step {
   display: flex;
   align-items: center;
   font-weight: 700;
+  font-family: var(--font-strong);
   cursor: pointer;
 }
 .import-errors ul {
@@ -1279,6 +1304,7 @@ span.month-step {
 .data-table thead th {
   font-size: 12px;
   font-weight: 700;
+  font-family: var(--font-strong);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--tile-label);
@@ -1286,6 +1312,7 @@ span.month-step {
 }
 .data-table tbody th {
   font-weight: 700;
+  font-family: var(--font-strong);
   white-space: nowrap;
 }
 .data-table td {
@@ -1328,12 +1355,14 @@ span.month-step {
   align-items: center;
   font-size: 12px;
   font-weight: 700;
+  font-family: var(--font-strong);
   color: var(--tile-label);
   background: var(--panel-bg);
 }
 .year-cal-day {
   font-size: 11px;
   font-weight: 600;
+  font-family: var(--font-strong);
   text-align: center;
   color: var(--tile-label);
 }
@@ -1345,7 +1374,7 @@ span.month-step {
   padding: 0;
   border: 0;
   border-radius: 5px;
-  font-family: inherit;
+  font-family: var(--font-strong);
   font-size: 12px;
   font-weight: 800;
   line-height: 1;
@@ -1408,7 +1437,7 @@ span.month-step {
   border-radius: 28px;
   background: #7843e9;
   color: #fff;
-  font-family: inherit;
+  font-family: var(--font-strong);
   font-size: 15px;
   font-weight: 700;
   box-shadow: 0 10px 24px rgba(60, 30, 140, 0.35);
@@ -1455,6 +1484,7 @@ span.month-step {
   margin: 0;
   font-size: 12px;
   font-weight: 800;
+  font-family: var(--font-strong);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #b93f0a;
@@ -1470,6 +1500,7 @@ span.month-step {
   flex-direction: column;
   font-size: 14px;
   font-weight: 700;
+  font-family: var(--font-strong);
   color: #1b253b;
 }
 .quick-name small {
@@ -1484,7 +1515,7 @@ span.month-step {
   border-radius: 20px;
   background: #f3f3f3;
   color: #1b253b;
-  font-family: inherit;
+  font-family: var(--font-strong);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
@@ -1502,6 +1533,7 @@ span.month-step {
   color: #fff;
   font-size: 12px;
   font-weight: 600;
+  font-family: var(--font-strong);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1642,4 +1674,13 @@ span.month-step {
   to {
     opacity: 1;
   }
+}
+
+/* Bold by default or by utility class: the strong face. Form fields keep the text face. */
+h1, h2, h3, h4, strong, b, th, legend, summary,
+.font-semibold, .font-bold, .font-extrabold {
+  font-family: var(--font-strong);
+}
+input, textarea, select {
+  font-family: var(--font-text);
 }
