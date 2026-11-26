@@ -522,7 +522,6 @@ html:has(.shell) body {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 16px;
-  align-items: start;
 }
 .g12 > * {
   min-width: 0;
@@ -563,6 +562,18 @@ html:has(.shell) body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 12px;
+}
+/* Each tile spans three shared rows, so labels, values and notes align across a row
+   even when one label wraps or a value uses the compact size. */
+.kpis > .tile {
+  display: grid;
+  grid-row: span 3;
+  grid-template-rows: subgrid;
+  row-gap: 8px;
+  align-content: start;
+}
+.kpis > .tile > .tile-value {
+  align-self: center;
 }
 .tile-bar {
   position: relative;
@@ -725,6 +736,7 @@ html:has(.shell) body {
 
 /* Last-N-days grid */
 .grid-table {
+  --grid-label-w: 132px;
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #c4c8cf;
@@ -749,8 +761,9 @@ html:has(.shell) body {
   align-self: stretch;
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  margin-right: 4px;
+  min-width: 0;
+  padding: 0 12px;
+  overflow: hidden;
   background: var(--panel-bg);
   border-right: 1px solid #c4c8cf;
   font-size: 13px;

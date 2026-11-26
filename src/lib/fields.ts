@@ -86,12 +86,12 @@ export function optionFor(field: DayField, value: string | null | undefined): Fi
 
 /** Grid colours and symbols (SPEC: symbols back up colour for colour-blind users). */
 export const TONE_STYLE: Record<Tone | "none", { bg: string; ink: string; mark: string }> = {
-  good: { bg: "#22c55e", ink: "#ffffff", mark: "✓" },
+  good: { bg: "#16a34a", ink: "#ffffff", mark: "✓" }, // white ✓ 3.3:1 (was #22c55e, 2.3:1)
   mosque: { bg: "#7843e9", ink: "#ffffff", mark: "◆" },
   made_up: { bg: "#0e9aa7", ink: "#ffffff", mark: "↺" },
   partial: { bg: "#d97706", ink: "#ffffff", mark: "½" },
   bad: { bg: "#be0a0a", ink: "#ffffff", mark: "✕" },
-  neutral: { bg: "#94a3b8", ink: "#ffffff", mark: "–" },
+  neutral: { bg: "#64748b", ink: "#ffffff", mark: "–" }, // 4.8:1
   none: { bg: "#f3f3f3", ink: "#8e8e93", mark: "" },
 };
 
