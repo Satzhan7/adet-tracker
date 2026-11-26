@@ -90,3 +90,10 @@ Audit at 1440 / 768 / 390: no edge, row-height, alignment or contrast issues.
 | --- | --- | --- | --- |
 | 1 | «шаблон (.xlsx)» link inside the steps 19 px tall | 44 px secondary button «Шаблонды жүктеу (.xlsx)» | 44 px |
 | 2 | Month links in the year-summary table 19 px tall | Link fills its cell | 44 px row target |
+
+## Fix — 2026-11-27 (user report: Ораза calendar scattered, « · » separators)
+
+| Found | Fix | After |
+| --- | --- | --- |
+| Year calendar looked scattered: empty days pale with a thin border vs solid marked days, rows 24 / 29 px, missing days (Feb 30) and future days left holes, table narrower than the panel | CSS grid; every slot a 26 px square in every state (outline drawn inside), reserved invisible slots for missing days, hatched slots for future days, columns stretch | All 403 slots 25.5 × 26, 0 columns off-centre, rows equal, grid = panel width |
+| « · » between words | « — » everywhere (88 places) | 0 left |
