@@ -229,7 +229,7 @@ function QuranSummary({ khatm, hifz }: { khatm: KhatmEntry[]; hifz: HifzEntry[] 
         {path.length > 1 && (
           <ExtraList title="Хифз жолы" items={[{ a: path.map((p) => `${p.surah} ${p.days} к.`).join(" → "), b: "" }]} />
         )}
-        <Link href="/quran" className="text-sm font-semibold text-[var(--primary)] underline">
+        <Link href="/quran" className="btn btn-secondary self-start text-sm font-medium" style={{ borderRadius: 6 }}>
           Құран бетіне өту →
         </Link>
       </div>
