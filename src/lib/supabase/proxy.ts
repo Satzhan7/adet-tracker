@@ -1,7 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PUBLIC_PATHS = ["/login", "/auth"];
+const PUBLIC_PATHS = ["/login", "/register", "/auth"];
+const AUTH_PAGES = ["/login", "/register"];
 
 /** Refreshes the Supabase session cookie and redirects signed-out users to /login. */
 export async function updateSession(request: NextRequest) {
@@ -41,7 +42,7 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  if (user && path === "/login") {
+  if (user && AUTH_PAGES.includes(path)) {
     const url = request.nextUrl.clone();
     url.pathname = "/";
     url.search = "";

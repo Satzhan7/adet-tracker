@@ -1,27 +1,28 @@
 import { Suspense } from "react";
-import { LoginForm } from "./login-form";
+import type { Metadata } from "next";
+import { AuthShell } from "@/components/auth/auth-shell";
+import { AuthForm } from "@/components/auth/auth-form";
+
+export const metadata: Metadata = { title: "Кіру · Әдет трекер" };
 
 const ERRORS: Record<string, string> = {
-  not_allowed: "Бұл email-ге кіруге рұқсат жоқ.",
+  not_allowed: "Бұл email рұқсат етілген тізімде жоқ.",
   auth_failed: "Кіру сәтсіз аяқталды. Қайта көріңіз.",
 };
 
 export default function LoginPage({ searchParams }: PageProps<"/login">) {
   return (
-    <main className="flex min-h-dvh items-center justify-center px-4">
-      <div className="w-full max-w-sm rounded-2xl border border-[var(--line)] bg-[var(--panel)] p-6 text-[var(--ink)]">
-        <h1 className="text-2xl font-extrabold text-[var(--accent-head)]">Әдет трекер</h1>
-        <p className="mt-1 text-sm text-[var(--ink-dim)]">Кіру тек рұқсат етілген email үшін.</p>
-        <Suspense fallback={<LoginForm />}>
-          <LoginFormWithError searchParams={searchParams} />
-        </Suspense>
-      </div>
-    </main>
+    <AuthShell mode="login">
+      <Suspense fallback={<AuthForm mode="login" />}>
+        <LoginFormWithError searchParams={searchParams} />
+      </Suspense>
+    </AuthShell>
   );
 }
 
+/** ?error=… comes from /auth/callback; reading it is request-time, so it sits behind Suspense. */
 async function LoginFormWithError({ searchParams }: Pick<PageProps<"/login">, "searchParams">) {
   const { error } = await searchParams;
   const message = typeof error === "string" ? ERRORS[error] : undefined;
-  return <LoginForm initialError={message} />;
+  return <AuthForm mode="login" initialError={message} />;
 }

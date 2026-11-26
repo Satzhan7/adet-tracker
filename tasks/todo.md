@@ -20,5 +20,9 @@
 - [x] Allowlist-ке Сатжанның email-і
 - [x] GitHub `Satzhan7/adet-tracker` (PUBLIC болған → private етілді) → Vercel `adet-tracker`, env, git auto-deploy
 - [x] Supabase Auth: Site URL `https://adet-tracker.vercel.app` + Redirect URLs (prod, preview wildcard, localhost)
+- [x] Кіру (`/login`) және тіркелу (`/register`) беттері ортаға келтірілген бір карточка (пайдаланушы референсі бойынша): ортақ `AuthShell` + `AuthForm`
+  - кіру `shouldCreateUser: false` (тіркелмеген email → «Тіркелу» сілтемесі); тіркелу аты → `full_name` → profiles.name
+  - allowlist өзгеріссіз; proxy `/register`-ді ашық етеді, кірген қолданушыны `/`-ге жібереді
+  - Тексеру: build + lint таза; браузерде 1440/375, allowlist қатесі, тіркелмеген email қатесі, `?error=` хабарлары
 - [ ] Google OAuth client (Сатжан Google Cloud-та) → Supabase provider
 - [ ] Тексеру: preview-де нақты кіру (magic link + Google)
