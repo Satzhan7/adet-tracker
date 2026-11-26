@@ -123,6 +123,8 @@ describe("khatm (rule 9) and helpers", () => {
     // 2026-11-26 20:30 UTC is already 27 Nov in Almaty (UTC+5)
     expect(todayISO(new Date("2026-11-26T20:30:00Z"))).toBe("2026-11-27");
     expect(dayLabel("2026-11-26")).toBe("26 қараша");
+    expect(dayLabel("2025-12-24", "2026-11-26")).toBe("24 желтоқсан 2025");
+    expect(dayLabel("2026-06-29", "2026-11-26")).toBe("29 маусым");
     expect(lastDays("2026-03-02", 3)).toEqual(["2026-02-28", "2026-03-01", "2026-03-02"]);
     expect(prevMonthKey("2026-11-26")).toBe("2026-10");
     expect(prevMonthKey("2027-01-05")).toBe("2026-12");

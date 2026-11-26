@@ -18,10 +18,11 @@ export function parts(iso: string) {
   return { y, m, d };
 }
 
-/** "26 қараша" */
-export function dayLabel(iso: string) {
-  const { m, d } = parts(iso);
-  return `${d} ${MONTHS[m - 1].toLowerCase()}`;
+/** "26 қараша"; with `today` from another year: "24 желтоқсан 2025". */
+export function dayLabel(iso: string, today?: string) {
+  const { y, m, d } = parts(iso);
+  const label = `${d} ${MONTHS[m - 1].toLowerCase()}`;
+  return today && today.slice(0, 4) !== String(y) ? `${label} ${y}` : label;
 }
 
 export function addDays(iso: string, n: number): string {

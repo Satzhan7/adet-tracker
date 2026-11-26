@@ -50,7 +50,7 @@ async function ZikirBody() {
     const last = lastDateWith(days, z.field, DONE);
     kpis.push({
       title: `Соңғы · ${z.short}`,
-      value: last ? dayLabel(last) : "—",
+      value: last ? dayLabel(last, today) : "—",
       sub: "Соңғы орындалған күн",
       tone: !last ? "mute" : last === today ? "good" : "plain",
     });
@@ -60,7 +60,7 @@ async function ZikirBody() {
     kpis.push({
       title: `Ең ұзақ серия · ${z.short}`,
       value: `${s.length} күн`,
-      sub: s.end ? `${dayLabel(s.end)} аяқталды` : "Әлі серия жоқ",
+      sub: s.end ? `${dayLabel(s.end, today)} аяқталды` : "Әлі серия жоқ",
       tone: s.length ? "good" : "mute",
     });
   }
