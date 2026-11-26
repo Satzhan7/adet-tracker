@@ -38,7 +38,7 @@ export function UpdatePasswordForm() {
 
   return (
     <div className="flex flex-col gap-4">
-      <form onSubmit={submit} className="flex flex-col gap-4">
+      <form onSubmit={submit} className="flex flex-col gap-5">
         <Field label="Жаңа құпиясөз">
           <PasswordInput value={password} onChange={setPassword} autoComplete="new-password" minLength={MIN_PASSWORD} />
         </Field>

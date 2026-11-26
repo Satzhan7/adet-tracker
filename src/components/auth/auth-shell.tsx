@@ -29,7 +29,7 @@ export function AuthShell({ mode, children }: { mode: Mode; children: React.Reac
     <main className="auth-shell">
       <div className="auth-col">
         <div className="auth-brand">
-          <Logo size={36} />
+          <Logo size={32} />
           <span>Әдет трекер</span>
         </div>
 

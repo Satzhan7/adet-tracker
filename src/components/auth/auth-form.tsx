@@ -127,7 +127,7 @@ export function AuthForm({ mode, initialError }: { mode: AuthMode; initialError?
 
   return (
     <div className="flex flex-col gap-4">
-      <form onSubmit={submit} className="flex flex-col gap-4">
+      <form onSubmit={submit} className="flex flex-col gap-5">
         {mode === "register" && (
           <Field label="Атыңыз">
             <input
