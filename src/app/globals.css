@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+/* Stage 0: minimal subset of the v2 tokens (SPEC → Дизайн жүйесі).
+   Full token set, both themes and components come in stage 2. */
+:root {
+  --bg: #1b253b;
+  --bg-2: #272d45;
+  --panel: #272d45;
+  --field: #1b253b;
+  --line: #44557e;
+  --ink: #ffffff;
+  --ink-dim: #b6c0d4;
+  --primary: #7843e9;
+  --accent-head: #ff6a00;
+  --good: #22c55e;
+  --bad: #be0a0a;
+}
+
+@theme inline {
+  --font-sans: var(--font-manrope);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+}
+
+.btn {
+  min-height: 44px;
+  border-radius: 12px;
+  padding: 0 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.btn-primary {
+  background: linear-gradient(180deg, #8f63f2, #6a3be0);
+  color: #fff;
+}
+.btn-secondary {
+  background: linear-gradient(180deg, #44557e, #2f3d60);
+  border: 1px solid #6b7fa8;
+  color: #fff;
+}

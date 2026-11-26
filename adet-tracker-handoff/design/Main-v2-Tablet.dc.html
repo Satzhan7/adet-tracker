@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<title>Әдет трекер — басты бет · v2 · Tablet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#cbd5e1}a:hover{color:#ec4176}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.g12 > *{min-width:0}
+.s4{grid-column:span 4}.s5{grid-column:span 5}.s7{grid-column:span 7}.s8{grid-column:span 8}
+.k3{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.s12{grid-column:span 12}
+.kv{white-space:nowrap}
+@media (max-width:1100px){.s4,.s5,.s7,.s8{grid-column:span 12}}
+
+.chk:hover{background:#ffffff}
+.burger{display:none}.scrim{display:none}
+.split span[style*="font-weight: 800"]{font-size:22px !important}
+.k3{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+@media (max-width:1024px){
+.shell{padding:12px !important;gap:12px !important;position:relative}
+.side{flex-basis:100% !important;padding:0 !important}
+.side-head{padding:4px 4px 8px !important;border-bottom:0 !important}
+.side .side-nav,.side .side-prof{display:none !important}
+.burger{display:flex !important}
+.scrim{display:block;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.55);border:0;padding:0;z-index:40;cursor:pointer}
+.side.open{position:absolute;top:0;left:0;bottom:0;width:300px;max-width:calc(100% - 48px);z-index:50;overflow-y:auto;padding:0 8px !important;box-shadow:0 0 24px rgba(0,0,0,0.35)}
+.side.open .side-head{padding:16px 8px !important;border-bottom:1px solid rgba(127,140,160,0.35) !important}
+.side.open .side-nav{display:flex !important;padding:12px 0 !important}
+.side.open .side-prof{display:flex !important}
+.side.open{animation:drawerIn .28s ease-out}
+}
+.shell{max-width:1760px;margin:0 auto}
+.stick{position:sticky;left:0;z-index:1;background:#e0e1e3}
+.lt .stick{background:#ffffff}
+.cellm{display:flex;align-items:center;justify-content:center;color:#ffffff;font-size:11px;font-weight:800;line-height:1}
+.fab{position:fixed;right:24px;bottom:24px;z-index:45;display:flex;align-items:center;gap:8px;min-height:52px;padding:0 20px;border:0;border-radius:26px;background:#7843e9;color:#ffffff;font-family:inherit;font-size:15px;font-weight:700;box-shadow:0 10px 24px rgba(60,30,140,0.35);cursor:pointer}
+@media (max-width:720px){.fab{right:16px;bottom:16px;min-height:56px;padding:0 18px}}
+.lt [style*="background: #e0e1e3"]{background:#ffffff !important;border:1px solid #b8c4d6;box-shadow:0 1px 2px rgba(16,24,40,0.08),0 12px 28px rgba(30,45,75,0.16) !important}
+.lt [style*="background: #f3f3f3"]{background:linear-gradient(180deg,#f7f9fc,#eef2f7) !important;border-color:#e1e7ef !important}
+.lt .main{border:1px solid #b8c4d6}
+.lt h2[style*="background: #ff6a00"]{background:#fff3ea !important;color:#b93f0a !important;border-bottom:1px solid #ffe0cc}
+.lt h2 button{color:#b93f0a !important}
+.lt [style*="color: #7d3d3d"]{color:#1f2a44 !important}
+.lt [style*="color: #4d4d4d"]{color:#5b6475 !important}
+.lt [style*="background: #ff5a0e; border-radius: 0 0 10px 10px"]{background:#ff8a4c !important;height:3px !important}
+@keyframes drawerIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media (max-width:720px){
+.shell{padding:12px !important;gap:12px !important;position:relative}
+.side{flex-basis:100% !important;padding:0 !important}
+.side-head{padding:4px 4px 8px !important;border-bottom:0 !important}
+.side .side-nav,.side .side-prof{display:none !important}
+.burger{display:flex !important}
+.scrim{display:block;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.55);border:0;padding:0;z-index:40;cursor:pointer}
+.side.open{position:absolute;top:0;left:0;bottom:0;width:300px;max-width:calc(100% - 48px);z-index:50;overflow-y:auto;padding:0 8px !important;box-shadow:0 0 24px rgba(0,0,0,0.35)}
+.side.open .side-head{padding:16px 8px !important;border-bottom:1px solid rgba(127,140,160,0.35) !important}
+.side.open .side-nav{display:flex !important;padding:12px 0 !important}
+.side.open .side-prof{display:flex !important}
+.side.open{animation:drawerIn .28s ease-out}
+.scrim{animation:fadeIn .28s ease-out}
+.main{padding:16px !important;border-radius:12px !important}
+.main h1{font-size:20px !important}
+.k3{grid-template-columns:repeat(auto-fit,minmax(140px,1fr)) !important}
+.k3 span[style*="font-size: 30px"]{font-size:22px !important}
+.split span[style*="font-weight: 800"]{font-size:18px !important}
+.k3 > div{min-width:0;min-height:0 !important;padding:10px 10px 14px !important;gap:4px !important}
+.k3{gap:8px !important}
+}
+</style>
+</helmet>
+<div class="{{ shellCls }}" style="min-height: 100vh; box-sizing: border-box; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 20px; padding: 24px; background: {{ t.body }}; font-family: Gilroy, Manrope, system-ui, sans-serif; color: {{ t.text }}">
+
+<aside class="{{ sideCls }}" style="background: {{ t.body }}; flex: 1 1 268px; box-sizing: border-box; display: flex; flex-direction: column; gap: 0; padding: 0 4px; color: {{ t.side }}">
+<div class="side-head" style="display: flex; align-items: center; gap: 12px; padding: 24px 16px 20px; border-bottom: 1px solid {{ t.div }}"><button type="button" class="burger" onClick="{{ toggleMenu }}" aria-label="{{ menuLabel }}" aria-expanded="{{ menuOpen }}" style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 8px; border: 1px solid {{ t.div }}; background: transparent; color: {{ t.side }}; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{ menuClosed }}" hint-placeholder-val="{{ true }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></sc-if><sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></sc-if></button>
+<svg width="40" height="40" viewBox="0 0 40 40" role="img" aria-label="Әдет трекер логотипі" style="flex-shrink: 0"><defs><linearGradient id="adet-logo-g" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff630e"></stop><stop offset="1" stop-color="#ff4e0e"></stop></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#adet-logo-g)"></rect><circle cx="20" cy="20" r="11" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="3"></circle><path d="M20 9a11 11 0 1 1-10.4 14.6" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"></path><path d="M15 20.5l3.5 3.5 6.5-7" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<div style="display: flex; flex-direction: column">
+<span style="font-size: 18px; font-weight: 700">Әдет трекер</span>
+<span style="font-size: 13px; color: {{ t.text }}">2026</span>
+</div>
+<button type="button" onClick="{{ quickToggle }}" aria-haspopup="dialog" aria-label="Бүгінді белгілеу" title="Бүгінді белгілеу" style="margin-left: auto; width: 44px; height: 44px; flex-shrink: 0; border: 0; border-radius: 50%; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(120,67,233,0.35)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button><button type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" style="margin-left: 6px; width: 44px; height: 44px; border-radius: 8px; border: 1px solid {{ t.div }}; background: transparent; color: {{ t.side }}; display: flex; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ true }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></sc-if></button>
+</div>
+<nav class="side-nav" aria-label="Негізгі мәзір" style="display: flex; flex-direction: column; gap: 6px; padding: 16px 0">
+<a href="Main-v2.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); border: 1px solid #6a3be0; color: #ffffff; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12 12 4l9 8"></path><path d="M5 10v10h14V10"></path></svg>
+Басты бет</a>
+<a href="Month-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M9 10v11M15 10v11"></path></svg>
+Ай кестесі</a>
+<a href="Namaz-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<span style="flex-grow: 1">Намаз</span>
+<span style="min-width: 24px; height: 24px; padding: 0 6px; box-sizing: border-box; border-radius: 6px; background: #7843e9; color: #ffffff; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; white-space: nowrap" title="Қарашада өтелмеген қаза намаз: 30 (34 қаза, 4 өтелді)">30 қаза</span></a>
+<a href="Zikir-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8.2" cy="14.8" r="1.3"></circle><circle cx="5.8" cy="11.5" r="1.3"></circle><circle cx="5.8" cy="7.5" r="1.3"></circle><circle cx="8.2" cy="4.2" r="1.3"></circle><circle cx="12.0" cy="3.0" r="1.3"></circle><circle cx="15.8" cy="4.2" r="1.3"></circle><circle cx="18.2" cy="7.5" r="1.3"></circle><circle cx="18.2" cy="11.5" r="1.3"></circle><circle cx="15.8" cy="14.8" r="1.3"></circle><circle cx="12" cy="16.6" r="1.6"></circle><path d="M12 18.2v2.3M10.3 22.5l1.7-2 1.7 2"></path></svg>
+Зікір</a>
+<a href="Quran-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.5c3.5-1.5 7-1.2 10 1.2v13.5c-3-2.4-6.5-2.7-10-1.2z"></path><path d="M22 5.5c-3.5-1.5-7-1.2-10 1.2v13.5c3-2.4 6.5-2.7 10-1.2z"></path></svg>
+Құран</a>
+<a href="Kreatin-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7v10M3 9.5v5M18 7v10M21 9.5v5M6 12h12"></path></svg>
+Денсаулық</a>
+<a href="Oraza-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 3.5a8.5 8.5 0 1 0 7 13.2A7 7 0 0 1 13.5 3.5z"></path><path d="M18.5 6.5l.6 1.4 1.5.1-1.2 1 .4 1.5-1.3-.8-1.3.8.4-1.5-1.2-1 1.5-.1z"></path></svg>
+Ораза</a>
+<a href="Reports-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>
+Есептер</a>
+</nav>
+<div class="side-prof" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; padding: 20px 16px 24px; border-top: 1px solid {{ t.div }}">
+<div style="width: 40px; height: 40px; border-radius: 9999px; background: {{ t.avatar }}; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">С</div>
+<span style="font-size: 15px; font-weight: 500">Сатжан</span>
+</div>
+</aside>
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><button type="button" class="scrim" onClick="{{ closeMenu }}" aria-label="Мәзірді жабу"></button></sc-if>
+
+<main class="main" style="flex: 999 1 720px; min-width: 0; box-sizing: border-box; background: {{ t.page }}; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid {{ t.div }}">
+<div style="display: flex; flex-direction: column; gap: 4px; padding-right: 10px; min-width: 0">
+<h1 style="margin: 0; font-size: 24px; font-weight: 700; color: {{ t.title }}">Басты бет</h1>
+<span style="font-size: 14px; color: {{ t.text }}">Деректер: 1–24 қараша 2026</span>
+</div>
+<div role="group" aria-label="Кезең" style="display: flex; flex-wrap: wrap; gap: 8px">
+<button type="button" onClick="{{ pickMonth }}" aria-pressed="{{ isMonth }}" style="{{ tabMonth }}">Қараша</button>
+<button type="button" onClick="{{ pickYear }}" aria-pressed="{{ isYear }}" style="{{ tabYear }}">2026 жыл</button>
+</div>
+</div>
+
+<div class="g12">
+
+<div class="s12" style="display: flex; flex-direction: column; gap: 16px">
+<sc-if value="{{ isMonth }}" hint-placeholder-val="{{ true }}">
+<section id="kpi" style="background: #e0e1e3; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden">
+<h2 style="margin: 0; padding: 12px 14px; background: #ff6a00; color: #1b253b; font-size: 16px; font-weight: 700">Қараша · 1–24 күн</h2>
+<div class="k3" style="padding: 14px">
+<div style="position: relative; min-height: 86px; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Парыз намаз уақытында</span>
+<span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #7d3d3d">71.67%</span>
+<span style="font-size: 12px; color: #4d4d4d">86 / 120 намаз · қазанда 76.13%</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+<div style="position: relative; min-height: 86px; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Қаза намаз</span>
+<div class="split" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0">
+<div style="display: flex; flex-direction: column; gap: 4px; padding-right: 10px; min-width: 0"><span style="font-size: 12px; color: #be0a0a">Қаза</span><span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #be0a0a">34</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding-left: 10px; border-left: 1px solid #b8bcc4; min-width: 0"><span style="font-size: 12px; color: #197d19">Өтелді</span><span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #197d19">4</span></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(104px, 1fr)); gap: 4px; font-size: 12px; color: #4d4d4d"><div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 8px; background: #ffffff; border-radius: 6px; white-space: nowrap"><span>Таң</span><span style="font-weight: 700; color: #be0a0a">13</span></div><div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 8px; background: #ffffff; border-radius: 6px; white-space: nowrap"><span>Құптан</span><span style="font-weight: 700; color: #be0a0a">19</span></div><div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 8px; background: #ffffff; border-radius: 6px; white-space: nowrap"><span>Бесін</span><span style="font-weight: 700; color: #be0a0a">2</span></div><div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 8px; background: #ffffff; border-radius: 6px; white-space: nowrap"><span>Үтір</span><span style="font-weight: 700; color: #be0a0a">19</span></div></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+<div style="position: relative; min-height: 86px; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Жұма намазы</span>
+<span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #197d19">3 / 3</span>
+<span style="font-size: 12px; color: #4d4d4d">6, 13, 20 қараша · келесісі 27 қараша</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+<div style="position: relative; min-height: 86px; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Зікір</span>
+<div class="split" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0">
+<div style="display: flex; flex-direction: column; gap: 4px; padding-right: 10px; min-width: 0"><span style="font-size: 12px; color: #4d4d4d">Таңғы</span><span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #be0a0a">5.26%</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding-left: 10px; border-left: 1px solid #b8bcc4; min-width: 0"><span style="font-size: 12px; color: #4d4d4d">Кешкі</span><span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #be0a0a">0.00%</span></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: #4d4d4d"><span>19 күннің ішінде оқылған күндер:</span><div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 8px; background: #ffffff; border-radius: 6px; white-space: nowrap"><span>Таңғы зікір</span><span style="font-weight: 700; color: #7d3d3d">1 күн</span></div><div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 4px 8px; background: #ffffff; border-radius: 6px; white-space: nowrap"><span>Кешкі зікір</span><span style="font-weight: 700; color: #7d3d3d">0 күн</span></div></div>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+<div style="position: relative; min-height: 86px; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Нәпіл намаз</span>
+<div class="split" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0">
+<div style="display: flex; flex-direction: column; gap: 4px; padding-right: 10px; min-width: 0"><span style="font-size: 12px; color: #4d4d4d">Түнгі</span><span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #4d4d4d">0 / 24</span></div>
+<div style="display: flex; flex-direction: column; gap: 4px; padding-left: 10px; border-left: 1px solid #b8bcc4; min-width: 0"><span style="font-size: 12px; color: #4d4d4d">Духа</span><span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #4d4d4d">0 / 24</span></div>
+</div>
+<span style="font-size: 12px; color: #4d4d4d">Наурызда түнгі намаз: 24 күн</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+<div style="position: relative; min-height: 86px; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Креатин</span>
+<span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #7d3d3d">25.00%</span>
+<span style="font-size: 12px; color: #4d4d4d">6 / 24 күн: 5 күн 3 капсула, 1 күн 6 капсула</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+</div>
+</section>
+
+<section id="prayers" style="background: #e0e1e3; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden">
+<h2 style="margin: 0; padding: 12px 14px; background: #ff6a00; color: #1b253b; font-size: 16px; font-weight: 700">Соңғы 10 күн · 15–24 қараша</h2>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 12px">
+<div style="overflow-x: auto">
+<div style="min-width: 420px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: grid; grid-template-columns: 110px repeat(10, minmax(0, 1fr)); gap: 4px; font-size: 11px; color: #4d4d4d; text-align: center">
+<span></span>
+<sc-for list="{{ days }}" as="d" hint-placeholder-count="10"><span>{{ d }}</span></sc-for>
+</div>
+<sc-for list="{{ grid }}" as="row" hint-placeholder-count="7">
+<div style="display: grid; grid-template-columns: 110px repeat(10, minmax(0, 1fr)); gap: 4px; align-items: center">
+<span class="stick" style="font-size: 13px; color: #7d3d3d; align-self: stretch; display: flex; align-items: center">{{ row.name }}</span>
+<sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="24">
+<span class="cellm" role="img" aria-label="{{ c.tip }}" title="{{ c.tip }}" style="{{ c.style }}">{{ c.mark }}</span>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: #4d4d4d">
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #22c55e"></span>Уақытында</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #7843e9"></span>Мешітте / жұма</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #0e9aa7"></span>Қаза, өтелді</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #be0a0a"></span>Қаза</span>
+</div>
+<a href="Month-v2.dc.html" style="align-self: flex-start; display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; box-sizing: border-box; border-radius: 6px; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); border: 1px solid #6a3be0; color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 500">Толық айды көру<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ isYear }}" hint-placeholder-val="{{ false }}">
+<section id="year" style="background: #e0e1e3; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden">
+<h2 style="margin: 0; padding: 12px 14px; background: #ff6a00; color: #1b253b; font-size: 16px; font-weight: 700">2026 жыл · ай сайынғы орындалу, %</h2>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 12px">
+<div style="background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px; overflow-x: auto">
+<svg viewBox="0 0 720 260" width="100%" height="260" role="img" aria-label="2026 жыл бойы парыз намаз, таңғы және кешкі зікір, креатин пайызы" style="min-width: 560px; display: block">
+<g stroke="#e5e7eb" stroke-width="1"><line x1="40" y1="20" x2="700" y2="20"></line><line x1="40" y1="70" x2="700" y2="70"></line><line x1="40" y1="120" x2="700" y2="120"></line><line x1="40" y1="170" x2="700" y2="170"></line><line x1="40" y1="220" x2="700" y2="220"></line></g>
+<g font-size="11" fill="#4d4d4d" text-anchor="end"><text x="32" y="24">100</text><text x="32" y="74">75</text><text x="32" y="124">50</text><text x="32" y="174">25</text><text x="32" y="224">0</text></g>
+<g font-size="11" fill="#4d4d4d" text-anchor="middle"><text x="40" y="246">Қаң</text><text x="104" y="246">Ақп</text><text x="168" y="246">Нау</text><text x="232" y="246">Сәу</text><text x="296" y="246">Мам</text><text x="360" y="246">Мау</text><text x="424" y="246">Шіл</text><text x="488" y="246">Там</text><text x="552" y="246">Қыр</text><text x="616" y="246">Қаз</text><text x="680" y="246">Қар</text></g>
+<polyline points="{{ pFard }}" fill="none" stroke="#2563eb" stroke-width="2.5"></polyline>
+<polyline points="{{ pMorning }}" fill="none" stroke="#ff6a00" stroke-width="2.5"></polyline>
+<polyline points="{{ pEvening }}" fill="none" stroke="#197d19" stroke-width="2.5" stroke-dasharray="6 4"></polyline>
+<polyline points="{{ pCreatine }}" fill="none" stroke="#94a3b8" stroke-width="2.5"></polyline>
+</svg>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: #4d4d4d">
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 18px; height: 3px; background: #2563eb"></span>Парыз намаз уақытында</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 18px; height: 3px; background: #ff6a00"></span>Таңғы зікір</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 18px; height: 3px; background: #197d19"></span>Кешкі зікір</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 18px; height: 3px; background: #94a3b8"></span>Креатин</span>
+</div>
+<div class="k3">
+<div style="position: relative; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Ең жақсы ай: намаз</span>
+<span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #197d19">99.35%</span>
+<span style="font-size: 12px; color: #4d4d4d">Наурыз · 154 / 155</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+<div style="position: relative; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Шілдеден бері өзгеріс</span>
+<span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #be0a0a">−25.66 п.</span>
+<span style="font-size: 12px; color: #4d4d4d">Маусым 97.33% → қараша 71.67%</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+<div style="position: relative; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Рамазан оразасы</span>
+<span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #7d3d3d">35 күн</span>
+<span style="font-size: 12px; color: #4d4d4d">2026 жылы ұсталды · Рамазан қазасы 4, бәрі өтелді</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+</div>
+
+<section class="s5" style="background: #e0e1e3; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden">
+<h2 style="margin: 0; padding: 12px 14px; background: #ff6a00; color: #1b253b; font-size: 16px; font-weight: 700">Намаз бойынша · қараша</h2>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 64px; gap: 10px; align-items: center"><span style="font-size: 14px; color: #7d3d3d">Таң</span><div style="height: 12px; background: #f3f3f3; border-radius: 6px"><div style="width: 45.83%; height: 12px; background: #ef4444; border-radius: 6px"></div></div><span style="font-size: 14px; font-weight: 700; color: #7d3d3d; text-align: right">45.83%</span></div>
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 64px; gap: 10px; align-items: center"><span style="font-size: 14px; color: #7d3d3d">Бесін</span><div style="height: 12px; background: #f3f3f3; border-radius: 6px"><div style="width: 91.67%; height: 12px; background: #22c55e; border-radius: 6px"></div></div><span style="font-size: 14px; font-weight: 700; color: #7d3d3d; text-align: right">91.67%</span></div>
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 64px; gap: 10px; align-items: center"><span style="font-size: 14px; color: #7d3d3d">Аср</span><div style="height: 12px; background: #f3f3f3; border-radius: 6px"><div style="width: 100%; height: 12px; background: #22c55e; border-radius: 6px"></div></div><span style="font-size: 14px; font-weight: 700; color: #7d3d3d; text-align: right">100.00%</span></div>
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 64px; gap: 10px; align-items: center"><span style="font-size: 14px; color: #7d3d3d">Шам</span><div style="height: 12px; background: #f3f3f3; border-radius: 6px"><div style="width: 100%; height: 12px; background: #22c55e; border-radius: 6px"></div></div><span style="font-size: 14px; font-weight: 700; color: #7d3d3d; text-align: right">100.00%</span></div>
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 64px; gap: 10px; align-items: center"><span style="font-size: 14px; color: #7d3d3d">Құптан</span><div style="height: 12px; background: #f3f3f3; border-radius: 6px"><div style="width: 20.83%; height: 12px; background: #ef4444; border-radius: 6px"></div></div><span style="font-size: 14px; font-weight: 700; color: #7d3d3d; text-align: right">20.83%</span></div>
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 64px; gap: 10px; align-items: center"><span style="font-size: 14px; color: #7d3d3d">Түнгі намаз</span><div style="height: 12px; background: #f3f3f3; border-radius: 6px"></div><span style="font-size: 14px; font-weight: 700; color: #7d3d3d; text-align: right">0.00%</span></div>
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 64px; gap: 10px; align-items: center"><span style="font-size: 14px; color: #7d3d3d">Духа</span><div style="height: 12px; background: #f3f3f3; border-radius: 6px"></div><span style="font-size: 14px; font-weight: 700; color: #7d3d3d; text-align: right">0.00%</span></div>
+<span style="font-size: 12px; color: #4d4d4d">Уақытында оқылған күн / 24 күн. Бесінге 3 жұма кіреді.</span>
+</div>
+</section>
+
+<section id="hifz" class="s7" style="background: #e0e1e3; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden">
+<h2 style="margin: 0; padding: 12px 14px; background: #ff6a00; color: #1b253b; font-size: 16px; font-weight: 700">Құран</h2>
+<div class="k3" style="padding: 14px">
+<div style="position: relative; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Хифз: қазіргі сүре</span>
+<span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #7d3d3d">Тәкуир</span>
+<span style="font-size: 12px; color: #4d4d4d">7 күн · күніне 5 рет</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+<div style="position: relative; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Хифз: жол</span>
+<span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #197d19">3 сүре</span>
+<span style="font-size: 12px; color: #4d4d4d">Назиғат 10 к. → Абәсә 7 к. → Тәкуир 7 к.</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+<div style="position: relative; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Жеке хатм 2026</span>
+<span style="font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: #7d3d3d">595 / 604</span>
+<span style="font-size: 12px; color: #4d4d4d">98.51% · 9 бет қалды</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+<sc-if value="{{ quickOpen }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ quickClose }}" aria-label="Терезені жабу" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 60; border: 0; padding: 0; background: rgba(15,23,42,0.55); cursor: pointer"></button>
+<div role="dialog" aria-label="Бүгінді белгілеу" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 61; width: 560px; max-width: calc(100% - 24px); max-height: 86vh; overflow-y: auto; box-sizing: border-box; padding: 18px; background: #ffffff; border-radius: 14px; box-shadow: 0 20px 48px rgba(0,0,0,0.35); display: flex; flex-direction: column; gap: 14px; font-family: Gilroy, Manrope, system-ui, sans-serif">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 18px; font-weight: 800; color: #1b253b">Бүгін · 26 қараша</span><span style="font-size: 14px; color: #475569">{{ quickCount }}</span></div>
+<button type="button" onClick="{{ quickClose }}" aria-label="Жабу" style="width: 44px; height: 44px; border: 0; border-radius: 8px; background: #f1f5f9; color: #475569; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<sc-for list="{{ quickGroups }}" as="qg" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #475569">{{ qg.name }}</span>
+<sc-for list="{{ qg.items }}" as="qi" hint-placeholder-count="3">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px 0; border-top: 1px solid #eef1f5">
+<span style="flex: 1 0 110px; font-size: 15px; font-weight: 700; color: #1b253b">{{ qi.name }}</span>
+<div role="group" aria-label="{{ qi.name }}" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ qi.opts }}" as="qo" hint-placeholder-count="3">
+<button type="button" onClick="{{ qo.pick }}" aria-pressed="{{ qo.on }}" style="{{ qo.style }}">{{ qo.label }}</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":900,"height":2200}}'>
+var QUICK = [{"g": "Намаз", "items": [{"id": "tan", "n": "Таң", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "besin", "n": "Бесін", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "asr", "n": "Аср", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "sham", "n": "Шам", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "kuptan", "n": "Құптан", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "utir", "n": "Үтір", "o": [{"l": "Оқылды", "c": "g", "col": "#16a34a"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "tungi", "n": "Түнгі намаз", "o": [{"l": "Оқылды", "c": "g", "col": "#16a34a"}, {"l": "Оқылмады", "c": "r", "col": "#dc2626"}]}, {"id": "duha", "n": "Духа", "o": [{"l": "Оқылды", "c": "g", "col": "#16a34a"}, {"l": "Оқылмады", "c": "r", "col": "#dc2626"}]}]}, {"g": "Зікір", "items": [{"id": "zm", "n": "Таңғы зікір", "o": [{"l": "Орындалды", "c": "g", "col": "#16a34a"}, {"l": "Ішінара", "c": "o", "col": "#d97706"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}, {"id": "ze", "n": "Кешкі зікір", "o": [{"l": "Орындалды", "c": "g", "col": "#16a34a"}, {"l": "Ішінара", "c": "o", "col": "#d97706"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}]}, {"g": "Құран", "items": [{"id": "hifz", "n": "Хифз", "o": [{"l": "5 рет", "c": "5", "col": "#16a34a"}, {"l": "1–4 рет", "c": "o", "col": "#d97706"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}, {"id": "hatm", "n": "Хатм", "o": [{"l": "1 бет", "c": "1", "col": "#16a34a"}, {"l": "2–4 бет", "c": "4", "col": "#16a34a"}, {"l": "5+ бет", "c": "5", "col": "#16a34a"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}]}, {"g": "Денсаулық", "items": [{"id": "kr", "n": "Креатин", "o": [{"l": "5 г", "c": "g", "col": "#16a34a"}, {"l": "6 капсула", "c": "c", "col": "#16a34a"}, {"l": "3 капсула", "c": "y", "col": "#d97706"}, {"l": "Өткізілді", "c": "r", "col": "#dc2626"}]}, {"id": "pr", "n": "Протеин", "o": [{"l": "Іштім", "c": "g", "col": "#16a34a"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}]}, {"g": "Ораза", "items": [{"id": "oraza", "n": "Ораза", "o": [{"l": "Ұстадым", "c": "g", "col": "#16a34a"}, {"l": "Қаза өтедім", "c": "b", "col": "#0e9aa7"}, {"l": "Ұстамадым", "c": "r", "col": "#64748b"}]}]}];
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { view: 'month', done: {}, theme: this.props.theme ?? 'dark', notes: {}, draft: '', saved: false };
+  }
+  componentDidMount() {
+    try { var n = JSON.parse(window.localStorage.getItem('adet-notes-v1') || '{}'); this.setState({ notes: n, draft: n['2026-11-26'] || '' }); } catch (e) {}
+  }
+  renderVals() {
+    var self = this;
+    var list = [
+      ['tan','Таң','парыз'],['besin','Бесін','парыз'],['asr','Аср','парыз'],['sham','Шам','парыз'],['kuptan','Құптан','парыз'],
+      ['utir','Үтір','уәжіп'],['tungi','Түнгі намаз','нәпіл'],['duha','Духа','нәпіл'],
+      ['zm','Таңғы зікір','уирд'],['ze','Кешкі зікір','уирд'],
+      ['hifz','Хифз: Тәкуир 5 рет','Құран'],['hatm','Хатм беттері','Құран'],['kreatin','Креатин','денсаулық']
+    ];
+    var done = this.state.done;
+    var items = list.map(function (x) {
+      var d = !!done[x[0]];
+      return {
+        label: x[1], group: x[2], done: d,
+        box: 'width: 22px; height: 22px; flex-shrink: 0; box-sizing: border-box; border-radius: 6px; display: flex; align-items: center; justify-content: center; ' + (d ? 'background: #22c55e; border: 2px solid #22c55e' : 'background: #ffffff; border: 2px solid #8e8e93'),
+        toggle: function () { var n = Object.assign({}, self.state.done); n[x[0]] = !n[x[0]]; self.setState({ done: n }); }
+      };
+    });
+    var count = items.filter(function (i) { return i.done; }).length;
+    var circ = 2 * Math.PI * 100;
+    var p = (100 * count / list.length).toFixed(2) + '%';
+
+    var raw = ["rrrgggr","rrrgggr","rrrgggr","rgrgggg","rgrgggr","rgrjggr","rrrrggr","rrrgggr","rgrgggg","rgrgggo","rorgggo","rrrgggr","rgrjggr","rgrgggr","rorgggr","rrrgggr","rgrgggr","rrrgggr","rrrrggr","rrrjggg","rrrgggr","rgrgggr","rgrgggg","rgrgggg"];
+    var names = ['Түнгі намаз','Таң','Духа','Бесін','Аср','Шам','Құптан'];
+    var col = { g: '#22c55e', r: '#be0a0a', o: '#0e9aa7', j: '#7843e9' };
+    var tip = { g: 'уақытында', r: 'қаза', o: 'қаза, өтелді', j: 'мешітте / жұма' };
+    raw = raw.slice(-10);
+    var grid = names.map(function (nm, ci) {
+      return { name: nm, cells: raw.map(function (day, di) {
+        var s = day[ci];
+        return { mark: (s === 'r' || s === 'q' ? '✕' : (s === 'o' || s === 'b' ? '↺' : (s === 'y' ? '½' : (s === 'j' ? '◆' : (s === 'g' || s === 'c' ? '✓' : ''))))), style: 'height: 26px; border-radius: 4px; background: ' + col[s], tip: (di + 15) + ' қараша · ' + nm + ': ' + tip[s] };
+      }) };
+    });
+    var days = raw.map(function (_, i) { return String(i + 15); });
+
+    function pts(v) { return v.map(function (x, i) { return (40 + i * 64) + ',' + (20 + (100 - x) * 2).toFixed(2); }).join(' '); }
+
+    var dark = this.state.theme === 'dark';
+    var t = dark
+      ? { body: '#1b253b', page: '#272d45', text: '#cbd5e1', title: '#ffffff', side: '#ffffff', div: '#415172', avatar: '#354567', btn: 'linear-gradient(180deg, #44557e 0%, #2f3d60 100%)', btnBorder: '#6b7fa8', btnText: '#ffffff' }
+      : { body: '#f4f6fa', page: 'linear-gradient(165deg, #dbe3ef 0%, #c9d4e4 100%)', text: '#323c4a', title: '#1b253b', side: '#1b253b', div: '#d3d7de', avatar: '#d3d7de', btn: 'linear-gradient(180deg, #ffffff 0%, #e6ebf3 100%)', btnBorder: '#8a9ab3', btnText: '#1e293b' };
+    var on = 'height: 42px; padding: 0 16px; border-radius: 6px; border: 1px solid #6a3be0; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); color: #ffffff; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer';
+    var off = 'height: 42px; padding: 0 16px; border-radius: 6px; border: 1px solid ' + t.btnBorder + '; background: ' + t.btn + '; color: ' + t.btnText + '; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer';
+    var isMonth = this.state.view === 'month';
+    return {
+      items: items, total: list.length, doneCount: count, pct: p,
+      dash: (circ * count / list.length).toFixed(1) + ' ' + circ.toFixed(1),
+      gaugeLabel: 'Бүгін ' + count + ' / ' + list.length + ' орындалды',
+      grid: grid, days: days,
+      pFard: pts([98.71,98.57,99.35,95.33,95.48,97.33,81.29,78.71,73.33,76.13,71.67]),
+      pMorning: pts([96.77,89.29,83.87,60.00,83.87,96.67,35.48,9.68,0,12.90,5.26]),
+      pEvening: pts([93.55,85.71,83.87,63.33,87.10,86.67,64.52,12.90,0,0,0]),
+      pCreatine: pts([80.65,64.29,93.55,66.67,54.84,63.33,3.23,0,13.33,12.90,25.00]),
+      isMonth: isMonth, isYear: !isMonth,
+      draft: this.state.draft,
+      noteStatus: this.state.saved ? 'Сақталды' : (this.state.notes['2026-11-26'] ? 'Бұрын сақталған жазба' : 'Әлі жазылмаған'),
+      onDraft: function (e) { self.setState({ draft: e.target.value, saved: false }); },
+      saveNote: function () { var n = Object.assign({}, self.state.notes); if (self.state.draft.trim()) { n['2026-11-26'] = self.state.draft; } else { delete n['2026-11-26']; } try { window.localStorage.setItem('adet-notes-v1', JSON.stringify(n)); } catch (e) {} self.setState({ notes: n, saved: true }); },
+      t: t, isDark: dark, isLight: !dark, themeLabel: dark ? 'Ақшыл режимге ауысу' : 'Қараңғы режимге ауысу',
+      toggleTheme: function () { self.setState({ theme: dark ? 'light' : 'dark' }); },
+      quickOpen: !!this.state.quick, quickToggle: function () { var q = {}; try { q = JSON.parse(window.localStorage.getItem('adet-today-v1') || '{}')['2026-11-26'] || {}; } catch (e) {} self.setState({ quick: !self.state.quick, qp: q }); }, quickClose: function () { self.setState({ quick: false }); },
+      quickCount: (function () { var q = self.state.qp || {}, n = 0, tot = 0; QUICK.forEach(function (g) { g.items.forEach(function (it) { tot++; if (q[it.id]) n++; }); }); return n + ' / ' + tot + ' белгіленді'; })(),
+      quickGroups: QUICK.map(function (g) { var q = self.state.qp || {}; return { name: g.g, items: g.items.map(function (it) { return { name: it.n, opts: it.o.map(function (op) { var on = q[it.id] === op.c; return { label: op.l, on: on, style: 'min-height: 44px; padding: 0 12px; border-radius: 6px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; ' + (on ? 'border: 1px solid ' + op.col + '; background: ' + op.col + '; color: #ffffff' : 'border: 1px solid #8a9ab3; background: linear-gradient(180deg, #ffffff 0%, #e6ebf3 100%); color: #1e293b'), pick: function () { var n = Object.assign({}, self.state.qp || {}); if (n[it.id] === op.c) { delete n[it.id]; } else { n[it.id] = op.c; } try { var all = JSON.parse(window.localStorage.getItem('adet-today-v1') || '{}'); all['2026-11-26'] = n; window.localStorage.setItem('adet-today-v1', JSON.stringify(all)); } catch (e) {} self.setState({ qp: n, pick: n }); } }; }) }; }) }; }),
+ shellCls: dark ? 'shell' : 'shell lt',
+      menuOpen: !!this.state.menu, menuClosed: !this.state.menu, sideCls: this.state.menu ? 'side open' : 'side', menuLabel: this.state.menu ? 'Мәзірді жабу' : 'Мәзірді ашу',
+      toggleMenu: function () { self.setState({ menu: !self.state.menu }); }, closeMenu: function () { self.setState({ menu: false }); },
+      tabMonth: isMonth ? on : off, tabYear: isMonth ? off : on,
+      pickMonth: function () { self.setState({ view: 'month' }); },
+      pickYear: function () { self.setState({ view: 'year' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

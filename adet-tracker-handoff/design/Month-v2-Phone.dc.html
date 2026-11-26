@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<title>Әдет трекер — ай кестесі · v2 · Phone</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:#7843e9}a:hover{color:#ec4176}
+.g12{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px}
+.g12 > *{min-width:0}
+.s4{grid-column:span 4}.s8{grid-column:span 8}.s12{grid-column:span 12}
+.k3{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+@media (max-width:1100px){.s4,.s8{grid-column:span 12}}
+.burger{display:none}.scrim{display:none}
+.mrow{padding:5px 0;border-top:1px solid #c4c8cf}
+.lt .mrow{border-top-color:#dbe1ea}
+@media (max-width:1024px){
+.shell{padding:12px !important;gap:12px !important;position:relative}
+.side{flex-basis:100% !important;padding:0 !important}
+.side-head{padding:4px 4px 8px !important;border-bottom:0 !important}
+.side .side-nav,.side .side-prof{display:none !important}
+.burger{display:flex !important}
+.scrim{display:block;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.55);border:0;padding:0;z-index:40;cursor:pointer}
+.side.open{position:absolute;top:0;left:0;bottom:0;width:300px;max-width:calc(100% - 48px);z-index:50;overflow-y:auto;padding:0 8px !important;box-shadow:0 0 24px rgba(0,0,0,0.35)}
+.side.open .side-head{padding:16px 8px !important;border-bottom:1px solid rgba(127,140,160,0.35) !important}
+.side.open .side-nav{display:flex !important;padding:12px 0 !important}
+.side.open .side-prof{display:flex !important}
+.side.open{animation:drawerIn .28s ease-out}
+}
+.shell{max-width:1760px;margin:0 auto}
+.stick{position:sticky;left:0;z-index:1;background:#e0e1e3}
+.lt .stick{background:#ffffff}
+.cellm{display:flex;align-items:center;justify-content:center;color:#ffffff;font-size:11px;font-weight:800;line-height:1}
+.fab{position:fixed;right:24px;bottom:24px;z-index:45;display:flex;align-items:center;gap:8px;min-height:52px;padding:0 20px;border:0;border-radius:26px;background:#7843e9;color:#ffffff;font-family:inherit;font-size:15px;font-weight:700;box-shadow:0 10px 24px rgba(60,30,140,0.35);cursor:pointer}
+@media (max-width:720px){.fab{right:16px;bottom:16px;min-height:56px;padding:0 18px}}
+.lt [style*="background: #e0e1e3"]{background:#ffffff !important;border:1px solid #b8c4d6;box-shadow:0 1px 2px rgba(16,24,40,0.08),0 12px 28px rgba(30,45,75,0.16) !important}
+.lt [style*="background: #f3f3f3"]{background:linear-gradient(180deg,#f7f9fc,#eef2f7) !important;border-color:#e1e7ef !important}
+.lt .main{border:1px solid #b8c4d6}
+.lt h2[style*="background: #ff6a00"]{background:#fff3ea !important;color:#b93f0a !important;border-bottom:1px solid #ffe0cc}
+.lt h2 button{color:#b93f0a !important}
+.lt [style*="color: #7d3d3d"]{color:#1f2a44 !important}
+.lt [style*="color: #4d4d4d"]{color:#5b6475 !important}
+.lt [style*="background: #ff5a0e; border-radius: 0 0 10px 10px"]{background:#ff8a4c !important;height:3px !important}
+@keyframes drawerIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@media (max-width:720px){
+.shell{padding:12px !important;gap:12px !important;position:relative}
+.side{flex-basis:100% !important;padding:0 !important}
+.side-head{padding:4px 4px 8px !important;border-bottom:0 !important}
+.side .side-nav,.side .side-prof{display:none !important}
+.burger{display:flex !important}
+.scrim{display:block;position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.55);border:0;padding:0;z-index:40;cursor:pointer}
+.side.open{position:absolute;top:0;left:0;bottom:0;width:300px;max-width:calc(100% - 48px);z-index:50;overflow-y:auto;padding:0 8px !important;box-shadow:0 0 24px rgba(0,0,0,0.35)}
+.side.open .side-head{padding:16px 8px !important;border-bottom:1px solid rgba(127,140,160,0.35) !important}
+.side.open .side-nav{display:flex !important;padding:12px 0 !important}
+.side.open .side-prof{display:flex !important}
+.side.open{animation:drawerIn .28s ease-out}
+.scrim{animation:fadeIn .28s ease-out}
+.main{padding:16px !important;border-radius:12px !important}
+.main h1{font-size:20px !important}
+.k3{grid-template-columns:repeat(auto-fit,minmax(140px,1fr)) !important}
+.k3 span[style*="font-size: 30px"]{font-size:22px !important}
+.k3 > div{min-width:0;min-height:0 !important;padding:10px 10px 14px !important;gap:4px !important}
+.k3{gap:8px !important}
+}
+</style>
+</helmet>
+<div class="{{ shellCls }}" style="min-height: 100vh; box-sizing: border-box; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 20px; padding: 24px; background: {{ t.body }}; font-family: Gilroy, Manrope, system-ui, sans-serif; color: {{ t.text }}">
+<aside class="{{ sideCls }}" style="background: {{ t.body }}; flex: 1 1 268px; box-sizing: border-box; display: flex; flex-direction: column; gap: 0; padding: 0 4px; color: {{ t.side }}">
+<div class="side-head" style="display: flex; align-items: center; gap: 12px; padding: 24px 16px 20px; border-bottom: 1px solid {{ t.div }}"><button type="button" class="burger" onClick="{{ toggleMenu }}" aria-label="{{ menuLabel }}" aria-expanded="{{ menuOpen }}" style="width: 44px; height: 44px; flex-shrink: 0; border-radius: 8px; border: 1px solid {{ t.div }}; background: transparent; color: {{ t.side }}; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{ menuClosed }}" hint-placeholder-val="{{ true }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></sc-if><sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></sc-if></button>
+<svg width="40" height="40" viewBox="0 0 40 40" role="img" aria-label="Әдет трекер логотипі" style="flex-shrink: 0"><defs><linearGradient id="adet-logo-g" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff630e"></stop><stop offset="1" stop-color="#ff4e0e"></stop></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#adet-logo-g)"></rect><circle cx="20" cy="20" r="11" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="3"></circle><path d="M20 9a11 11 0 1 1-10.4 14.6" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round"></path><path d="M15 20.5l3.5 3.5 6.5-7" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+<div style="display: flex; flex-direction: column">
+<span style="font-size: 18px; font-weight: 700">Әдет трекер</span>
+<span style="font-size: 13px; color: {{ t.text }}">2026</span>
+</div>
+<button type="button" onClick="{{ quickToggle }}" aria-haspopup="dialog" aria-label="Бүгінді белгілеу" title="Бүгінді белгілеу" style="margin-left: auto; width: 44px; height: 44px; flex-shrink: 0; border: 0; border-radius: 50%; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 12px rgba(120,67,233,0.35)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></button><button type="button" onClick="{{ toggleTheme }}" aria-label="{{ themeLabel }}" title="{{ themeLabel }}" style="margin-left: 6px; width: 44px; height: 44px; border-radius: 8px; border: 1px solid {{ t.div }}; background: transparent; color: {{ t.side }}; display: flex; align-items: center; justify-content: center; cursor: pointer"><sc-if value="{{ isDark }}" hint-placeholder-val="{{ true }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{ isLight }}" hint-placeholder-val="{{ false }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path></svg></sc-if></button>
+</div>
+<nav class="side-nav" aria-label="Негізгі мәзір" style="display: flex; flex-direction: column; gap: 6px; padding: 16px 0">
+<a href="Main-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12 12 4l9 8"></path><path d="M5 10v10h14V10"></path></svg>
+Басты бет</a>
+<a href="Month-v2.dc.html" aria-current="page" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); border: 1px solid #6a3be0; color: #ffffff; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M9 10v11M15 10v11"></path></svg>
+Ай кестесі</a>
+<a href="Namaz-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+<span style="flex-grow: 1">Намаз</span>
+<span style="min-width: 24px; height: 24px; padding: 0 6px; box-sizing: border-box; border-radius: 6px; background: #7843e9; color: #ffffff; font-size: 12px; font-weight: 500; display: flex; align-items: center; justify-content: center; white-space: nowrap" title="Қарашада өтелмеген қаза намаз: 30 (34 қаза, 4 өтелді)">30 қаза</span></a>
+<a href="Zikir-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8.2" cy="14.8" r="1.3"></circle><circle cx="5.8" cy="11.5" r="1.3"></circle><circle cx="5.8" cy="7.5" r="1.3"></circle><circle cx="8.2" cy="4.2" r="1.3"></circle><circle cx="12.0" cy="3.0" r="1.3"></circle><circle cx="15.8" cy="4.2" r="1.3"></circle><circle cx="18.2" cy="7.5" r="1.3"></circle><circle cx="18.2" cy="11.5" r="1.3"></circle><circle cx="15.8" cy="14.8" r="1.3"></circle><circle cx="12" cy="16.6" r="1.6"></circle><path d="M12 18.2v2.3M10.3 22.5l1.7-2 1.7 2"></path></svg>
+Зікір</a>
+<a href="Quran-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 5.5c3.5-1.5 7-1.2 10 1.2v13.5c-3-2.4-6.5-2.7-10-1.2z"></path><path d="M22 5.5c-3.5-1.5-7-1.2-10 1.2v13.5c3-2.4 6.5-2.7 10-1.2z"></path></svg>
+Құран</a>
+<a href="Kreatin-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7v10M3 9.5v5M18 7v10M21 9.5v5M6 12h12"></path></svg>
+Денсаулық</a>
+<a href="Oraza-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13.5 3.5a8.5 8.5 0 1 0 7 13.2A7 7 0 0 1 13.5 3.5z"></path><path d="M18.5 6.5l.6 1.4 1.5.1-1.2 1 .4 1.5-1.3-.8-1.3.8.4-1.5-1.2-1 1.5-.1z"></path></svg>
+Ораза</a>
+<a href="Reports-v2.dc.html" style="display: flex; align-items: center; gap: 12px; height: 48px; padding: 0 16px; border-radius: 8px; color: {{ t.side }}; text-decoration: none; font-size: 16px">
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>
+Есептер</a>
+</nav>
+<div class="side-prof" style="margin-top: 8px; display: flex; align-items: center; gap: 12px; padding: 20px 16px 24px; border-top: 1px solid {{ t.div }}">
+<div style="width: 40px; height: 40px; border-radius: 9999px; background: {{ t.avatar }}; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600">С</div>
+<span style="font-size: 15px; font-weight: 500">Сатжан</span>
+</div>
+</aside>
+<sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}"><button type="button" class="scrim" onClick="{{ closeMenu }}" aria-label="Мәзірді жабу"></button></sc-if>
+<main class="main" style="flex: 999 1 720px; min-width: 0; box-sizing: border-box; background: {{ t.page }}; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 16px; border-bottom: 1px solid {{ t.div }}">
+<div style="display: flex; flex-direction: column; gap: 4px">
+<a href="Main-v2.dc.html" style="font-size: 14px; color: {{ t.text }}">← Басты бет</a>
+<h1 style="margin: 0; font-size: 24px; font-weight: 700; color: {{ t.title }}">Ай кестесі · {{ monthName }} {{ year }}</h1>
+<span style="font-size: 14px; color: {{ t.text }}">{{ monthSub }}</span>
+</div>
+<button type="button" onClick="{{ toggleAnalysis }}" aria-pressed="{{ analysis }}" style="min-height: 44px; padding: 0 16px; border-radius: 6px; border: 1px solid #6a3be0; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); color: #ffffff; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg>{{ analysisLabel }}</button>
+</div>
+
+<div style="position: relative; align-self: flex-start">
+<button type="button" onClick="{{ togglePicker }}" aria-expanded="{{ pickerOpen }}" aria-haspopup="dialog" style="display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border-radius: 6px; border: 1px solid #6a3be0; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); color: #ffffff; font-family: inherit; font-size: 15px; font-weight: 700; cursor: pointer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>
+<span>{{ monthName }} {{ year }}</span>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ chevron }}"></path></svg>
+</button>
+<sc-if value="{{ pickerOpen }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-label="Жыл мен айды таңдау" style="position: absolute; top: 52px; left: 0; z-index: 30; width: 320px; max-width: 85vw; box-sizing: border-box; padding: 14px; background: #ffffff; border: 1px solid #d3d7de; border-radius: 10px; box-shadow: 0 12px 32px rgba(0,0,0,0.25); display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Жыл</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{ yearBtns }}" as="yb" hint-placeholder-count="2">
+<button type="button" onClick="{{ yb.pick }}" aria-pressed="{{ yb.on }}" style="{{ yb.style }}">{{ yb.label }}</button>
+</sc-for>
+</div>
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Ай</span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px">
+<sc-for list="{{ monthBtns }}" as="mb" hint-placeholder-count="12">
+<button type="button" onClick="{{ mb.pick }}" aria-pressed="{{ mb.on }}" disabled="{{ mb.off }}" style="{{ mb.style }}">{{ mb.label }}</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+</div>
+
+<div class="g12">
+<sc-if value="{{ analysis }}" hint-placeholder-val="{{ false }}">
+<section class="s12" style="background: #e0e1e3; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden">
+<h2 style="margin: 0; padding: 12px 14px; background: #ff6a00; color: #1b253b; font-size: 16px; font-weight: 700">{{ monthName }} талдауы</h2>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 14px">
+<div class="k3">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="8">
+<div style="position: relative; min-height: 86px; padding: 14px 14px 18px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">{{ k.title }}</span>
+<span style="{{ k.style }}">{{ k.value }}</span>
+<span style="font-size: 12px; color: #4d4d4d">{{ k.sub }}</span>
+<div style="position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: #ff5a0e; border-radius: 0 0 10px 10px"></div>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding: 14px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">Намаз бойынша, уақытында</span>
+<sc-for list="{{ bars }}" as="b" hint-placeholder-count="7">
+<div style="display: grid; grid-template-columns: 100px minmax(0, 1fr) 72px; gap: 10px; align-items: center">
+<span style="font-size: 14px; color: #7d3d3d">{{ b.name }}</span>
+<div style="height: 12px; background: #e5e7eb; border-radius: 6px"><div style="{{ b.style }}"></div></div>
+<span style="font-size: 14px; font-weight: 700; color: #7d3d3d; text-align: right">{{ b.pct }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+</sc-if>
+
+<section class="s12" style="background: #e0e1e3; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden">
+<h2 style="margin: 0; padding: 12px 14px; background: #ff6a00; color: #1b253b; font-size: 16px; font-weight: 700">{{ monthName }} · барлық күндер</h2>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 12px">
+<span style="font-size: 13px; color: #4d4d4d">Жазба қосу үшін күннің санын бас. Нүкте — жазбасы бар күн.</span>
+<div style="overflow-x: auto">
+<div style="min-width: 900px; display: flex; flex-direction: column; gap: 0; border-bottom: 1px solid #c4c8cf">
+<div style="{{ gridStyle }}">
+<span class="stick" style="align-self: stretch"></span>
+<sc-for list="{{ dayBtns }}" as="d" hint-placeholder-count="31">
+<button type="button" onClick="{{ d.pick }}" aria-pressed="{{ d.on }}" aria-label="{{ d.aria }}" style="{{ d.style }}">{{ d.label }}</button>
+</sc-for>
+</div>
+<sc-for list="{{ rows }}" as="row" hint-placeholder-count="10">
+<div class="mrow" style="{{ gridStyle }}">
+<span class="stick" style="font-size: 13px; font-weight: 600; color: #7d3d3d; white-space: nowrap; align-self: stretch; display: flex; align-items: center; padding: 0 10px; margin-right: 4px; border-right: 1px solid #c4c8cf">{{ row.name }}</span>
+<sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="31">
+<span class="cellm" role="img" aria-label="{{ c.tip }}" title="{{ c.tip }}" style="{{ c.style }}">{{ c.mark }}</span>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 13px; color: #4d4d4d">
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #22c55e"></span>Орындалды / уақытында</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #7843e9"></span>Мешітте / жұма</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #0e9aa7"></span>Қаза өтелді / ішінара</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #be0a0a"></span>Қаза / орындалмады</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="width: 14px; height: 14px; border-radius: 3px; background: #f3f3f3; border: 1px solid #8e8e93; box-sizing: border-box"></span>Дерек жоқ</span>
+</div>
+</div>
+</section>
+
+<section class="s8" style="background: #e0e1e3; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden">
+<h2 style="margin: 0; padding: 12px 14px; background: #ff6a00; color: #1b253b; font-size: 16px; font-weight: 700">Күн жазбасы · {{ selLabel }}</h2>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<label for="day-note" style="font-size: 14px; color: #7d3d3d">Сол күні не болды? Ойлар, түйгендерің, себептер</label>
+<textarea id="day-note" value="{{ draft }}" onChange="{{ onDraft }}" rows="5" placeholder="Мысалы: жұмыстан кеш келдім, сондықтан құптанды қаза қылдым…" style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; background: #f3f3f3; font-family: inherit; font-size: 15px; line-height: 1.5; color: #4d4d4d; resize: vertical"></textarea>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px">
+<button type="button" onClick="{{ saveNote }}" style="min-height: 44px; padding: 0 16px; border-radius: 6px; border: 1px solid #6a3be0; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); color: #ffffff; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer">Сақтау</button>
+<span style="font-size: 13px; color: #4d4d4d">{{ noteStatus }}</span>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px; padding-top: 8px; border-top: 1px solid #e5e7eb">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">{{ monthName }} жазбалары · {{ noteCount }}</span>
+<sc-if value="{{ noNotes }}" hint-placeholder-val="{{ true }}">
+<span style="font-size: 14px; color: #4d4d4d">Бұл айда әлі жазба жоқ.</span>
+</sc-if>
+<sc-for list="{{ noteList }}" as="n" hint-placeholder-count="2">
+<div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px">
+<button type="button" onClick="{{ n.pick }}" style="flex-shrink: 0; min-height: 44px; padding: 0 12px; border-radius: 6px; border: 1px solid #8a9ab3; background: linear-gradient(180deg, #ffffff 0%, #e6ebf3 100%); color: #1e293b; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer">{{ n.day }}</button>
+<span style="flex-grow: 1; min-width: 0; font-size: 14px; line-height: 1.5; color: #4d4d4d; white-space: pre-wrap">{{ n.text }}</span>
+<button type="button" onClick="{{ n.remove }}" aria-label="{{ n.removeLabel }}" style="flex-shrink: 0; width: 44px; height: 44px; border-radius: 6px; border: 1px solid #8a9ab3; background: linear-gradient(180deg, #ffffff 0%, #e6ebf3 100%); color: #be0a0a; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"></path></svg></button>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section class="s4" style="background: #e0e1e3; border-radius: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden">
+<h2 style="margin: 0; padding: 12px 14px; background: #ff6a00; color: #1b253b; font-size: 16px; font-weight: 700">Ең жақсы және ең нашар ай</h2>
+<div style="padding: 14px; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{ bestWorst }}" as="bw" hint-placeholder-count="5">
+<div style="padding: 12px 14px; background: #f3f3f3; border: 1px solid #e5e7eb; border-radius: 10px; display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #4d4d4d">{{ bw.name }}</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px 20px">
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-size: 12px; color: #197d19">Ең жақсы</span><span style="font-size: 18px; font-weight: 800; color: #197d19; white-space: nowrap">{{ bw.best }}</span></div>
+<div aria-hidden="true" style="width: 1px; align-self: stretch; background: #b8bcc4"></div>
+<div style="display: flex; flex-direction: column; gap: 2px; min-width: 0"><span style="font-size: 12px; color: #be0a0a">Ең нашар</span><span style="font-size: 18px; font-weight: 800; color: #be0a0a; white-space: nowrap">{{ bw.worst }}</span></div>
+</div>
+</div>
+</sc-for>
+<span style="font-size: 12px; color: #4d4d4d">{{ bwNote }}</span>
+</div>
+</section>
+</div>
+</main>
+</div>
+<sc-if value="{{ quickOpen }}" hint-placeholder-val="{{ false }}">
+<button type="button" onClick="{{ quickClose }}" aria-label="Терезені жабу" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 60; border: 0; padding: 0; background: rgba(15,23,42,0.55); cursor: pointer"></button>
+<div role="dialog" aria-label="Бүгінді белгілеу" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 61; width: 560px; max-width: calc(100% - 24px); max-height: 86vh; overflow-y: auto; box-sizing: border-box; padding: 18px; background: #ffffff; border-radius: 14px; box-shadow: 0 20px 48px rgba(0,0,0,0.35); display: flex; flex-direction: column; gap: 14px; font-family: Gilroy, Manrope, system-ui, sans-serif">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px">
+<div style="display: flex; flex-direction: column; gap: 2px"><span style="font-size: 18px; font-weight: 800; color: #1b253b">Бүгін · 26 қараша</span><span style="font-size: 14px; color: #475569">{{ quickCount }}</span></div>
+<button type="button" onClick="{{ quickClose }}" aria-label="Жабу" style="width: 44px; height: 44px; border: 0; border-radius: 8px; background: #f1f5f9; color: #475569; display: flex; align-items: center; justify-content: center; cursor: pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+</div>
+<sc-for list="{{ quickGroups }}" as="qg" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 8px">
+<span style="font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #475569">{{ qg.name }}</span>
+<sc-for list="{{ qg.items }}" as="qi" hint-placeholder-count="3">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 8px 0; border-top: 1px solid #eef1f5">
+<span style="flex: 1 0 110px; font-size: 15px; font-weight: 700; color: #1b253b">{{ qi.name }}</span>
+<div role="group" aria-label="{{ qi.name }}" style="display: flex; flex-wrap: wrap; gap: 6px">
+<sc-for list="{{ qi.opts }}" as="qo" hint-placeholder-count="3">
+<button type="button" onClick="{{ qo.pick }}" aria-pressed="{{ qo.on }}" style="{{ qo.style }}">{{ qo.label }}</button>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":390,"height":2100}}'>
+var QUICK = [{"g": "Намаз", "items": [{"id": "tan", "n": "Таң", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "besin", "n": "Бесін", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "asr", "n": "Аср", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "sham", "n": "Шам", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "kuptan", "n": "Құптан", "o": [{"l": "Уақытында", "c": "g", "col": "#16a34a"}, {"l": "Мешітте", "c": "j", "col": "#7c3aed"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "utir", "n": "Үтір", "o": [{"l": "Оқылды", "c": "g", "col": "#16a34a"}, {"l": "Қаза", "c": "r", "col": "#dc2626"}, {"l": "Өтелді", "c": "o", "col": "#0e9aa7"}]}, {"id": "tungi", "n": "Түнгі намаз", "o": [{"l": "Оқылды", "c": "g", "col": "#16a34a"}, {"l": "Оқылмады", "c": "r", "col": "#dc2626"}]}, {"id": "duha", "n": "Духа", "o": [{"l": "Оқылды", "c": "g", "col": "#16a34a"}, {"l": "Оқылмады", "c": "r", "col": "#dc2626"}]}]}, {"g": "Зікір", "items": [{"id": "zm", "n": "Таңғы зікір", "o": [{"l": "Орындалды", "c": "g", "col": "#16a34a"}, {"l": "Ішінара", "c": "o", "col": "#d97706"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}, {"id": "ze", "n": "Кешкі зікір", "o": [{"l": "Орындалды", "c": "g", "col": "#16a34a"}, {"l": "Ішінара", "c": "o", "col": "#d97706"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}]}, {"g": "Құран", "items": [{"id": "hifz", "n": "Хифз", "o": [{"l": "5 рет", "c": "5", "col": "#16a34a"}, {"l": "1–4 рет", "c": "o", "col": "#d97706"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}, {"id": "hatm", "n": "Хатм", "o": [{"l": "1 бет", "c": "1", "col": "#16a34a"}, {"l": "2–4 бет", "c": "4", "col": "#16a34a"}, {"l": "5+ бет", "c": "5", "col": "#16a34a"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}]}, {"g": "Денсаулық", "items": [{"id": "kr", "n": "Креатин", "o": [{"l": "5 г", "c": "g", "col": "#16a34a"}, {"l": "6 капсула", "c": "c", "col": "#16a34a"}, {"l": "3 капсула", "c": "y", "col": "#d97706"}, {"l": "Өткізілді", "c": "r", "col": "#dc2626"}]}, {"id": "pr", "n": "Протеин", "o": [{"l": "Іштім", "c": "g", "col": "#16a34a"}, {"l": "Жоқ", "c": "r", "col": "#dc2626"}]}]}, {"g": "Ораза", "items": [{"id": "oraza", "n": "Ораза", "o": [{"l": "Ұстадым", "c": "g", "col": "#16a34a"}, {"l": "Қаза өтедім", "c": "b", "col": "#0e9aa7"}, {"l": "Ұстамадым", "c": "r", "col": "#64748b"}]}]}];
+var HD = {"2025":{"P":[["rg-gggg","gg-gggg","ro-gggg","rg-gggo","rg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","rg-gggg","go-gggg","gg-gggo","ro-gggg","gg-gggg","go-gggg","gg-gggg","gg-gggg","go-gggg","gg-gggg","gg-gggg","rg-gggg","gg-gggg","gg-gggg","gg-gggg","rg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg"],["go-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","go-gggg","rg-gggg","gg-gggg","gg-gggg","gg-gggo","rg-gggg","gg-gggg","gg-gggg","rg-gggg","rg-gggg","gg-gggg","gg-gggg","gg-gggg","rg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggo","ro-gggg","rg-gggg","gg-gggg","rg-gggg","gg-gggg"],["gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-oggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","rg-gggg","gg-gggg","gg-gggg"],["rg-gggg","gg-gggg","gg-gggg","rg-gggg","rg-gggg","gg-gggg","go-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","rg-gggg","gg-gggo","rg-gggo","rg-gggg","rg-gggg","ro-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","ro-gggg","ro-oggg","rg-gggg","gg-gggg","ro-gggg","gg-gggg","ro-gggg","ro-gggg","rg-gggg"],["rg-gggg","rg-gggg","rg-gggg","gg-gggg","gg-gggg","gg-gggg","rg-gggg","gg-gggg","rg-gggg","gg-gggg","rg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggg","gg-gggo","rg-gggg","gg-gggg","gg-gggg","go-gggg","rg-gggg","gg-gggg","gg-gggg","rg-gggo","gg-gggg","ro-oggo","rg-gogo","rg-gggg","rg-gggg","rg-gggg"],["rg-gggg","rg-gggg","rg-gggg","rg-gggg","gg-gggg","rg-gggo","ro-gggo","rg-gggg","ro-gggg","gg-gggg","rg-gggg","rg-gggg","rg-gggg","ro-oogg","rg-gggg","rg-oogo","ro-gggg","rg-gggg","ro-oggg","ro-gggg","ro-gggg","ro-gggg","ro-oggo","ro-gggg","gg-gggg","rg-gggo","ro-gggg","rg-gggo","ro-oooo","ro-gggg"],["go-gggg","gg-gggg","gg-gggg","go-gggg","gg-gggo","ro-gggg","rg-gggo","ro-gggg","gg-gggg","ro-oggo","rg-gggg","rg-gggg","rg-gggg","rg-gggg","ro-gggo","rg-gggg","ro-gggg","gj-gggg","gg-gggg","gg-gggg","ro-gggg","go-gggj","gg-oggo","ro-oggj","gg-jggj","ro-gggj","rg-gggj","gg-gggg","rg-ggjo","ro-gggj","gg-oogj"],["rg-jggj","gg-gggj","rg-gggj","rg-gggj","rg-gggj","ro-gggg","gg-gojj","ro-jggj","gg-gggj","ro-gggj","rg-gggj","rg-gggj","ro-gggj","ro-gggj","rg-jggg","rg-oggj","rg-gggj","rg-gggj","rg-oggj","ro-gggj","gg-gggg","rg-jggg","rg-gggo","rg-oggo","rg-gggo","rg-gggg","ro-gggo","ro-gggg","rg-jggo","ro-gggj","rg-gggj"],["rgrgggg","rgrgjgg","rgrgggj","rgrgjgg","ggrjggj","ggrgggg","rgrgggg","rgrgggg","rgrgggg","rgrgggg","ggrgggg","rgrjggg","rgrgggg","rgrgggg","rgrggjg","rgrgggg","rgrgggg","rgrgggg","rgrjgjj","rgrgjjg","rgrgggg","rgrgggg","rgggggg","rgrgggg","rgrgjgj","rgrjjjj","rgrgggg","rgrgggg","ggrgggg","rgrgggg"],["rgrgggg","ggrgggg","rgrjggg","rgrgggg","ggrgggg","ggrgggg","ggrgggj","ggrgggg","ggrgggg","rgrjggg","ggrgggj","ggrggog","rgggggg","rgggggg","ggggggg","ggrgggg","ggrjggg","ggrgggg","rgrgggg","rgggggj","ggggjgg","ggrggjj","rgrjggg","rgrjggg","ggrgggg","rgrgggj","rgggggg","rgggggg","ggggggg","ggrgggg","ggrjggg"],["rgrgggg","rgrgggg","ggrgggg","rgrgggg","ggrgggg","ggrgggg","ggrjggg","rgrgggg","ggrgggg","ggrgggg","rgrgggg","ggrgggg","ggrgggg","rgrjggj","rgrgggg","ggggggg","ggrgggg","ggrgggg","rgrggog","rgrggjj","rgrjggg","rgrgggg","rgrgggg","rgrgggg","rgrgggg","ggrgggj","ggrjggg","rgrjggg","rgrgggg","rgrgggg"],["ggroggg","rgrggjg","rgggggg","rgggggg","rggjggg","rgrgggg","rgrggog","rgrgggg","ggggggg","rgrgggg","ggrgggg","gggjggg","ggggjjg","rgrgggg","ggrgggg","rgrgggg","ggrgggg","rggggjg","ggrjggg","rgrgggg","ggrgggg","rgroogg","ggggggg","ggrgggg","rgrgggj","rgrjggg","rgrgggg","ggrgggg","rgrjjgg","ggrgggg","ggrgggg"]],"W":["","","","","","","","","......................gggggggg","ggggogggggogggggggggggggggggggg","gggggggggggggggggggggggggggggg","ggggggggggggggggggggggggogggggg"],"E":["","","","","","","","","......................ogggooog","googogggggoogggggggogggoogggggg","oggggoggggggggooggogggggoogggg","gggggggogggggoggoorogoogogooggg"],"C":["","","","","","","","","","","","..........................gggrg"]},"2026":{"P":[["ggrgggg","ggrjggg","ggrgggg","rgrgggg","rgrgggg","rgrgggg","ggrgggg","rgroggg","ggrjggg","rgggggg","ggrgggj","ggggggg","rgrgggg","rgrgggg","rgrgggg","ggrjjjg","ggggggg","ggroggg","rgggggg","ggrgggg","rgggggg","rgrgggg","rgrjggg","rgrgjgg","ggrgggg","ggrggjj","rjrjjjj","ggrgggj","jjrjjjj","rgrjjgg","rgrjggj"],["jjrgggj","rjjjjjj","rjrgggg","rgrgggg","rgrgggj","rgrjggg","rgrgggg","ggggggg","rgrgggg","rgrggjg","ggrgggg","rgrgggg","rgrjggg","rgrgggo","rorgggg","rgrgggg","ggggggg","ggrgggj","ggrgggj","rgrgggj","rgrgggj","ggrgggj","ggrgggj","ggrgggj","ggrgggj","ggrgggj","ggrgggj","ggrgjjj"],["rg-gjgj","gg-gggj","gg-gggj","gg-gggj","gg-gggj","gg-gggg","gg-gggg","gg-gggj","gg-gggg","gg-gggj","gg-gggg","gg-gggg","gg-gggg","gj-gggj","gg-gggj","gj-gggj","gj-gggj","rj-gggj","gg-gggg","rg-jggg","gj-gggg","gg-gggg","gg-gggo","gg-gggg","gg-gggg","rg-gggg","rg-gggg","gg-gggg","rg-gggg","rg-gggg","gg-gggg"],["ggrgggg","rgrgggg","rgrjggg","ggggggo","rgrgggg","ggrgggg","ggrgggg","rgrgggo","rgrgggg","rgrjggg","ggrgggr","rgrgggj","rgrggjo","rgrgggg","rorgggg","ggrgggg","rgrgggg","rgrgggg","ggrgggg","ggrgggg","ggrgggg","rgrgggg","ggrgggg","ggrgggr","rgrgggg","rgrgogg","rgrgggg","ggrgggg","rgrgggg","rgrgggg"],["rgrjggg","rgroggr","rgrgggg","rgrgggg","rgrgggg","rgrgggg","rgrgggg","rgrjggj","rgroggg","rgrgggg","rgrgggg","rorgggg","rgrgggg","rgrgggg","ggrjggg","gjrgggg","gjrgggg","rgrgggr","rgrgggj","rgrgggg","rgrgggg","gjrjggg","rgrgggg","gjrgggr","rgrggjg","ggrgggg","rgroggg","rgrggjg","rgrgggg","rgrgggg","rgrjjgg"],["rgrgggj","rgrgggg","rgrggjg","gjrggjr","rgrgggg","gjrjjgg","rgrgggg","rgrggjg","rgrgggg","rjrgggg","gjrgggg","ggrjgjr","rgrgggg","rgrgggr","rgrgggg","rjrggjg","gjrgggg","rgrgggg","rjrjggg","rgrgjgg","gjrjggg","rgrrggg","rgrgggg","rgrgggg","ggrgggg","rjrjggg","rgrgggg","rjrgjjg","rjrgggg","rgrgggj"],["rgrgggg","rjrgggo","rorjgjg","rjrjggg","rgrgggj","rjrgggg","rgrgojg","rgrggjg","rgrgggg","ggrgggg","rgrgggr","rrrgggr","rrrgggg","rgrgggg","rgrgggr","rgrgggo","rorjggo","rorgggj","rgrgggg","rgrgggg","rgrgggg","ggrgggr","rgrgggg","rgrjggg","rrrgggr","rrrgggr","rrrgggr","rrrrrrr","rrrgggr","rgrrgrg","rgrjggr"],["rrrgggr","rrrgggr","rrrgggg","rgrgggg","rrrrggr","rrrgggr","rrrjggg","rgrgggg","rgrjggg","rgrgggg","rrrgggr","rorgggj","rgrgggr","rrrjggg","rgrjjgg","rorgggg","rgrgggg","rorgggg","rgrggjr","rgrgggg","rrrjggg","rrrggjr","rrrgggr","rgrgggr","rrrgggj","rrrgggg","rgrgggr","rrroggg","rrrgggj","rgrgggr","rrrgggj"],["rgrgggr","rrrgggr","rrrgggr","rrrjggr","rrrgggr","rrrgggr","rgrgggr","rrrgggr","rrrgggr","rgrgggg","rgrjggr","rrrgggr","rgrgggg","rrrgggr","rrrgggr","rgrgggj","rorgggg","rgrjggg","rgrgggg","rgrgggg","rrrgggr","rrrgggg","rgrrggr","rgrgggr","rrrjggg","rrrgggr","rrrgggr","rgrgggr","rrrgggr","rrrgggr"],["rorggog","rgrjggo","rgrgogg","rgrgggg","rgrgggg","rgrgggg","rgrgggg","rorgggg","rgrjggr","rrrgggr","rrrgggr","rgrgggr","rrrgggr","rrrgggg","rgrgggr","rgrjggr","rrrgggr","rrrgggr","rrrgggg","rgrgggr","rrrgggr","rrrjggr","rrrjggr","rrrgggr","rrrgggg","rgrgggr","rrrgggr","rrrggjr","rgrgggg","rgrjggg","ggrgggr"],["rrrgggr","rrrgggr","rrrgggr","rgrgggg","rgrgggr","rgrjggr","rrrrggr","rrrgggr","rgrgggg","rgrgggo","rorgggo","rrrgggr","rgrjggr","rgrgggr","rorgggr","rrrgggr","rgrgggr","rrrgggr","rrrrggr","rrrjggg","rrrgggr","rgrgggr","rgrgggg","rgrgggg"]],"W":["gggggggggggggggggggggggggggoggg","goggggggggggogoggggggggggggg","ggggggoggggggggggggrggggggroogg","goggrggrrrgrrgogggrggogggggogr","rgggrggggggrggggggogggggrgggggg","gggggggggggggggggggggggggggggo","ggogrrgggggrrrgrrrrrrgrrrrrrrrg","rrrgrrrrrrrrrrggrrrrrrrrrrrrrrr","rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr","rrrrrrrrrrrrrrggrrrrrrrrrrrrrgg","rrrrrrrrrrrrrrrrgrr"],"E":["oggggggggggggggggggggggggggoggg","ogogggggggggggggggggoogggggg","ggoggggggggggggggggogoggggroggg","gorgoggggggorrgggggrgoggggroog","rggggggggggggggoggogogggggggggg","gggoggggggggrggggggggggggggoog","ggggrrgggggrrgggggrggggggrrrrrr","gggrrrrrrrrrrrgrrrrrrrrrrrrrrrr","rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr","rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr","rrrrrrrrrrrrrrrrrrr"],"C":["gggggggggggggggggggggggggrrrrrr","rrrrgrrrgggggrgggrgggrgggggg","gggggrgggggrggggggggggggggggggg","gggrgrgrrrrrrgggggrgggrggggggg","gggrggggrrrrgggrrggggrrgrrrrgrg","gggggrrrggggrgggrgrgrgggrggrrr","grrrrrrrrrrrrrrrrrrrrrrrrrrrrrr","rrrrrrrrrrrrrrrrrrrrrrrrrrrrrr","rrrrrrrrrrrrrryyyyrrrrrrrrrrrr","rrrrrrrrrrrrryrrrrrrrrrrrrrryyy","yrrrrrrrrrrrrcryrrrryryy"]}};
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { y: '2026', m: 10, analysis: false, sel: null, draft: '', notes: {}, saved: false, theme: this.props.theme ?? 'dark' };
+  }
+  componentDidMount() {
+    try { var n = JSON.parse(window.localStorage.getItem('adet-notes-v1') || '{}'); this.setState({ notes: n }); } catch (e) {}
+  }
+  renderVals() {
+    var self = this;
+    var dark = this.state.theme === 'dark';
+    var t = dark
+      ? { body: '#1b253b', page: '#272d45', text: '#cbd5e1', title: '#ffffff', side: '#ffffff', div: '#415172', avatar: '#354567', btn: 'linear-gradient(180deg, #44557e 0%, #2f3d60 100%)', btnBorder: '#6b7fa8', btnText: '#ffffff' }
+      : { body: '#f4f6fa', page: 'linear-gradient(165deg, #dbe3ef 0%, #c9d4e4 100%)', text: '#323c4a', title: '#1b253b', side: '#1b253b', div: '#d3d7de', avatar: '#d3d7de', btn: 'linear-gradient(180deg, #ffffff 0%, #e6ebf3 100%)', btnBorder: '#8a9ab3', btnText: '#1e293b' };
+    var MON = ['Қаңтар','Ақпан','Наурыз','Сәуір','Мамыр','Маусым','Шілде','Тамыз','Қыркүйек','Қазан','Қараша','Желтоқсан'];
+    var Y = this.state.y, YD = HD[Y], NM = YD.P.length;
+    var MONG = ['қаңтар','ақпан','наурыз','сәуір','мамыр','маусым','шілде','тамыз','қыркүйек','қазан','қараша','желтоқсан'];
+    var WD = ['жексенбі','дүйсенбі','сейсенбі','сәрсенбі','бейсенбі','жұма','сенбі'];
+    var PN = ['Түнгі намаз','Таң','Духа','Бесін','Аср','Шам','Құптан'];
+    var COL = { g: '#22c55e', j: '#7843e9', o: '#0e9aa7', y: '#0e9aa7', c: '#22c55e', r: '#be0a0a' };
+    var TIP = { g: 'орындалды', j: 'мешітте / жұма', o: 'қаза өтелді / ішінара', y: 'ішінара (3 капсула)', c: 'орындалды (6 капсула)', r: 'орындалмады / қаза' };
+    function pct(x) { return (x * 100).toFixed(2) + '%'; }
+    function cnt(str, chars) { var k = 0; for (var i = 0; i < str.length; i++) { if (chars.indexOf(str[i]) >= 0) k++; } return k; }
+    function stat(mi) {
+      var P = YD.P[mi], n = P.length, ok = 0, made = 0, miss = 0, mosque = 0, per = [];
+      for (var c = 0; c < 7; c++) {
+        var col = P.map(function (d) { return d[c]; }).join('');
+        var has = col.replace(/-/g, '').length > 0;
+        per.push(has ? cnt(col, 'gj') / n : null);
+        mosque += cnt(col, 'j');
+        if ([1, 3, 4, 5, 6].indexOf(c) >= 0) { ok += cnt(col, 'gj'); made += cnt(col, 'o'); miss += cnt(col, 'r'); }
+      }
+      var W = YD.W[mi], E = YD.E[mi], C = YD.C[mi];
+      function rate(str, chars) { var k = str.replace(/\./g, '').length; return k ? cnt(str, chars) / k : null; }
+      return { n: n, fard: ok / (5 * n), ok: ok, made: made, qaza: made + miss, mosque: mosque, per: per,
+        night: cnt(P.map(function (d) { return d[0]; }).join(''), 'gj'), duha: cnt(P.map(function (d) { return d[2]; }).join(''), 'gj'), duhaN: per[2] === null ? 0 : n,
+        wm: rate(W, 'g'), wmN: W.replace(/\./g, '').length, wmK: cnt(W, 'g'), we: rate(E, 'g'), weN: E.replace(/\./g, '').length, weK: cnt(E, 'g'),
+        cr: rate(C, 'gyc'), crN: C.replace(/\./g, '').length, crDays: cnt(C, 'gyc') };
+    }
+    var mi = Math.min(this.state.m, NM - 1), S = stat(mi), prev = mi > 0 ? stat(mi - 1) : null;
+    var n = new Date(Number(Y), mi + 1, 0).getDate();
+    var sel = this.state.sel === null ? S.n - 1 : Math.min(this.state.sel, n - 1);
+    function key(m, d) { return Y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d + 1).padStart(2, '0'); }
+    var notes = this.state.notes;
+    var selKey = key(mi, sel);
+    var draft = this.state.sel === null && this.state.draft === '' && !this.state.touched ? (notes[selKey] || '') : this.state.draft;
+
+    var monthBtns = MON.map(function (nm, i) {
+      var on = i === mi, off = i >= NM;
+      return { label: nm, on: on, off: off, style: 'width: 100%; min-height: 40px; padding: 0 6px; border-radius: 6px; font-family: inherit; font-size: 14px; font-weight: 500; text-align: center; ' + (on ? 'border: 1px solid #6a3be0; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); color: #ffffff; cursor: pointer' : (off ? 'border: 1px solid #e5e7eb; background: #f3f3f3; color: #8e8e93; cursor: not-allowed' : 'border: 1px solid #8a9ab3; background: linear-gradient(180deg, #ffffff 0%, #e6ebf3 100%); color: #1e293b; cursor: pointer')),
+        pick: function () { if (off) return; self.setState({ m: i, sel: null, draft: '', touched: false, saved: false, picker: false }); } };
+    });
+
+    var dayBtns = [];
+    for (var d = 0; d < n; d++) {
+      (function (d) {
+        var on = d === sel, has = !!notes[key(mi, d)];
+        dayBtns.push({ label: String(d + 1), on: on, aria: (d + 1) + ' ' + MONG[mi] + (has ? ', жазбасы бар' : ''),
+          style: 'height: 44px; padding: 0; border-radius: 6px; font-family: inherit; font-size: 11px; cursor: pointer; ' + (on ? 'border: 1px solid #6a3be0; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); color: #ffffff; font-weight: 700' : 'border: 1px solid #8a9ab3; background: linear-gradient(180deg, #ffffff 0%, #e6ebf3 100%); color: #1e293b') + (has && !on ? '; box-shadow: inset 0 -3px 0 #ff6a00' : ''),
+          pick: function () { self.setState({ sel: d, draft: notes[key(mi, d)] || '', touched: true, saved: false }); } });
+      })(d);
+    }
+    var gridStyle = 'display: grid; grid-template-columns: 128px repeat(' + n + ', minmax(0, 1fr)); gap: 3px; align-items: center';
+
+    function cells(str, label) {
+      var out = [];
+      for (var d = 0; d < n; d++) {
+        var s = str[d] || '.';
+        var bg = COL[s];
+        out.push({ mark: (s === 'r' || s === 'q' ? '✕' : (s === 'o' || s === 'b' ? '↺' : (s === 'y' ? '½' : (s === 'j' ? '◆' : (s === 'g' || s === 'c' ? '✓' : ''))))), tip: (d + 1) + ' ' + MONG[mi] + ' · ' + label + ': ' + (TIP[s] || 'дерек жоқ'),
+          style: 'height: 26px; border-radius: 4px; box-sizing: border-box; ' + (bg ? 'background: ' + bg : 'background: #f3f3f3; border: 1px solid #8e8e93') + (d === sel ? '; outline: 2px solid #7843e9; outline-offset: 1px' : '') });
+      }
+      return out;
+    }
+    var P = YD.P[mi];
+    var rows = PN.map(function (nm, c) { return { name: nm, cells: cells(P.map(function (x) { return x[c] === '-' ? '.' : x[c]; }).join(''), nm) }; });
+    rows.push({ name: 'Таңғы зікір', cells: cells(YD.W[mi], 'Таңғы зікір') });
+    rows.push({ name: 'Кешкі зікір', cells: cells(YD.E[mi], 'Кешкі зікір') });
+    rows.push({ name: 'Креатин', cells: cells(YD.C[mi], 'Креатин') });
+
+    function big(color) { return 'font-size: 30px; font-weight: 800; line-height: 1; white-space: nowrap; color: ' + color; }
+    function rk(title, v, k, N) {
+      if (v === null) return { title: title, value: 'Дерек жоқ', style: big('#4d4d4d'), sub: 'Бұл айда белгіленбеген' };
+      return { title: title, value: pct(v), style: big(v >= 0.8 ? '#197d19' : (v < 0.5 ? '#be0a0a' : '#7d3d3d')), sub: k + ' / ' + N + ' күн' };
+    }
+    var delta = prev ? ((S.fard - prev.fard) * 100) : null;
+    var kpis = [
+      { title: 'Парыз уақытында', value: pct(S.fard), style: big(S.fard >= 0.9 ? '#197d19' : (S.fard < 0.75 ? '#be0a0a' : '#7d3d3d')), sub: S.ok + ' / ' + (5 * S.n) + ' намаз' + (delta === null ? '' : ' · алдыңғы айдан ' + (delta >= 0 ? '+' : '−') + Math.abs(delta).toFixed(2) + ' п.') },
+      { title: 'Қаза намаз', value: String(S.qaza), style: big(S.qaza > 0 ? '#be0a0a' : '#197d19'), sub: 'Оның ішінде өтелді: ' + S.made },
+      { title: 'Мешітте / жұма', value: String(S.mosque), style: big('#7d3d3d'), sub: 'Барлық намаздар бойынша' },
+      { title: 'Түнгі намаз', value: S.night + ' / ' + S.n, style: big(S.night ? '#7d3d3d' : '#4d4d4d'), sub: pct(S.night / S.n) },
+      { title: 'Духа', value: S.duha + ' / ' + S.duhaN, style: big(S.duha ? '#7d3d3d' : '#4d4d4d'), sub: S.duhaN ? pct(S.duha / S.duhaN) : 'Бұл айда белгіленбеген' },
+      rk('Таңғы зікір', S.wm, S.wmK, S.wmN),
+      rk('Кешкі зікір', S.we, S.weK, S.weN),
+      rk('Креатин', S.cr, S.crDays, S.crN)
+    ];
+    var bars = [];
+    S.per.forEach(function (v, c) {
+      if (v === null) return;
+      bars.push({ name: PN[c], pct: pct(v), style: 'height: 12px; border-radius: 6px; width: ' + (v * 100).toFixed(2) + '%; background: ' + (v >= 0.8 ? '#22c55e' : (v < 0.5 ? '#ef4444' : '#0e9aa7')) });
+    });
+
+    var all = YD.P.map(function (_, i) { return stat(i); });
+    function bw(name, fn) {
+      var b = -1, w = -1;
+      all.forEach(function (s, i) { var v = fn(s); if (v === null) return; if (b < 0 || v > fn(all[b])) b = i; if (w < 0 || v < fn(all[w])) w = i; });
+      if (b < 0) return { name: name, best: 'Дерек жоқ', worst: 'Дерек жоқ' };
+      return { name: name, best: MON[b] + ' · ' + pct(fn(all[b])), worst: MON[w] + ' · ' + pct(fn(all[w])) };
+    }
+    var bestWorst = [
+      bw('Парыз намаз уақытында', function (s) { return s.fard; }),
+      bw('Таңғы зікір', function (s) { return s.wm; }),
+      bw('Кешкі зікір', function (s) { return s.we; }),
+      bw('Түнгі намаз', function (s) { return s.night / s.n; }),
+      bw('Креатин', function (s) { return s.cr; })
+    ];
+
+    var prefix = Y + '-' + String(mi + 1).padStart(2, '0') + '-';
+    var noteList = Object.keys(notes).filter(function (k) { return k.indexOf(prefix) === 0; }).sort().map(function (k) {
+      var d = parseInt(k.slice(8), 10) - 1;
+      return { day: (d + 1) + ' ' + MONG[mi], text: notes[k], removeLabel: (d + 1) + ' ' + MONG[mi] + ' жазбасын өшіру',
+        pick: function () { self.setState({ sel: d, draft: notes[k], touched: true, saved: false }); },
+        remove: function () { var nn = Object.assign({}, self.state.notes); delete nn[k]; try { window.localStorage.setItem('adet-notes-v1', JSON.stringify(nn)); } catch (e) {} self.setState({ notes: nn, draft: d === sel ? '' : self.state.draft, touched: true }); } };
+    });
+
+    var dt = new Date(Number(Y), mi, sel + 1);
+    return {
+      t: t, isDark: dark, isLight: !dark, themeLabel: dark ? 'Ақшыл режимге ауысу' : 'Қараңғы режимге ауысу',
+      toggleTheme: function () { self.setState({ theme: dark ? 'light' : 'dark' }); },
+      quickOpen: !!this.state.quick, quickToggle: function () { var q = {}; try { q = JSON.parse(window.localStorage.getItem('adet-today-v1') || '{}')['2026-11-26'] || {}; } catch (e) {} self.setState({ quick: !self.state.quick, qp: q }); }, quickClose: function () { self.setState({ quick: false }); },
+      quickCount: (function () { var q = self.state.qp || {}, n = 0, tot = 0; QUICK.forEach(function (g) { g.items.forEach(function (it) { tot++; if (q[it.id]) n++; }); }); return n + ' / ' + tot + ' белгіленді'; })(),
+      quickGroups: QUICK.map(function (g) { var q = self.state.qp || {}; return { name: g.g, items: g.items.map(function (it) { return { name: it.n, opts: it.o.map(function (op) { var on = q[it.id] === op.c; return { label: op.l, on: on, style: 'min-height: 44px; padding: 0 12px; border-radius: 6px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; ' + (on ? 'border: 1px solid ' + op.col + '; background: ' + op.col + '; color: #ffffff' : 'border: 1px solid #8a9ab3; background: linear-gradient(180deg, #ffffff 0%, #e6ebf3 100%); color: #1e293b'), pick: function () { var n = Object.assign({}, self.state.qp || {}); if (n[it.id] === op.c) { delete n[it.id]; } else { n[it.id] = op.c; } try { var all = JSON.parse(window.localStorage.getItem('adet-today-v1') || '{}'); all['2026-11-26'] = n; window.localStorage.setItem('adet-today-v1', JSON.stringify(all)); } catch (e) {} self.setState({ qp: n, pick: n }); } }; }) }; }) }; }),
+ shellCls: dark ? 'shell' : 'shell lt',
+      menuOpen: !!this.state.menu, menuClosed: !this.state.menu, sideCls: this.state.menu ? 'side open' : 'side', menuLabel: this.state.menu ? 'Мәзірді жабу' : 'Мәзірді ашу',
+      toggleMenu: function () { self.setState({ menu: !self.state.menu }); }, closeMenu: function () { self.setState({ menu: false }); },
+      monthName: MON[mi], year: Y, monthSub: n + ' күн · ' + S.n + ' күн белгіленген' + (Y === '2026' && mi === 10 ? ' · 1–24 қараша' : ''),
+      yearBtns: Object.keys(HD).sort().map(function (yy) { var on = yy === Y; return { label: yy, on: on, style: 'width: 100%; min-height: 40px; padding: 0 6px; border-radius: 6px; font-family: inherit; font-size: 14px; font-weight: 500; text-align: center; ' + (on ? 'border: 1px solid #6a3be0; background: linear-gradient(180deg, #8f63f2 0%, #6a3be0 100%); color: #ffffff; font-weight: 700; cursor: pointer' : 'border: 1px solid #8a9ab3; background: linear-gradient(180deg, #ffffff 0%, #e6ebf3 100%); color: #1e293b; cursor: pointer'), pick: function () { self.setState({ y: yy, m: HD[yy].P.length - 1, sel: null, draft: '', touched: false, saved: false }); } }; }),
+      pickerOpen: !!this.state.picker, chevron: this.state.picker ? 'M6 15l6-6 6 6' : 'M6 9l6 6 6-6',
+      togglePicker: function () { self.setState({ picker: !self.state.picker }); },
+      bwNote: Y + ' жыл, ' + NM + ' ай бойынша' + (Y === '2026' ? '. Қараша әлі толық емес.' : '. Зікір қыркүйектен, креатин желтоқсаннан бастап жазылған.'),
+      analysis: this.state.analysis, analysisLabel: this.state.analysis ? 'Талдауды жасыру' : 'Ай талдауын көрсету',
+      toggleAnalysis: function () { self.setState({ analysis: !self.state.analysis }); },
+      monthBtns: monthBtns, dayBtns: dayBtns, gridStyle: gridStyle, rows: rows,
+      kpis: kpis, bars: bars, bestWorst: bestWorst,
+      selLabel: (sel + 1) + ' ' + MONG[mi] + ', ' + WD[dt.getDay()],
+      draft: draft,
+      noteStatus: this.state.saved ? 'Сақталды' : (notes[selKey] ? 'Сақталған жазба бар' : 'Әлі жазылмаған'),
+      onDraft: function (e) { self.setState({ draft: e.target.value, touched: true, saved: false }); },
+      saveNote: function () { var nn = Object.assign({}, self.state.notes); if (draft.trim()) { nn[selKey] = draft; } else { delete nn[selKey]; } try { window.localStorage.setItem('adet-notes-v1', JSON.stringify(nn)); } catch (e) {} self.setState({ notes: nn, saved: true, sel: sel, draft: draft, touched: true }); },
+      noteList: noteList, noteCount: String(noteList.length), noNotes: noteList.length === 0
+    };
+  }
+}
+</script>
+</body>
+</html>
