@@ -25,5 +25,7 @@
   - allowlist өзгеріссіз; proxy `/register`-ді ашық етеді, кірген қолданушыны `/`-ге жібереді
   - Тексеру: build + lint таза; браузерде 1440/375, allowlist қатесі, тіркелмеген email қатесі, `?error=` хабарлары
 - [x] Репо қайта PUBLIC етілді (Vercel Hobby: команда мүшесі емес автордың коммиттері блокталады); тарихта құпия кілттер жоқ, тексерілді
+- [x] Кіру email + құпиясөзбен (бір реттік сілтеме орнына): `/login`, `/register`, `/forgot-password`, `/update-password`; callback `?next=` қолдайды
+- [ ] Сатжан: «Ұмыттыңыз ба?» арқылы бір рет құпиясөз орнату (бұрынғы аккаунтта құпиясөз жоқ)
 - [ ] Google OAuth client (Сатжан Google Cloud-та) → Supabase provider
 - [ ] Тексеру: preview-де нақты кіру (magic link + Google)

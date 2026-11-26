@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-/** OAuth (Google) and magic-link (PKCE) both land here with ?code=… */
+/** OAuth (Google), sign-up confirmation and password reset (PKCE) all land here with ?code=… */
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
   const code = searchParams.get("code");
@@ -18,8 +18,13 @@ export async function GET(request: NextRequest) {
   if (code) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error) return NextResponse.redirect(`${origin}/`);
+    if (!error) return NextResponse.redirect(`${origin}${safeNext(searchParams.get("next"))}`);
   }
 
   return NextResponse.redirect(`${origin}/login?error=auth_failed`);
+}
+
+/** Only same-site paths: "/x" but not "//host" or "/\\host". */
+function safeNext(next: string | null) {
+  return next && /^\/(?![/\\])/.test(next) ? next : "/";
 }
