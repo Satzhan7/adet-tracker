@@ -65,9 +65,9 @@ body {
   color: #fff;
 }
 .btn-lg {
-  min-height: 52px;
+  min-height: 44px;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
 }
 .btn-primary.btn-lg {
@@ -88,22 +88,22 @@ body {
   min-height: 100dvh;
   display: flex;
   justify-content: center;
-  padding: 96px 24px 48px;
+  padding: 72px 20px 40px;
   box-sizing: border-box;
 }
 .auth-col {
   width: 100%;
-  max-width: 460px;
+  max-width: 380px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 56px;
+  gap: 32px;
 }
 .auth-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 800;
   color: #fff;
 }
@@ -112,27 +112,27 @@ body {
   box-sizing: border-box;
   background: var(--card);
   border-radius: 10px;
-  padding: 40px 36px 36px;
+  padding: 28px 24px 24px;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 20px;
 }
 .auth-title {
   margin: 0;
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 500;
   color: var(--ink-dim);
 }
 .auth-lead {
-  margin: 16px 0 0;
-  font-size: 17px;
+  margin: 6px 0 0;
+  font-size: 14px;
   color: var(--ink-muted);
 }
 .auth-field {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  font-size: 17px;
+  gap: 6px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--ink-dim);
 }
@@ -142,7 +142,7 @@ body {
   vertical-align: super;
 }
 .auth-field input {
-  min-height: 52px;
+  min-height: 44px;
   border-radius: 8px;
   border: 1px solid #3d4a6b;
   background: var(--bg);
@@ -196,7 +196,7 @@ body {
   align-items: flex-start;
   padding: 12px 14px;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.45;
 }
 .auth-note > span[aria-hidden] {
@@ -222,15 +222,15 @@ body {
 
 @media (max-width: 720px) {
   .auth-shell {
-    padding: 48px 16px 32px;
+    padding: 40px 16px 32px;
   }
   .auth-col {
-    gap: 32px;
+    gap: 24px;
   }
   .auth-card {
-    padding: 28px 20px 24px;
+    padding: 24px 18px 20px;
   }
   .auth-title {
-    font-size: 20px;
+    font-size: 18px;
   }
 }

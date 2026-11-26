@@ -29,7 +29,7 @@ export function AuthShell({ mode, children }: { mode: Mode; children: React.Reac
     <main className="auth-shell">
       <div className="auth-col">
         <div className="auth-brand">
-          <Logo size={44} />
+          <Logo size={36} />
           <span>Әдет трекер</span>
         </div>
 
@@ -42,7 +42,7 @@ export function AuthShell({ mode, children }: { mode: Mode; children: React.Reac
           {children}
 
           {mode !== "update" && (
-            <p className="text-center text-[15px] text-[var(--ink-muted)]">
+            <p className="text-center text-[14px] text-[var(--ink-muted)]">
               {mode === "login" ? (
                 <>
                   Аккаунтыңыз жоқ па? <Link href="/register" className="auth-link">Тіркелу</Link>

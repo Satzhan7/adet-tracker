@@ -113,7 +113,7 @@ export function AuthForm({ mode, initialError }: { mode: AuthMode; initialError?
 
   if (status.kind === "done") {
     return (
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4">
         <Note tone="good" text={status.text} />
         <Link href="/login" className="btn btn-outline btn-lg">
           Кіру бетіне оралу
@@ -126,8 +126,8 @@ export function AuthForm({ mode, initialError }: { mode: AuthMode; initialError?
   const submitLabel = { login: "Кіру", register: "Тіркелу", forgot: "Сілтеме жіберу" }[mode];
 
   return (
-    <div className="flex flex-col gap-6">
-      <form onSubmit={submit} className="flex flex-col gap-6">
+    <div className="flex flex-col gap-4">
+      <form onSubmit={submit} className="flex flex-col gap-4">
         {mode === "register" && (
           <Field label="Атыңыз">
             <input
@@ -172,7 +172,7 @@ export function AuthForm({ mode, initialError }: { mode: AuthMode; initialError?
           </Field>
         )}
         {mode === "register" && (
-          <p className="-mt-3 text-[13px] text-[var(--ink-muted)]">Кемі {MIN_PASSWORD} таңба.</p>
+          <p className="-mt-2 text-[12px] text-[var(--ink-muted)]">Кемі {MIN_PASSWORD} таңба.</p>
         )}
         <button type="submit" disabled={busy} className="btn btn-primary btn-lg">
           {busy ? "Күте тұрыңыз…" : submitLabel}
