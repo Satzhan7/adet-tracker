@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Logo } from "@/components/logo";
 
-type Mode = "login" | "register";
+type Mode = "login" | "register" | "forgot" | "update";
 
 const COPY: Record<Mode, { title: string; lead: string }> = {
   login: {
@@ -11,6 +11,14 @@ const COPY: Record<Mode, { title: string; lead: string }> = {
   register: {
     title: "Жаңа аккаунт ашу",
     lead: "Тіркелу тек рұқсат етілген email үшін",
+  },
+  forgot: {
+    title: "Құпиясөзді қалпына келтіру",
+    lead: "Email-ге жаңа құпиясөз орнату сілтемесі келеді",
+  },
+  update: {
+    title: "Жаңа құпиясөз",
+    lead: "Келесі жолы осы құпиясөзбен кіресіз",
   },
 };
 
@@ -33,17 +41,21 @@ export function AuthShell({ mode, children }: { mode: Mode; children: React.Reac
 
           {children}
 
-          <p className="text-center text-[15px] text-[var(--ink-muted)]">
-            {mode === "login" ? (
-              <>
-                Аккаунтыңыз жоқ па? <Link href="/register" className="auth-link">Тіркелу</Link>
-              </>
-            ) : (
-              <>
-                Аккаунтыңыз бар ма? <Link href="/login" className="auth-link">Кіру</Link>
-              </>
-            )}
-          </p>
+          {mode !== "update" && (
+            <p className="text-center text-[15px] text-[var(--ink-muted)]">
+              {mode === "login" ? (
+                <>
+                  Аккаунтыңыз жоқ па? <Link href="/register" className="auth-link">Тіркелу</Link>
+                </>
+              ) : mode === "register" ? (
+                <>
+                  Аккаунтыңыз бар ма? <Link href="/login" className="auth-link">Кіру</Link>
+                </>
+              ) : (
+                <Link href="/login" className="auth-link">← Кіру бетіне оралу</Link>
+              )}
+            </p>
+          )}
         </div>
       </div>
     </main>
