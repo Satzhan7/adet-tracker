@@ -4,10 +4,21 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { MONTHS } from "@/lib/dates";
 
-const href = (y: number, m: number) => `/month?y=${y}&m=${m}`;
-
-/** «‹ Қараша 2026 ›» with a popover of years and months; future months are disabled. */
-export function MonthPicker({ year, month, firstYear, today }: { year: number; month: number; firstYear: number; today: string }) {
+/** «‹ Қараша 2026 ›» with a popover of years and months; future months are disabled. `keep` is carried along (e.g. "&analysis=1"). */
+export function MonthPicker({
+  year,
+  month,
+  firstYear,
+  today,
+  keep = "",
+}: {
+  year: number;
+  month: number;
+  firstYear: number;
+  today: string;
+  keep?: string;
+}) {
+  const href = (y: number, m: number) => `/month?y=${y}&m=${m}${keep}`;
   const [open, setOpen] = useState(false);
   const [pickYear, setPickYear] = useState(year);
   const ref = useRef<HTMLDivElement>(null);

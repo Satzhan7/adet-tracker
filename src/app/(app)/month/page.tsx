@@ -65,7 +65,7 @@ async function MonthBody({ searchParams }: Pick<PageProps<"/month">, "searchPara
             <Link href={analysis ? base : `${base}&analysis=1`} className="btn-seg tab-link" aria-current={analysis ? "page" : undefined}>
               Талдау
             </Link>
-            <MonthPicker year={y} month={m} firstYear={firstYear} today={today} />
+            <MonthPicker year={y} month={m} firstYear={firstYear} today={today} keep={analysis ? "&analysis=1" : ""} />
           </>
         }
       />
