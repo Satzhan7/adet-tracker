@@ -22,13 +22,8 @@ const PERIODS = [
  * day editor for that day and field, so past days can be marked or corrected here.
  */
 export function DayGrid({ fields, legend, initial = 14 }: { fields: DayField[]; legend: LegendItem[]; initial?: 7 | 10 | 14 | 30 }) {
-  const { today, marks, edit } = useMarks();
+  const { today } = useMarks();
   const [per, setPer] = useState<number>(initial);
-  const dates = lastDays(today, per);
-  // Every row is its own grid, so the label column must be a fixed width or rows with long
-  // names shift their cells (SPEC: label column 132px in sections).
-  const cols = `var(--grid-label-w) repeat(${per}, minmax(${per > 14 ? 24 : 30}px, 1fr))`;
-  const gap = per > 14 ? 3 : 4;
 
   return (
     <div className="flex flex-col gap-3">
@@ -39,44 +34,74 @@ export function DayGrid({ fields, legend, initial = 14 }: { fields: DayField[]; 
           </button>
         ))}
       </div>
-      <div className="overflow-x-auto">
-        <div className="grid-table" style={{ minWidth: per > 14 ? 900 : 560 }}>
-          <div className="grid-head" style={{ gridTemplateColumns: cols, gap }}>
-            <span />
-            {dates.map((d) => (
+      <GridTable dates={lastDays(today, per)} fields={fields} />
+      <Legend items={legend} />
+    </div>
+  );
+}
+
+/**
+ * Fields × dates table. Cells open the day editor; future dates render as empty, disabled cells.
+ * `head` can replace the plain day number (the month view puts a note button there).
+ */
+export function GridTable({
+  dates,
+  fields,
+  head,
+}: {
+  dates: string[];
+  fields: DayField[];
+  head?: (date: string) => React.ReactNode;
+}) {
+  const { today, marks, edit } = useMarks();
+  const n = dates.length;
+  // Every row is its own grid, so the label column must be a fixed width or rows with long
+  // names shift their cells (SPEC: label column 132px in sections).
+  const cols = `var(--grid-label-w) repeat(${n}, minmax(${n > 14 ? 24 : 30}px, 1fr))`;
+  const gap = n > 14 ? 3 : 4;
+
+  return (
+    <div className="overflow-x-auto">
+      <div className="grid-table" style={{ minWidth: n > 14 ? Math.max(900, 132 + n * 27) : 560 }}>
+        <div className="grid-head" style={{ gridTemplateColumns: cols, gap }}>
+          <span />
+          {dates.map((d) =>
+            head ? (
+              <span key={d}>{head(d)}</span>
+            ) : (
               <span key={d} className={d === today ? "font-extrabold" : undefined}>
                 {parts(d).d}
               </span>
-            ))}
-          </div>
-          {fields.map((f) => (
-            <div key={f} className="grid-row" style={{ gridTemplateColumns: cols, gap }}>
-              <span className="grid-name" title={FIELDS[f].name}>
-                {SHORT_NAMES[f] ?? FIELDS[f].name}
-              </span>
-              {dates.map((date) => {
-                const o = optionFor(f, marks[date]?.[f]);
-                const s = TONE_STYLE[o?.tone ?? "none"];
-                return (
-                  <button
-                    key={date}
-                    type="button"
-                    className="grid-cell"
-                    aria-haspopup="dialog"
-                    aria-label={`${FIELDS[f].name}, ${dayLabel(date)}: ${o ? o.label.toLowerCase() : "белгіленбеген"}. Өзгерту үшін бас`}
-                    title={`${dayLabel(date)}: ${o ? o.label.toLowerCase() : "белгіленбеген"}`}
-                    style={{ background: s.bg, color: s.ink, border: o ? undefined : "1px solid #c4c8cf" }}
-                    onClick={() => edit(date, f)}
-                  >
-                    {s.mark}
-                  </button>
-                );
-              })}
-            </div>
-          ))}
+            ),
+          )}
         </div>
+        {fields.map((f) => (
+          <div key={f} className="grid-row" style={{ gridTemplateColumns: cols, gap }}>
+            <span className="grid-name" title={FIELDS[f].name}>
+              {SHORT_NAMES[f] ?? FIELDS[f].name}
+            </span>
+            {dates.map((date) => {
+              if (date > today) return <span key={date} className="grid-cell grid-cell-future" aria-hidden="true" />;
+              const o = optionFor(f, marks[date]?.[f]);
+              const s = TONE_STYLE[o?.tone ?? "none"];
+              return (
+                <button
+                  key={date}
+                  type="button"
+                  className="grid-cell"
+                  aria-haspopup="dialog"
+                  aria-label={`${FIELDS[f].name}, ${dayLabel(date, today)}: ${o ? o.label.toLowerCase() : "белгіленбеген"}. Өзгерту үшін бас`}
+                  title={`${dayLabel(date, today)}: ${o ? o.label.toLowerCase() : "белгіленбеген"}`}
+                  style={{ background: s.bg, color: s.ink, border: o ? undefined : "1px solid #c4c8cf" }}
+                  onClick={() => edit(date, f)}
+                >
+                  {s.mark}
+                </button>
+              );
+            })}
+          </div>
+        ))}
       </div>
-      <Legend items={legend} />
     </div>
   );
 }

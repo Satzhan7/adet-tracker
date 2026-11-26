@@ -94,3 +94,19 @@ export async function getDaySnapshot(date: string): Promise<DaySnapshot | null> 
     currentSurah: lastHifz.data?.surah ?? null,
   };
 }
+
+const NOTE_MAX = 2000;
+
+/** Saves the note for a day; empty text deletes it. */
+export async function saveNote(date: string, text: string): Promise<ActionResult> {
+  if (!validDate(date) || typeof text !== "string") return FAIL;
+  const body = text.trim();
+  if (body.length > NOTE_MAX) return { ok: false, error: `Жазба ${NOTE_MAX} таңбадан аспасын.` };
+  const supabase = await createClient();
+  const { error } = body
+    ? await supabase.from("notes").upsert({ date, text: body }, { onConflict: "user_id,date" })
+    : await supabase.from("notes").delete().eq("date", date);
+  if (error) return FAIL;
+  refresh();
+  return { ok: true };
+}

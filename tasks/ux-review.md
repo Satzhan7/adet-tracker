@@ -72,3 +72,12 @@ Accepted / not changed:
 - 16–20 font sizes in use per page; most come from canvas (11 legend, 12 labels, 13 notes, 30 KPI). Consolidating is a design-system task for later.
 - Panel titles wrap to two lines on 390 px (header 73 px instead of 49 px); padding stays equal.
 - Data-grid cells are 24–30 px wide on phones (below 44 px); they are a dense data view and the «+» dialog offers 40–44 px targets for the same actions.
+
+## Results — 2026-11-27 (phase B, month page)
+
+Audit at 1440 / 768 / 390 with real data: no edge, column, cell-size, tile, truncation or touch-target issues; table scrolls inside its panel on phones.
+
+| # | Found | Fix | After |
+| --- | --- | --- | --- |
+| 1 | Month popover on phones anchored to the picker, started at x = −57 (off-screen) | Centred on screen at ≤ 720 px | x 25–365 on a 390 px screen |
+| 2 | Switching month dropped the «Талдау» view | Picker and ‹ › links carry `analysis=1` | 12 / 12 links keep it |
