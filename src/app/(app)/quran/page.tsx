@@ -90,7 +90,7 @@ function Hatm({ today, log }: { today: string; log: KhatmEntry[] }) {
     },
     {
       title: "Соңғы оқу",
-      value: last ? dayLabel(last.date) : "—",
+      value: last ? dayLabel(last.date, today) : "—",
       sub: last ? `${last.pages} бет` : "Әлі жазба жоқ",
       tone: !last ? "mute" : last.date === today ? "good" : "plain",
     },
@@ -111,7 +111,7 @@ function Hatm({ today, log }: { today: string; log: KhatmEntry[] }) {
               {recent.map((e) => (
                 <li key={e.id}>
                   <span>
-                    {dayLabel(e.date)} · {e.pages} бет{e.from_page ? ` (${e.from_page}–${e.to_page})` : ""}
+                    {dayLabel(e.date, today)} · {e.pages} бет{e.from_page ? ` (${e.from_page}–${e.to_page})` : ""}
                   </span>
                   <DeleteEntry table="khatm_log" id={e.id} label={`${e.pages} бет`} />
                 </li>
@@ -177,7 +177,7 @@ function Hifz({ today, log }: { today: string; log: HifzEntry[] }) {
               {recent.map((e) => (
                 <li key={e.id}>
                   <span>
-                    {e.date ? dayLabel(e.date) : "күні жоқ"} · {e.surah}, {e.repetitions} рет
+                    {e.date ? dayLabel(e.date, today) : "күні жоқ"} · {e.surah}, {e.repetitions} рет
                   </span>
                   <DeleteEntry table="hifz_log" id={e.id} label={`${e.surah}, ${e.repetitions} рет`} />
                 </li>
@@ -225,8 +225,14 @@ function Wird({ today, days }: { today: string; days: DayRow[] }) {
   const prevKey = prevMonthKey(today);
   const prev = wirdDays(days.filter((d) => monthKey(d.date) === prevKey));
   const all = wirdDays(days);
-  const months = yearMonths(days, today);
-  const bw = bestWorstMonth(days.filter((d) => d.date.startsWith(today.slice(0, 4))), wirdDays, isWirdMarked);
+  // Trend and best/worst show the latest year with wird marks (all history so far is 2025).
+  const lastMarked = days.findLast(isWirdMarked)?.date;
+  const year = lastMarked ? lastMarked.slice(0, 4) : today.slice(0, 4);
+  const yearEnd = year === today.slice(0, 4) ? today : `${year}-12-31`;
+  const allMonths = yearMonths(days, yearEnd);
+  const firstWithData = allMonths.findIndex((m) => m.rows.some(isWirdMarked));
+  const months = firstWithData > 0 ? allMonths.slice(firstWithData) : allMonths;
+  const bw = bestWorstMonth(days.filter((d) => d.date.startsWith(year)), wirdDays, isWirdMarked);
   const tone = (p: number | null): Kpi["tone"] => (p === null ? "mute" : p >= 90 ? "good" : p < 60 ? "bad" : "plain");
 
   const kpis: Kpi[] = [
@@ -258,7 +264,7 @@ function Wird({ today, days }: { today: string; days: DayRow[] }) {
             ]}
           />
         </Panel>
-        <Panel title={`Уирд, ${today.slice(0, 4)} · орындалған күндер %`} span="s8" phoneShut>
+        <Panel title={`Уирд, ${year} · орындалған күндер %`} span="s8" phoneShut>
           <TrendChart
             labels={months.map((m) => m.label)}
             max={100}
