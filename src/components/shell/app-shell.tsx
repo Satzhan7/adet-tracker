@@ -7,12 +7,22 @@ import { Logo } from "@/components/logo";
 import { saveTheme } from "@/app/(app)/actions";
 import { NAV_ITEMS, isActive } from "./nav-items";
 import { applyTheme, currentTheme } from "./theme";
+import { QuickEntry } from "./quick-entry";
 
 /**
  * Canvas v2 shell: sidebar (brand, nav, profile) beside the main panel.
  * At ≤1024px the sidebar collapses to its header row and the nav opens as a drawer.
  */
-export function AppShell({ profile, children }: { profile: React.ReactNode; children: React.ReactNode }) {
+export function AppShell({
+  profile,
+  badges,
+  children,
+}: {
+  profile: React.ReactNode;
+  /** Small counters next to nav items, keyed by href (e.g. remaining qaza on /namaz). */
+  badges?: Partial<Record<string, React.ReactNode>>;
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const burgerRef = useRef<HTMLButtonElement>(null);
@@ -66,9 +76,11 @@ export function AppShell({ profile, children }: { profile: React.ReactNode; chil
             <span className="whitespace-nowrap text-lg font-bold">Әдет трекер</span>
             <span className="truncate text-[13px] text-[var(--t-text)]">Күнделікті әдеттер</span>
           </div>
+          <span className="ml-auto" />
+          <QuickEntry variant="head" />
           <button
             type="button"
-            className="icon-btn ml-auto"
+            className="icon-btn"
             onClick={toggleTheme}
             aria-label="Ақшыл / қараңғы режим"
             title="Ақшыл / қараңғы режим"
@@ -90,7 +102,8 @@ export function AppShell({ profile, children }: { profile: React.ReactNode; chil
             return (
               <Link key={item.href} href={item.href} className="nav-link" aria-current={active ? "page" : undefined}>
                 {item.icon}
-                <span>{item.label}</span>
+                <span className="flex-grow">{item.label}</span>
+                {badges?.[item.href]}
               </Link>
             );
           })}
@@ -102,6 +115,7 @@ export function AppShell({ profile, children }: { profile: React.ReactNode; chil
       {open && <button type="button" className="scrim" onClick={close} aria-label="Мәзірді жабу" tabIndex={-1} />}
 
       <main className="main">{children}</main>
+      <QuickEntry variant="fab" />
     </div>
   );
 }

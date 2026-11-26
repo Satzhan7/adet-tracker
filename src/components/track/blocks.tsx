@@ -1,7 +1,8 @@
 /** Presentational blocks shared by the section pages (server-renderable). */
 
 export type KpiTone = "good" | "bad" | "mute" | "plain";
-export type Kpi = { title: string; value: string; sub?: string; tone?: KpiTone };
+/** `compact` for two values in one tile (e.g. "5.26% / 0.00%"), shown smaller so they fit. */
+export type Kpi = { title: string; value: string; sub?: string; tone?: KpiTone; compact?: boolean };
 
 export function KpiGrid({ items }: { items: Kpi[] }) {
   return (
@@ -9,7 +10,7 @@ export function KpiGrid({ items }: { items: Kpi[] }) {
       {items.map((k) => (
         <div key={k.title} className="tile tile-bar">
           <span className="tile-label">{k.title}</span>
-          <span className={`tile-value tone-${k.tone ?? "plain"}`}>{k.value}</span>
+          <span className={`tile-value tone-${k.tone ?? "plain"}${k.compact ? " tile-value-sm" : ""}`}>{k.value}</span>
           {k.sub && <span className="tile-note">{k.sub}</span>}
         </div>
       ))}

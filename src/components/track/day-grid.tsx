@@ -7,6 +7,9 @@ import { useMarks } from "./day-editor";
 
 export type LegendItem = { label: string; tone: Tone | "none" };
 
+/** Row labels that would not fit the fixed label column. */
+const SHORT_NAMES: Partial<Record<DayField, string>> = { wird_taha: "Тоһа", wird_amana: "Әмәнәр расул" };
+
 const PERIODS = [
   [7, "7 күн"],
   [10, "10 күн"],
@@ -22,7 +25,9 @@ export function DayGrid({ fields, legend, initial = 14 }: { fields: DayField[]; 
   const { today, marks, edit } = useMarks();
   const [per, setPer] = useState<number>(initial);
   const dates = lastDays(today, per);
-  const cols = `minmax(96px, max-content) repeat(${per}, minmax(${per > 14 ? 24 : 30}px, 1fr))`;
+  // Every row is its own grid, so the label column must be a fixed width or rows with long
+  // names shift their cells (SPEC: label column 132px in sections).
+  const cols = `var(--grid-label-w) repeat(${per}, minmax(${per > 14 ? 24 : 30}px, 1fr))`;
   const gap = per > 14 ? 3 : 4;
 
   return (
@@ -46,7 +51,9 @@ export function DayGrid({ fields, legend, initial = 14 }: { fields: DayField[]; 
           </div>
           {fields.map((f) => (
             <div key={f} className="grid-row" style={{ gridTemplateColumns: cols, gap }}>
-              <span className="grid-name">{FIELDS[f].name}</span>
+              <span className="grid-name" title={FIELDS[f].name}>
+                {SHORT_NAMES[f] ?? FIELDS[f].name}
+              </span>
               {dates.map((date) => {
                 const o = optionFor(f, marks[date]?.[f]);
                 const s = TONE_STYLE[o?.tone ?? "none"];
