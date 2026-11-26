@@ -158,3 +158,28 @@ describe("quran measures", async () => {
     expect(currentPage(log)).toBe(141);
   });
 });
+
+describe("phase A helpers", async () => {
+  const { CREATINE_DONE } = await import("./stats");
+  const { latestYearWith, marksFor } = await import("./views");
+  it("creatine streak counts any full dose (rule 5) and breaks on a skip", () => {
+    const rows = [
+      day("2026-03-01", { creatine: "5 г" }),
+      day("2026-03-02", { creatine: "3 капсула" }),
+      day("2026-03-03", { creatine: "6 капсула" }),
+      day("2026-03-04", { creatine: "өткізілді" }),
+      day("2026-03-05", { creatine: "5 г" }),
+    ];
+    expect(longestStreak(rows, "creatine", CREATINE_DONE)).toEqual({ length: 3, end: "2026-03-03" });
+    expect(share(rows, "creatine", CREATINE_DONE)).toMatchObject({ n: 4, d: 5 });
+  });
+  it("latestYearWith falls back to the current year", () => {
+    const rows = [day("2025-10-01", { wird_taha: "оқыдым" }), day("2026-02-01", { tan: "қаза" })];
+    expect(latestYearWith(rows, "2026-11-27", (r) => !!r.wird_taha)).toBe("2025");
+    expect(latestYearWith(rows, "2026-11-27", (r) => !!r.oraza)).toBe("2026");
+  });
+  it("marksFor keeps only marked fields and drops empty days", () => {
+    const rows = [day("2026-11-01", { tan: "қаза", creatine: null }), day("2026-11-02", { asr: "уақытында" })];
+    expect(marksFor(rows, ["tan", "creatine"])).toEqual({ "2026-11-01": { tan: "қаза" } });
+  });
+});

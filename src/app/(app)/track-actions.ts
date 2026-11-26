@@ -64,3 +64,33 @@ export async function deleteLogEntry(table: "khatm_log" | "hifz_log", id: number
   refresh();
   return { ok: true };
 }
+
+export type DaySnapshot = {
+  values: Partial<Record<string, string | null>>;
+  khatmPages: number;
+  nextPage: number | null;
+  hifzToday: { surah: string; repetitions: number }[];
+  currentSurah: string | null;
+};
+
+/** Everything the quick-entry dialog shows for one day. RLS scopes every query to the user. */
+export async function getDaySnapshot(date: string): Promise<DaySnapshot | null> {
+  if (!validDate(date)) return null;
+  const supabase = await createClient();
+  const [day, khatm, lastPage, hifz, lastHifz] = await Promise.all([
+    supabase.from("days").select(Object.keys(FIELDS).join(", ")).eq("date", date).maybeSingle(),
+    supabase.from("khatm_log").select("pages").eq("date", date),
+    supabase.from("khatm_log").select("to_page").not("to_page", "is", null).order("date", { ascending: false }).order("id", { ascending: false }).limit(1).maybeSingle(),
+    supabase.from("hifz_log").select("surah, repetitions").eq("date", date),
+    supabase.from("hifz_log").select("surah").order("id", { ascending: false }).limit(1).maybeSingle(),
+  ]);
+  if (day.error || khatm.error || hifz.error) return null;
+  const to = lastPage.data?.to_page ?? null;
+  return {
+    values: (day.data ?? {}) as Partial<Record<string, string | null>>,
+    khatmPages: (khatm.data ?? []).reduce((s, e) => s + e.pages, 0),
+    nextPage: to ? (to >= MUSHAF_PAGES ? 1 : to + 1) : null,
+    hifzToday: hifz.data ?? [],
+    currentSurah: lastHifz.data?.surah ?? null,
+  };
+}

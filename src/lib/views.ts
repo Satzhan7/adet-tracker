@@ -53,3 +53,9 @@ export function monthHeading(today: string) {
 export function monthLabel(key: string) {
   return monthName(key);
 }
+
+/** Most recent year that has at least one row matching `has`; the current year when none does. */
+export function latestYearWith(days: DayRow[], today: string, has: (r: DayRow) => boolean) {
+  for (let i = days.length - 1; i >= 0; i--) if (has(days[i])) return days[i].date.slice(0, 4);
+  return today.slice(0, 4);
+}
