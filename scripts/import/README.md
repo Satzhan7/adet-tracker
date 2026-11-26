@@ -9,7 +9,7 @@ green = done, orange = partial, red = not done. Sheet names do not match their c
 | уирд 2026 | Таңғы (A–K) / Кешкі (N–X) зікір, Jan–Nov 2026 | `days.dhikr_morning/evening` |
 | уирд 2025 | Таңғы зікір, Кешкі зікір, Тоһа + Әмәнәр (one column), Sep–Dec 2025 | `days.dhikr_*`, `days.wird_taha/amana` |
 | Хифз 2025 / 2026 | `Сүре N-рет` per day | `hifz_log` |
-| Руза хатм | Ramadan khatm, no month label | not imported |
+| Руза хатм | Ramadan khatm, no month label | skipped (owner decision) |
 
 ```bash
 python3 -I scripts/import/quran_xlsx.py "2026 Quran.xlsx" quran.json   # parse + list skipped cells
