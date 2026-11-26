@@ -62,8 +62,6 @@ async function QuranBody({ searchParams }: Pick<PageProps<"/quran">, "searchPara
 }
 
 function Hatm({ today, log }: { today: string; log: KhatmEntry[] }) {
-  const total = log.reduce((s, e) => s + e.pages, 0);
-  const progress = khatmProgress(total);
   const yearStart = startOfYear(today);
   const yearPages = pagesBetween(log, yearStart, today);
   const yearDays = new Set(log.filter((e) => e.date >= yearStart).map((e) => e.date)).size;
@@ -71,6 +69,8 @@ function Hatm({ today, log }: { today: string; log: KhatmEntry[] }) {
   const activeMonths = months.filter((m) => m.pages > 0);
   const last = log.at(-1);
   const pos = currentPage(log);
+  // Progress is the reader's position in the current khatm (SPEC: 595 / 604), not pages summed over every khatm.
+  const progress = khatmProgress(pos ?? 0);
   const recent = log.slice(-6).reverse();
 
   const kpis: Kpi[] = [
@@ -78,13 +78,15 @@ function Hatm({ today, log }: { today: string; log: KhatmEntry[] }) {
       title: "Жеке хатм",
       value: `${progress.n} / ${MUSHAF_PAGES}`,
       sub: `${fmtPct(progress)} · ${MUSHAF_PAGES - progress.n} бет қалды`,
-      tone: total ? "good" : "mute",
+      tone: pos ? "good" : "mute",
     },
     { title: `${today.slice(0, 4)} жылы оқылды`, value: `${yearPages} бет`, sub: `${yearDays} күн оқылған`, tone: yearPages ? "plain" : "mute" },
     {
       title: "Айына орташа",
-      value: activeMonths.length ? `${(yearPages / months.length).toFixed(2)} бет` : "—",
-      sub: `${monthLabel(months[0].key)}–${monthLabel(months.at(-1)!.key).toLowerCase()}, ${months.length} ай`,
+      value: activeMonths.length ? `${(yearPages / activeMonths.length).toFixed(2)} бет` : "—",
+      sub: activeMonths.length
+        ? `${monthLabel(activeMonths[0].key)}–${monthLabel(activeMonths.at(-1)!.key).toLowerCase()}, ${yearPages} / ${activeMonths.length} ай`
+        : "Бұл жылы оқу жоқ",
     },
     {
       title: "Соңғы оқу",
