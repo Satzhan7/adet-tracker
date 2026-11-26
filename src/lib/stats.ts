@@ -57,9 +57,13 @@ export function remainingQaza(rows: DayRow[]): number {
   return [...FARD_FIELDS, "utir" as const].reduce((sum, f) => sum + qaza(rows, f).owed, 0);
 }
 
-/** Rule 7: longest run of consecutive dates holding `value`; a blank, a missing day or another value breaks it. */
-export function longestStreak(rows: DayRow[], field: DayField, value: string) {
-  const hits = new Set(rows.filter((r) => r[field] === value).map((r) => r.date));
+/** Rule 5: all three creatine doses count as a full dose. */
+export const CREATINE_DONE = ["5 г", "6 капсула", "3 капсула"];
+
+/** Rule 7: longest run of consecutive dates holding `value` (or any of `values`); a blank, a missing day or another value breaks it. */
+export function longestStreak(rows: DayRow[], field: DayField, value: string | string[]) {
+  const ok = new Set(Array.isArray(value) ? value : [value]);
+  const hits = new Set(rows.filter((r) => r[field] && ok.has(r[field]!)).map((r) => r.date));
   let best = { length: 0, end: null as string | null };
   for (const date of [...hits].sort()) {
     if (hits.has(addDays(date, -1))) continue; // not a run start
