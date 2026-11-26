@@ -17,8 +17,8 @@
 - [x] Auth коды: Google OAuth + email magic link, `/login`, `/auth/callback`, `/auth/signout`
 - [x] Бос қорғалған басты бет (аты + email + «Шығу»)
 - [x] Тексеру (API): allowlist, RLS — 11/11 PASS; build + lint таза; `/` → 307 `/login`
-- [ ] Allowlist-ке Сатжанның email-і
-- [ ] GitHub репо (private) → Vercel жобасы, env айнымалылары, preview
-- [ ] Supabase Auth: Site URL + Redirect URLs (Vercel домені)
+- [x] Allowlist-ке Сатжанның email-і
+- [x] GitHub `Satzhan7/adet-tracker` (PUBLIC болған → private етілді) → Vercel `adet-tracker`, env, git auto-deploy
+- [x] Supabase Auth: Site URL `https://adet-tracker.vercel.app` + Redirect URLs (prod, preview wildcard, localhost)
 - [ ] Google OAuth client (Сатжан Google Cloud-та) → Supabase provider
 - [ ] Тексеру: preview-де нақты кіру (magic link + Google)
