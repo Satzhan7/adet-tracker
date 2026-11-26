@@ -87,7 +87,7 @@ export function optionFor(field: DayField, value: string | null | undefined): Fi
 /** Grid colours and symbols (SPEC: symbols back up colour for colour-blind users). */
 export const TONE_STYLE: Record<Tone | "none", { bg: string; ink: string; mark: string }> = {
   good: { bg: "#16a34a", ink: "#ffffff", mark: "✓" }, // white ✓ 3.3:1 (was #22c55e, 2.3:1)
-  mosque: { bg: "#7843e9", ink: "#ffffff", mark: "◆" },
+  mosque: { bg: "#7843e9", ink: "#ffffff", mark: "✓" }, // on time, in the mosque: a tick like уақытында, purple tells them apart
   made_up: { bg: "#0e9aa7", ink: "#ffffff", mark: "↺" },
   partial: { bg: "#d97706", ink: "#ffffff", mark: "½" },
   bad: { bg: "#be0a0a", ink: "#ffffff", mark: "✕" },
