@@ -36,12 +36,13 @@ export function ImportPanel({ today }: { today: string }) {
   return (
     <div className="flex flex-col gap-4">
       <ol className="import-steps">
-        <li>
-          Үлгі файлды жүктеп ал: <a href="/reports/export?template=1&format=xlsx">шаблон (.xlsx)</a>
-        </li>
+        <li>Үлгі файлды жүктеп ал (төмендегі батырма)</li>
         <li>«Күнделік» парағын толтыр: бір жол — бір күн, мәнді тізімнен таңда</li>
         <li>Файлды төменде таңда — алдымен не өзгеретіні көрсетіледі</li>
       </ol>
+      <a className="btn btn-secondary self-start text-sm font-medium" style={{ borderRadius: 6 }} href="/reports/export?template=1&format=xlsx" download>
+        Шаблонды жүктеу (.xlsx)
+      </a>
 
       <label className={`file-drop${file ? " has-file" : ""}`}>
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

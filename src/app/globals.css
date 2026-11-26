@@ -1296,6 +1296,14 @@ span.month-step {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+/* Month links fill their cell so the tap target is the whole 44 px row. */
+.data-table tbody th a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin: -10px -12px;
+  padding: 0 12px;
+}
 
 /* Year calendar (Ораза) */
 .year-cal {
