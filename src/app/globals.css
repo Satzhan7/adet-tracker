@@ -572,8 +572,9 @@ html:has(.shell) body {
   row-gap: 8px;
   align-content: start;
 }
+/* Mixed 30px / 22px values share a baseline. */
 .kpis > .tile > .tile-value {
-  align-self: center;
+  align-self: last baseline;
 }
 .tile-bar {
   position: relative;
