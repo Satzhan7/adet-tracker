@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import "./globals.css";
+import { THEME_INIT_SCRIPT } from "@/components/shell/theme";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -14,7 +15,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="kk" className={`${manrope.variable} h-full antialiased`}>
+    // data-theme may be changed by the init script before hydration.
+    <html lang="kk" data-theme="dark" className={`${manrope.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-full">{children}</body>
     </html>
   );
